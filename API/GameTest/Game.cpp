@@ -146,6 +146,7 @@ void Render()
 		App::DrawLine(sx, sy, ex, ey,r,g,b);
 	}
 }
+
 //------------------------------------------------------------------------
 // Add your shutdown code here. Called when the APP_QUIT_KEY is pressed.
 // Just before the app exits.
