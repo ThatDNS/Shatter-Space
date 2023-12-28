@@ -5,11 +5,33 @@
 
 #pragma once
 
+#define NOMINMAX
+#include <windows.h>
+
+#pragma comment(lib, "rpcrt4.lib")
+
 #include "targetver.h"
 
 #include <stdio.h>
 #include <tchar.h>
 
-
-
 // TODO: reference additional headers your program requires here
+#include <iostream>
+#include <sstream>
+#include <string>
+#include <map>
+#include <list>
+#include <stack>
+#include <set>
+#include <assert.h>
+#include <vector>
+#include <functional>
+#include <memory>
+#include <chrono>
+#include <thread>
+#include <fstream>
+#include <math.h>
+
+#include "json.hpp"
+#include "StandardTypes.h"
+#include "TypeClass.h"
