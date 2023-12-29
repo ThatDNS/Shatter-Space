@@ -36,6 +36,7 @@
     <ClCompile Include="Src\Engine\Components\Transform.cpp" />
     <ClCompile Include="Src\Engine\Core\Engine_Register.cpp" />
     <ClCompile Include="Src\Engine\Core\json.cpp" />
+    <ClCompile Include="Src\Engine\Core\Logger.cpp" />
     <ClCompile Include="Src\Engine\Core\Object.cpp" />
     <ClCompile Include="Src\Engine\Core\TypeClass.cpp" />
     <ClCompile Include="Src\Engine\Math\Vector2.cpp" />
@@ -58,6 +59,7 @@
     <ClInclude Include="Src\Engine\Components\Entity.h" />
     <ClInclude Include="Src\Engine\Components\Transform.h" />
     <ClInclude Include="Src\Engine\Core\json.hpp" />
+    <ClInclude Include="Src\Engine\Core\Logger.h" />
     <ClInclude Include="Src\Engine\Core\Object.h" />
     <ClInclude Include="Src\Engine\Core\randomc.h" />
     <ClInclude Include="Src\Engine\Core\StandardTypes.h" />

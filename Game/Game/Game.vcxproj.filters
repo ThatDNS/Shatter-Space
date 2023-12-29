@@ -108,6 +108,9 @@
     <ClCompile Include="Src\Engine\Math\Vector2.cpp">
       <Filter>Src\Engine\Source Files\Math</Filter>
     </ClCompile>
+    <ClCompile Include="Src\Engine\Core\Logger.cpp">
+      <Filter>Src\Engine\Source Files\Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="NextAPI\App\app.h">
@@ -172,6 +175,9 @@
     </ClInclude>
     <ClInclude Include="Src\Engine\Math\Vector2.h">
       <Filter>Src\Engine\Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Core\Logger.h">
+      <Filter>Src\Engine\Header Files\Core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
