@@ -1,73 +1,102 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Game.cpp" />
-    <ClCompile Include="stdafx.cpp" />
-    <ClCompile Include="App\app.cpp">
-      <Filter>NextAPI</Filter>
-    </ClCompile>
-    <ClCompile Include="App\main.cpp">
-      <Filter>NextAPI</Filter>
-    </ClCompile>
-    <ClCompile Include="App\SimpleController.cpp">
-      <Filter>NextAPI</Filter>
-    </ClCompile>
-    <ClCompile Include="App\SimpleSound.cpp">
-      <Filter>NextAPI</Filter>
-    </ClCompile>
-    <ClCompile Include="App\SimpleSprite.cpp">
-      <Filter>NextAPI</Filter>
-    </ClCompile>
-    <ClCompile Include="stb_image\stb_image.cpp">
-      <Filter>stb_image</Filter>
-    </ClCompile>
-    <ClCompile Include="json.cpp" />
-    <ClCompile Include="Object.cpp" />
-    <ClCompile Include="TypeClass.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="stdafx.h" />
-    <ClInclude Include="App\app.h">
-      <Filter>NextAPI</Filter>
-    </ClInclude>
-    <ClInclude Include="App\AppSettings.h">
-      <Filter>NextAPI</Filter>
-    </ClInclude>
-    <ClInclude Include="App\main.h">
-      <Filter>NextAPI</Filter>
-    </ClInclude>
-    <ClInclude Include="App\SimpleController.h">
-      <Filter>NextAPI</Filter>
-    </ClInclude>
-    <ClInclude Include="App\SimpleSound.h">
-      <Filter>NextAPI</Filter>
-    </ClInclude>
-    <ClInclude Include="App\SimpleSprite.h">
-      <Filter>NextAPI</Filter>
-    </ClInclude>
-    <ClInclude Include="targetver.h">
-      <Filter>NextAPI</Filter>
-    </ClInclude>
-    <ClInclude Include="stb_image\stb_image.h">
-      <Filter>stb_image</Filter>
-    </ClInclude>
-    <ClInclude Include="json.hpp" />
-    <ClInclude Include="Object.h" />
-    <ClInclude Include="randomc.h" />
-    <ClInclude Include="StandardTypes.h" />
-    <ClInclude Include="TypeClass.h" />
-  </ItemGroup>
-  <ItemGroup>
     <Filter Include="NextAPI">
       <UniqueIdentifier>{f318918d-bb9f-4402-ae1c-4f72186d16f6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="stb_image">
+    <Filter Include="Include">
+      <UniqueIdentifier>{4f2ab105-027c-4508-a604-737d6dc2578c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\stb_image">
       <UniqueIdentifier>{61cfc19b-c57e-4021-b530-bac172fcba86}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src">
+      <UniqueIdentifier>{8b84e118-296c-4518-abe4-9dd01f1f4376}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Engine">
+      <UniqueIdentifier>{d505b228-5950-45fe-a942-ad7336f24e09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Game">
+      <UniqueIdentifier>{65f5f5ef-6751-4425-8a2d-819f10050951}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="ReadMe.txt">
+    <ClCompile Include="Src\Engine\json.cpp">
+      <Filter>Src\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Object.cpp">
+      <Filter>Src\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\TypeClass.cpp">
+      <Filter>Src\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="NextAPI\App\app.cpp">
       <Filter>NextAPI</Filter>
-    </Text>
+    </ClCompile>
+    <ClCompile Include="NextAPI\App\main.cpp">
+      <Filter>NextAPI</Filter>
+    </ClCompile>
+    <ClCompile Include="NextAPI\App\SimpleController.cpp">
+      <Filter>NextAPI</Filter>
+    </ClCompile>
+    <ClCompile Include="NextAPI\App\SimpleSound.cpp">
+      <Filter>NextAPI</Filter>
+    </ClCompile>
+    <ClCompile Include="NextAPI\App\SimpleSprite.cpp">
+      <Filter>NextAPI</Filter>
+    </ClCompile>
+    <ClCompile Include="Include\stdafx.cpp">
+      <Filter>Include</Filter>
+    </ClCompile>
+    <ClCompile Include="Include\stb_image\stb_image.cpp">
+      <Filter>Include\stb_image</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Game\Game.cpp">
+      <Filter>Src\Game</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Src\Engine\json.hpp">
+      <Filter>Src\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Object.h">
+      <Filter>Src\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\randomc.h">
+      <Filter>Src\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\StandardTypes.h">
+      <Filter>Src\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\TypeClass.h">
+      <Filter>Src\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="NextAPI\App\app.h">
+      <Filter>NextAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="NextAPI\App\AppSettings.h">
+      <Filter>NextAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="NextAPI\App\main.h">
+      <Filter>NextAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="NextAPI\App\SimpleController.h">
+      <Filter>NextAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="NextAPI\App\SimpleSound.h">
+      <Filter>NextAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="NextAPI\App\SimpleSprite.h">
+      <Filter>NextAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\stdafx.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\targetver.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\stb_image\stb_image.h">
+      <Filter>Include\stb_image</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
