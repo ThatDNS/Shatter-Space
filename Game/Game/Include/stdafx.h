@@ -32,6 +32,6 @@
 #include <fstream>
 #include <math.h>
 
-#include "Engine/json.hpp"
-#include "Engine/StandardTypes.h"
-#include "Engine/TypeClass.h"
+#include "Engine/Core/json.hpp"
+#include "Engine/Core/StandardTypes.h"
+#include "Engine/Core/TypeClass.h"

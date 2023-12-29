@@ -20,15 +20,22 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Include\stb_image\stb_image.cpp" />
-    <ClCompile Include="Include\stdafx.cpp" />
+    <ClCompile Include="Include\stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="NextAPI\App\app.cpp" />
     <ClCompile Include="NextAPI\App\main.cpp" />
     <ClCompile Include="NextAPI\App\SimpleController.cpp" />
     <ClCompile Include="NextAPI\App\SimpleSound.cpp" />
     <ClCompile Include="NextAPI\App\SimpleSprite.cpp" />
-    <ClCompile Include="Src\Engine\json.cpp" />
-    <ClCompile Include="Src\Engine\Object.cpp" />
-    <ClCompile Include="Src\Engine\TypeClass.cpp" />
+    <ClCompile Include="Src\Engine\Core\Engine_Register.cpp" />
+    <ClCompile Include="Src\Engine\Core\json.cpp" />
+    <ClCompile Include="Src\Engine\Core\Object.cpp" />
+    <ClCompile Include="Src\Engine\Core\TypeClass.cpp" />
+    <ClCompile Include="Src\Engine\Systems\Engine.cpp" />
     <ClCompile Include="Src\Game\Game.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -41,11 +48,12 @@
     <ClInclude Include="NextAPI\App\SimpleController.h" />
     <ClInclude Include="NextAPI\App\SimpleSound.h" />
     <ClInclude Include="NextAPI\App\SimpleSprite.h" />
-    <ClInclude Include="Src\Engine\json.hpp" />
-    <ClInclude Include="Src\Engine\Object.h" />
-    <ClInclude Include="Src\Engine\randomc.h" />
-    <ClInclude Include="Src\Engine\StandardTypes.h" />
-    <ClInclude Include="Src\Engine\TypeClass.h" />
+    <ClInclude Include="Src\Engine\Core\json.hpp" />
+    <ClInclude Include="Src\Engine\Core\Object.h" />
+    <ClInclude Include="Src\Engine\Core\randomc.h" />
+    <ClInclude Include="Src\Engine\Core\StandardTypes.h" />
+    <ClInclude Include="Src\Engine\Core\TypeClass.h" />
+    <ClInclude Include="Src\Engine\Systems\Engine.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{7A12010B-608E-4FBE-9089-494DBB9078A1}</ProjectGuid>
@@ -101,16 +109,16 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir)NextAPI;$(ProjectDir)NextAPI\glut;$(ProjectDir)Src;$(ProjectDir)Include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)NextAPI\glut\lib\$(PlatformTarget)\;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(IncludePath)</IncludePath>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
     <OutDir>$(ProjectDir)Build\bin\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)Build\Intermediate\$(PlatformTarget)\$(Configuration)\</IntDir>
     <TargetName>$(ProjectName)-$(Configuration)-$(PlatformTarget)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir)NextAPI;$(ProjectDir)NextAPI\glut;$(ProjectDir)Src;$(ProjectDir)Include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)NextAPI\glut\lib\$(PlatformTarget)\;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(IncludePath)</IncludePath>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
     <ExecutablePath>$(ExecutablePath)</ExecutablePath>
     <OutDir>$(ProjectDir)Build\bin\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)Build\Intermediate\$(PlatformTarget)\$(Configuration)\</IntDir>
@@ -118,8 +126,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(ProjectDir)NextAPI;$(ProjectDir)NextAPI\glut;$(ProjectDir)Src;$(ProjectDir)Include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
-    <LibraryPath>$(ProjectDir)NextAPI\glut\lib\$(PlatformTarget)\;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
     <ExecutablePath>$(ExecutablePath)</ExecutablePath>
     <OutDir>$(ProjectDir)Build\bin\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)Build\Intermediate\$(PlatformTarget)\$(Configuration)\</IntDir>
@@ -127,15 +135,15 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(ProjectDir)NextAPI;$(ProjectDir)NextAPI\glut;$(ProjectDir)Src;$(ProjectDir)Include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)NextAPI\glut\lib\$(PlatformTarget)\;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(IncludePath)</IncludePath>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
     <OutDir>$(ProjectDir)Build\bin\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)Build\Intermediate\$(PlatformTarget)\$(Configuration)\</IntDir>
     <TargetName>$(ProjectName)-$(Configuration)-$(PlatformTarget)</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PrecompiledHeader>Create</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -144,13 +152,14 @@
       <CompileAsManaged>
       </CompileAsManaged>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Include;$(ProjectDir)Src;$(ProjectDir)NextAPI\glut;$(ProjectDir)NextAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>Default</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>dxguid.lib;dsound.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)NextAPI\glut\lib\$(PlatformTarget)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>copy /Y "$(SolutionDir)$(ProjectName)\NextAPI\glut\bin\$(PlatformTarget)\*.dll" "$(TargetDir)*.dll"</Command>
@@ -158,18 +167,19 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <PrecompiledHeader>Create</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Include;$(ProjectDir)Src;$(ProjectDir)NextAPI\glut;$(ProjectDir)NextAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>Default</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>dxguid.lib;dsound.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)NextAPI\glut\lib\$(PlatformTarget)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>copy /Y "$(SolutionDir)$(ProjectName)\NextAPI\glut\bin\$(PlatformTarget)\*.dll" "$(TargetDir)*.dll"</Command>
@@ -178,13 +188,13 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <PrecompiledHeader>Create</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Include;$(ProjectDir)Src;$(ProjectDir)NextAPI\glut;$(ProjectDir)NextAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>Default</LanguageStandard>
     </ClCompile>
     <Link>
@@ -194,6 +204,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>dxguid.lib;dsound.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+      <AdditionalLibraryDirectories>$(ProjectDir)NextAPI\glut\lib\$(PlatformTarget)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>copy /Y "$(SolutionDir)$(ProjectName)\NextAPI\glut\bin\$(PlatformTarget)\*.dll" "$(TargetDir)*.dll"</Command>
@@ -202,13 +213,13 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <PrecompiledHeader>Create</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Include;$(ProjectDir)Src;$(ProjectDir)NextAPI\glut;$(ProjectDir)NextAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>Default</LanguageStandard>
     </ClCompile>
     <Link>
@@ -217,6 +228,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>dxguid.lib;dsound.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)NextAPI\glut\lib\$(PlatformTarget)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>copy /Y "$(SolutionDir)$(ProjectName)\NextAPI\glut\bin\$(PlatformTarget)\*.dll" "$(TargetDir)*.dll"</Command>

@@ -19,17 +19,32 @@
     <Filter Include="Src\Game">
       <UniqueIdentifier>{65f5f5ef-6751-4425-8a2d-819f10050951}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Src\Engine\Header Files">
+      <UniqueIdentifier>{3848393c-224d-4fbc-bc77-6bc933b3dea8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Engine\Source Files">
+      <UniqueIdentifier>{ecb8d949-2050-4650-adba-1539bf80b9d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Engine\Header Files\Components">
+      <UniqueIdentifier>{b8cb5921-dadf-43c9-9f04-12b2ee1a0a71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Engine\Header Files\Core">
+      <UniqueIdentifier>{78f138ff-a644-4f79-918b-4927d9174e5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Engine\Header Files\Systems">
+      <UniqueIdentifier>{50e07d0f-5633-415c-a864-ba05d477f8e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Engine\Source Files\Components">
+      <UniqueIdentifier>{2583a10d-a0a8-47d1-a08b-a07034035a3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Engine\Source Files\Core">
+      <UniqueIdentifier>{15f2112d-4f72-4fad-9720-5d33b2d2f359}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Engine\Source Files\Systems">
+      <UniqueIdentifier>{483bd4a5-0bae-4ca5-887f-487eb57a7304}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Src\Engine\json.cpp">
-      <Filter>Src\Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\Engine\Object.cpp">
-      <Filter>Src\Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\Engine\TypeClass.cpp">
-      <Filter>Src\Engine</Filter>
-    </ClCompile>
     <ClCompile Include="NextAPI\App\app.cpp">
       <Filter>NextAPI</Filter>
     </ClCompile>
@@ -45,32 +60,32 @@
     <ClCompile Include="NextAPI\App\SimpleSprite.cpp">
       <Filter>NextAPI</Filter>
     </ClCompile>
-    <ClCompile Include="Include\stdafx.cpp">
-      <Filter>Include</Filter>
-    </ClCompile>
     <ClCompile Include="Include\stb_image\stb_image.cpp">
       <Filter>Include\stb_image</Filter>
     </ClCompile>
     <ClCompile Include="Src\Game\Game.cpp">
       <Filter>Src\Game</Filter>
     </ClCompile>
+    <ClCompile Include="Src\Engine\Core\Engine_Register.cpp">
+      <Filter>Src\Engine\Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Core\json.cpp">
+      <Filter>Src\Engine\Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Core\Object.cpp">
+      <Filter>Src\Engine\Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Core\TypeClass.cpp">
+      <Filter>Src\Engine\Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Systems\Engine.cpp">
+      <Filter>Src\Engine\Source Files\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Include\stdafx.cpp">
+      <Filter>Include</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Src\Engine\json.hpp">
-      <Filter>Src\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\Engine\Object.h">
-      <Filter>Src\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\Engine\randomc.h">
-      <Filter>Src\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\Engine\StandardTypes.h">
-      <Filter>Src\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\Engine\TypeClass.h">
-      <Filter>Src\Engine</Filter>
-    </ClInclude>
     <ClInclude Include="NextAPI\App\app.h">
       <Filter>NextAPI</Filter>
     </ClInclude>
@@ -89,14 +104,32 @@
     <ClInclude Include="NextAPI\App\SimpleSprite.h">
       <Filter>NextAPI</Filter>
     </ClInclude>
-    <ClInclude Include="Include\stdafx.h">
-      <Filter>Include</Filter>
-    </ClInclude>
     <ClInclude Include="Include\targetver.h">
       <Filter>Include</Filter>
     </ClInclude>
     <ClInclude Include="Include\stb_image\stb_image.h">
       <Filter>Include\stb_image</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Core\json.hpp">
+      <Filter>Src\Engine\Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Core\Object.h">
+      <Filter>Src\Engine\Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Core\randomc.h">
+      <Filter>Src\Engine\Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Core\StandardTypes.h">
+      <Filter>Src\Engine\Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Core\TypeClass.h">
+      <Filter>Src\Engine\Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Systems\Engine.h">
+      <Filter>Src\Engine\Header Files\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\stdafx.h">
+      <Filter>Include</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
