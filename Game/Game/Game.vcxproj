@@ -31,11 +31,17 @@
     <ClCompile Include="NextAPI\App\SimpleController.cpp" />
     <ClCompile Include="NextAPI\App\SimpleSound.cpp" />
     <ClCompile Include="NextAPI\App\SimpleSprite.cpp" />
+    <ClCompile Include="Src\Engine\Components\Component.cpp" />
+    <ClCompile Include="Src\Engine\Components\Entity.cpp" />
+    <ClCompile Include="Src\Engine\Components\Transform.cpp" />
     <ClCompile Include="Src\Engine\Core\Engine_Register.cpp" />
     <ClCompile Include="Src\Engine\Core\json.cpp" />
     <ClCompile Include="Src\Engine\Core\Object.cpp" />
     <ClCompile Include="Src\Engine\Core\TypeClass.cpp" />
+    <ClCompile Include="Src\Engine\Math\Vector2.cpp" />
     <ClCompile Include="Src\Engine\Systems\Engine.cpp" />
+    <ClCompile Include="Src\Engine\Systems\Scene.cpp" />
+    <ClCompile Include="Src\Engine\Systems\SceneManager.cpp" />
     <ClCompile Include="Src\Game\Game.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -48,12 +54,18 @@
     <ClInclude Include="NextAPI\App\SimpleController.h" />
     <ClInclude Include="NextAPI\App\SimpleSound.h" />
     <ClInclude Include="NextAPI\App\SimpleSprite.h" />
+    <ClInclude Include="Src\Engine\Components\Component.h" />
+    <ClInclude Include="Src\Engine\Components\Entity.h" />
+    <ClInclude Include="Src\Engine\Components\Transform.h" />
     <ClInclude Include="Src\Engine\Core\json.hpp" />
     <ClInclude Include="Src\Engine\Core\Object.h" />
     <ClInclude Include="Src\Engine\Core\randomc.h" />
     <ClInclude Include="Src\Engine\Core\StandardTypes.h" />
     <ClInclude Include="Src\Engine\Core\TypeClass.h" />
+    <ClInclude Include="Src\Engine\Math\Vector2.h" />
     <ClInclude Include="Src\Engine\Systems\Engine.h" />
+    <ClInclude Include="Src\Engine\Systems\Scene.h" />
+    <ClInclude Include="Src\Engine\Systems\SceneManager.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{7A12010B-608E-4FBE-9089-494DBB9078A1}</ProjectGuid>

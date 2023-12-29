@@ -43,6 +43,12 @@
     <Filter Include="Src\Engine\Source Files\Systems">
       <UniqueIdentifier>{483bd4a5-0bae-4ca5-887f-487eb57a7304}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Src\Engine\Header Files\Math">
+      <UniqueIdentifier>{02e625c5-a103-42f3-a374-7823dc92e9a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Engine\Source Files\Math">
+      <UniqueIdentifier>{690c29e0-3cdb-4d24-8d9f-eff0d0f6b9f1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="NextAPI\App\app.cpp">
@@ -83,6 +89,24 @@
     </ClCompile>
     <ClCompile Include="Include\stdafx.cpp">
       <Filter>Include</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Components\Component.cpp">
+      <Filter>Src\Engine\Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Components\Entity.cpp">
+      <Filter>Src\Engine\Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Components\Transform.cpp">
+      <Filter>Src\Engine\Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Systems\Scene.cpp">
+      <Filter>Src\Engine\Source Files\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Systems\SceneManager.cpp">
+      <Filter>Src\Engine\Source Files\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Math\Vector2.cpp">
+      <Filter>Src\Engine\Source Files\Math</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -130,6 +154,24 @@
     </ClInclude>
     <ClInclude Include="Include\stdafx.h">
       <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Components\Component.h">
+      <Filter>Src\Engine\Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Components\Entity.h">
+      <Filter>Src\Engine\Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Components\Transform.h">
+      <Filter>Src\Engine\Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Systems\Scene.h">
+      <Filter>Src\Engine\Header Files\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Systems\SceneManager.h">
+      <Filter>Src\Engine\Header Files\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Math\Vector2.h">
+      <Filter>Src\Engine\Header Files\Math</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

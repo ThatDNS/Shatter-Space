@@ -21,8 +21,9 @@
 // SOFTWARE.
 
 #include "stdafx.h"
-#include "TypeClass.h"
-#include "Object.h"
+
+#include "Engine/Core/TypeClass.h"
+#include "Engine/Core/Object.h"
 
 std::map<STRCODE, TypeClass*>* TypeClass::classTable;
 
@@ -68,7 +69,6 @@ Object* TypeClass::ConstructObject(const char* _class)
 Object* TypeClass::ConstructObject(const STRCODE _class)
 {
 	const TypeClass& typeClass = TypeClass::GetTypeClass(_class);
-	//ASSERT(typeClass.HasConstructor(), "TypeClass has no Constructor to create");
 
 	Object* obj = typeClass.ConstructObject();
 	return obj;
