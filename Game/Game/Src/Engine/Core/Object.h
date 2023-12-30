@@ -1,9 +1,6 @@
 // @file: Object.h
 //
 // @brief: Header file for the Object class. Everything in a game is essentially an object.
-//
-// @author: Divyanshu N Singh (DNS)
-// @date: 2023-12-03
 
 #pragma once
 

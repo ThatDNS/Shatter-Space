@@ -1,9 +1,6 @@
 // @file: Vector2.h
 //
 // @brief: Header file for Vector2 class.
-// 
-// @author: Divyanshu N Singh (DNS)
-// @date: 2023-12-04
 
 #pragma once
 #ifndef _VECTOR_2_

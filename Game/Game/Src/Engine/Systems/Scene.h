@@ -1,9 +1,6 @@
 // @file: Scene.h
 //
 // @brief: Header file for the Scene class. All entities are part of a Scene.
-//
-// @author: Divyanshu N Singh (DNS)
-// @date: 2023-12-29
 
 #pragma once
 #ifndef _SCENE_H_

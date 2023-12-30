@@ -1,9 +1,6 @@
 // @file: Entity.h
 //
 // @brief: Header file for the Entity class. Entities hold Components.
-//
-// @author: Divyanshu N Singh (DNS)
-// @date: 2023-12-03
 
 #pragma once
 

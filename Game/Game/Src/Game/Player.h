@@ -1,9 +1,6 @@
 // @file: Player.h
 //
 // @brief: Header file for player functionalities.
-//
-// @author: Divyanshu N Singh (DNS)
-// @date: 2023-12-30
 
 #pragma once
 #ifndef _PLAYER_H_

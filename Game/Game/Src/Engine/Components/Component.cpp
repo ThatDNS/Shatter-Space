@@ -1,9 +1,6 @@
 // @file: Component.cpp
 //
 // @brief: Cpp file for the Component class.
-//
-// @author: Divyanshu N Singh (DNS)
-// @date: 2023-12-03
 
 #include "stdafx.h"
 #include "Engine/Components/Component.h"

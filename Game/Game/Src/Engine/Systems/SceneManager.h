@@ -1,9 +1,6 @@
 // @file: SceneManager.h
 //
 // @brief: Header file for SceneManager, a singleton responsible for handling all scenes, entities, and components.
-//  
-// @author: Divyanshu N Singh (DNS)
-// @date: 2023-12-29
 
 #pragma once
 #ifndef _SCENE_MANAGER_H_

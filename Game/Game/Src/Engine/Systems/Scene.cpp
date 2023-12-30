@@ -1,9 +1,6 @@
 // @file: Scene.cpp
 //
 // @brief: Cpp file for the Scene class. All entities are part of a Scene.
-//
-// @author: Divyanshu N Singh (DNS)
-// @date: 2023-12-29
 
 #include "stdafx.h"
 #include "Engine/Systems/Scene.h"

@@ -1,9 +1,6 @@
 // @file: Component.h
 //
 // @brief: Header file for the Component class. Each renderable object is a Component.
-//
-// @author: Divyanshu N Singh (DNS)
-// @date: 2023-12-03
 
 #pragma once
 

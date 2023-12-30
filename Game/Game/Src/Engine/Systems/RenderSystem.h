@@ -1,9 +1,6 @@
 // @file: RenderSystem.h
 //
 // @brief: Header file for RenderSystem, a singleton responsible for handling rendering of all renderables.
-//
-// @author: Divyanshu N Singh (DNS)
-// @date: 2023-12-04
 
 #pragma once
 

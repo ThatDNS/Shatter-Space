@@ -1,9 +1,6 @@
 // @file: Entity.cpp
 //
 // @brief: Cpp file for the Entity class. Entities hold Components.
-//
-// @author: Divyanshu N Singh (DNS)
-// @date: 2023-12-03
 
 #include "stdafx.h"
 #include "Engine/Systems/SceneManager.h"

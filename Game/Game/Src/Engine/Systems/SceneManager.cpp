@@ -1,9 +1,6 @@
 // @file: SceneManager.cpp
 //
 // @brief: Cpp file for SceneManager, a singleton responsible for handling all scenes, entities, and components.
-//
-// @author: Divyanshu N Singh (DNS)
-// @date: 2023-12-29
 
 #include "stdafx.h"
 #include "Engine/Systems/SceneManager.h"

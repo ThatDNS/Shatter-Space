@@ -1,9 +1,6 @@
 // @file: Logger.h
 //
 // @brief: Header file for a singleton used for Logging data.
-// 
-// @author: Divyanshu N Singh (DNS)
-// @date: 2023-12-29
 
 #include "stdafx.h"
 #include "Logger.h"

@@ -2,9 +2,6 @@
 //
 // @brief: Header file for Transform class.
 // Stores position, rotation, and scale of an object
-// 
-// @author: Divyanshu N Singh (DNS)
-// @date: 2023-12-04
 
 #pragma once
 #ifndef _TRANSFORM_H_

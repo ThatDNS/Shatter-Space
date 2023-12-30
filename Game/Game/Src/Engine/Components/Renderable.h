@@ -1,9 +1,6 @@
 // @file: Renderable.h
 //
 // @brief: Header file for Renderable class.
-//
-// @author: Divyanshu N Singh (DNS)
-// @date: 2023-12-04
 
 #pragma once
 

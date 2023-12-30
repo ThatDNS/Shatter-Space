@@ -1,9 +1,6 @@
 // @file: Sprite.h
 //
 // @brief: Header file for Sprite class, responsible for loading and rendering a sprite.
-//
-// @author: Divyanshu N Singh (DNS)
-// @date: 2023-12-30
 
 #pragma once
 

@@ -1,9 +1,6 @@
 // @file: Player.cpp
 //
 // @brief: Cpp file for player functionalities.
-//
-// @author: Divyanshu N Singh (DNS)
-// @date: 2023-12-30
 
 #include "stdafx.h"
 

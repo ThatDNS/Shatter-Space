@@ -1,11 +1,9 @@
 // @file: Transform.cpp
 //
 // @brief: Cpp file for Transform class.
-// 
-// @author: Divyanshu N Singh (DNS)
-// @date: 2023-12-04
 
 #include "stdafx.h"
+
 #include "Engine/Components/Transform.h"
 #include "Engine/Math/Vector2.h"
 
