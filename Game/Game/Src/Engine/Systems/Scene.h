@@ -33,6 +33,19 @@ private:
 
 protected:
 	/**
+	 * @brief Scene constructor generates a random GUID & UID.
+	 */
+	Scene();
+
+	/**
+	 * @brief Constructor for Scene which generates a random GUID & UID.
+	 *
+	 * @param guid GUID of the scene.
+	 */
+	Scene(std::string& guid);
+	~Scene() = default;
+
+	/**
 	 * @brief Initialize all the entities of this scene.
 	 */
 	void Initialize();
@@ -60,19 +73,6 @@ protected:
 	 * @brief Destory all the entities.
 	 */
 	void Destroy();
-
-	/**
-	 * @brief Scene constructor generates a random GUID & UID.
-	 */
-	Scene();
-
-	/**
-	 * @brief Constructor for Scene which generates a random GUID & UID.
-	 *
-	 * @param guid GUID of the scene.
-	 */
-	Scene(std::string& guid);
-	~Scene() = default;
 
 public:
 	/**

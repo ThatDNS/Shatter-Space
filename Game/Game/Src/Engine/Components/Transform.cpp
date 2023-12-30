@@ -38,23 +38,6 @@ void Transform::Load(json::JSON& transformJSON)
 	}
 }
 
-json::JSON Transform::GetClassData()
-{
-	json::JSON classData;
-
-	classData["Position"] = json::JSON::Array();
-	classData["Position"].append(position.x);
-	classData["Position"].append(position.y);
-
-	classData["Rotation"] = rotation;
-
-	classData["Scale"] = json::JSON::Array();
-	classData["Scale"].append(scale.x);
-	classData["Scale"].append(scale.y);
-
-	return classData;
-}
-
 void Transform::Destroy() {}
 
 void Transform::Translate(const Vector2& delta) {

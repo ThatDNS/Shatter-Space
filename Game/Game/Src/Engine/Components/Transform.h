@@ -27,7 +27,6 @@ public:
     void Initialize() override;
     void Update() override;
     void Load(json::JSON& node) override;
-    json::JSON GetClassData() override;
     void Destroy() override;
 
     void Translate(const Vector2& delta);

@@ -47,11 +47,3 @@ void Object::Load(json::JSON& node)
         isActive = node["IsActive"].ToBool();
     }
 }
-
-json::JSON Object::Save()
-{
-    json::JSON objectJSON;
-    objectJSON["ClassName"] = GetDerivedClassName();
-    objectJSON["ClassData"] = GetClassData();
-    return objectJSON;
-}

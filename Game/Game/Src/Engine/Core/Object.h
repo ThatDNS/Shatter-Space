@@ -32,9 +32,6 @@ public:
 
 	virtual void Initialize() = 0;
 	virtual void Destroy() = 0;
-	virtual json::JSON GetClassData() = 0;
-
-	json::JSON Save();
 
 	void SetActive(bool value) { isActive = value; }
 	bool IsActive() const { return isActive; }

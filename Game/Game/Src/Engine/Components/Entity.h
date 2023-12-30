@@ -43,22 +43,21 @@ protected:
 	void PreUpdate();
 	void PostUpdate();
 
-	json::JSON Save();
-	json::JSON GetClassData() override { return json::JSON::Object(); }
-
 	void Destroy() override;
 
 public:
-	bool HasComponent(std::string& componentClassName);
+	bool HasComponent(const std::string& componentClassName);
 	Component* const GetComponent(STRCODE componentUId);
 	Component* const GetComponent(const std::string& componentClassName);
 	std::list<Component*> GetComponents(const std::string& componentClassName);
 
-	Component* CreateComponent(std::string componentClassName);
-	Component* LoadComponent(std::string componentClassName, json::JSON& componentJSON);
+	Component* CreateComponent(const std::string& componentClassName);
+	Component* LoadComponent(const std::string& componentClassName, json::JSON& componentJSON);
 
-	bool RemoveComponent(std::string& componentClassName);
+	bool RemoveComponent(const std::string& componentClassName);
 	bool RemoveComponent(Component* _component);
+
+	// ----------------------- Getters -----------------------------------
 
 	Transform* GetTransform() const { return transform; }
 
@@ -68,7 +67,6 @@ public:
 	void MarkIdleInObjectPool() { isIdleInObjectPool = true; }
 
 	friend class Scene;
-	friend class ProjectilePool;
 };
 
 #endif // !_ENTITY_H_

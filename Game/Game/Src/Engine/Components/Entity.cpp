@@ -79,7 +79,7 @@ void Entity::Update()
 {
 	for (Object* component : components)
 	{
-		if (component->IsActive() && !SceneManager::Get().sceneChanged)
+		if (component->IsActive())
 		{
 			static_cast<Component*>(component)->Update();
 		}
@@ -96,21 +96,6 @@ void Entity::PostUpdate()
 	componentsToRemove.clear();
 }
 
-json::JSON Entity::Save()
-{
-	json::JSON entityJSON;
-	entityJSON["Name"] = GetName();
-	entityJSON["GUID"] = GetGUID();
-
-	json::JSON componentsJSON = json::JSON::Array();
-	for (Object* component : components)
-	{
-		componentsJSON.append(component->Save());
-	}
-	entityJSON["Components"] = componentsJSON;
-	return entityJSON;
-}
-
 void Entity::Destroy()
 {
 	// Transform is also one of the components. We don't have to delete it separately
@@ -122,7 +107,7 @@ void Entity::Destroy()
 	components.clear();
 }
 
-bool Entity::HasComponent(std::string& componentClassName)
+bool Entity::HasComponent(const std::string& componentClassName)
 {
 	for (Object* component : components)
 	{
@@ -203,7 +188,7 @@ std::list<Component*> Entity::GetComponents(const std::string& componentClassNam
 	return compsFound;
 }
 
-Component* Entity::CreateComponent(std::string componentClassName)
+Component* Entity::CreateComponent(const std::string& componentClassName)
 {
 	// Prevent creation of duplicate transform component
 	if (componentClassName == "Transform" && HasComponent(componentClassName))
@@ -218,7 +203,7 @@ Component* Entity::CreateComponent(std::string componentClassName)
 	return static_cast<Component*>(component);
 }
 
-Component* Entity::LoadComponent(std::string componentClassName, json::JSON& componentJSON)
+Component* Entity::LoadComponent(const std::string& componentClassName, json::JSON& componentJSON)
 {
 	// Prevent creation of duplicate transform component
 	if (componentClassName == "Transform" && HasComponent(componentClassName))
@@ -234,7 +219,7 @@ Component* Entity::LoadComponent(std::string componentClassName, json::JSON& com
 	return static_cast<Component*>(component);
 }
 
-bool Entity::RemoveComponent(std::string& componentClassName)
+bool Entity::RemoveComponent(const std::string& componentClassName)
 {
 	for (Object* component : components)
 	{
