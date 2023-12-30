@@ -72,7 +72,7 @@ void SceneManager::Load()
 			}
 		}
 	}
-	LOG("Loaded SceneManager: " << scenesToBeLoaded.size() << " scenes loaded from JSON.");
+	//LOG("Loaded SceneManager: " << scenesToBeLoaded.size() << " scenes loaded from JSON.");
 }
 
 /**
@@ -188,7 +188,7 @@ void SceneManager::LoadSavedGame()
 	json::JSON savedSceneJSON = json::JSON::Load(str);
 
 	Scene* scene = LoadScene(savedSceneJSON);
-	LOG("Loading new scene - " << scene->GetGUID());
+	//LOG("Loading new scene - " << scene->GetGUID());
 
 	// Set it as active and then initialize the scene
 	std::string sceneGUID = scene->GetGUID();
@@ -205,7 +205,7 @@ void SceneManager::BackToMainMenu()
 
 	// Load new scene
 	Scene* scene = LoadScene(mainMenuGUID);
-	LOG("Loading new scene - " << scene->GetGUID());
+	//LOG("Loading new scene - " << scene->GetGUID());
 
 	// Set it as active and then initialize the scene
 	SetActiveScene(mainMenuGUID);

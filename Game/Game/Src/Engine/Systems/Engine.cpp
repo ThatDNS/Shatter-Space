@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Engine/Systems/Engine.h"
+#include "Engine/Core/Logger.h"
 #include "Engine/Systems/SceneManager.h"
 
 extern void Engine_Register();
@@ -7,6 +8,9 @@ extern void Engine_Register();
 void Engine::Initialize()
 {
 	Engine_Register();
+
+	// Setup the logger
+	Logger::Get().SetLogfile();
 
 	// Load the managers
 	SceneManager::Get().Load();

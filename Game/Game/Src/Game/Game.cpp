@@ -39,8 +39,6 @@ void Init()
 	testSprite->CreateAnimation(ANIM_FORWARDS, speed, { 24,25,26,27,28,29,30,31 });
 	testSprite->SetScale(1.0f);
 	//------------------------------------------------------------------------
-	Logger::Get().SetLogfile();
-	Logger::Get().Log("Testing log file");
 }
 
 //------------------------------------------------------------------------

@@ -61,7 +61,7 @@ void Entity::Load(json::JSON& entityData)
 			{
 				transform = (Transform*)component;
 			}
-			LOG("Loaded up component " << componentClassName << " in entity " << name)
+			//LOG("Loaded up component " << componentClassName << " in entity " << name)
 		}
 	}
 }

@@ -6,8 +6,8 @@
 // @date: 2023-11-29
 
 #include "stdafx.h"
-#include "Engine/Systems/SceneManager.h"
 #include "Engine/Systems/Scene.h"
+#include "Engine/Systems/SceneManager.h"
 #include "Engine/Components/Entity.h"
 
 /**
@@ -82,7 +82,7 @@ void Scene::Load(json::JSON& sceneJSON)
 			entity->Load(entityJSON);
 		}
 	}
-	LOG(name << " scene - " << entitiesToBeAdded.size() << " entites loaded.")
+	//LOG(name << " scene - " << entitiesToBeAdded.size() << " entites loaded.")
 }
 
 /**
@@ -138,8 +138,6 @@ void Scene::PostUpdate()
 
 	for (Entity* entity : entitiesToDestroy)
 	{
-		if (entity->IsPartOfObjectPool())
-			LOG('yo?')
 		entity->Destroy();
 		delete entity;
 		entities.remove(entity);

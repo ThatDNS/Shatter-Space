@@ -19,17 +19,20 @@ private:
 	inline explicit Logger(Logger const&) = delete;
 	inline Logger& operator=(Logger const&) = delete;
 
+protected:
+	// Used for opening the log file.
+	// Not public so that only Engine can setup logger.
+	void SetLogfile();
+
 public:
 	inline static Logger& Get() {
 		static Logger instance;
 		return instance;
 	}
 
-	// Used for opening the log file.
-	// Private so that only Engine can setup logger.
-	void SetLogfile();
-
 	void Log(const std::string&);
+
+	friend class Engine;
 };
 
 #endif // !_LOGGER_H_

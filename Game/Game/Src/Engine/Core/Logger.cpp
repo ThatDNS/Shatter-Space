@@ -25,7 +25,11 @@ void Logger::SetLogfile()
 
 	std::stringstream ss;
 	ss << std::put_time(&tm, "%Y%m%d");
+#ifdef _DEBUG
 	std::string logfile = "Logs/log_" + ss.str() + ".txt";
+#else
+	std::string logfile = "Logs/prod_log_" + ss.str() + ".txt";
+#endif
 
 	_file.open(logfile, std::ios::out | std::ios::app);
 	if (!_file.is_open())
