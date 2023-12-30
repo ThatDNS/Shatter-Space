@@ -40,6 +40,11 @@ void Logger::SetLogfile()
 
 void Logger::Log(const std::string& message)
 {
+	Log(message, DEBUG_LOG);
+}
+
+void Logger::Log(const std::string& message, LOG_LEVEL logLevel)
+{
 	if (_file.is_open())
 	{
 		// Get the timestamp for prepending it to log line
@@ -47,7 +52,23 @@ void Logger::Log(const std::string& message)
 		auto time = std::chrono::system_clock::to_time_t(now);
 		auto tm = *std::localtime(&time);
 
-		_file << "[" << std::put_time(&tm, "%Y-%m-%d %H:%M:%S") << "] " << message << std::endl;
+		std::string logLevelStr = "";
+		switch (logLevel)
+		{
+		case DEBUG_LOG:
+			logLevelStr = "DEBUG";
+			break;
+		case WARNING_LOG:
+			logLevelStr = "WARNING";
+			break;
+		case ERROR_LOG:
+			logLevelStr = "ERROR";
+			break;
+		default:
+			break;
+		}
+
+		_file << "[" << std::put_time(&tm, "%Y-%m-%d %H:%M:%S") << "] (" << logLevelStr << ") : " << message << std::endl;
 		_file.flush();
 	}
 }

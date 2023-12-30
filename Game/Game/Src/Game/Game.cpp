@@ -9,6 +9,7 @@
 #include "app\app.h"
 //------------------------------------------------------------------------
 #include "Engine/Core/Logger.h"
+#include "Engine/Systems/Engine.h"
 
 //------------------------------------------------------------------------
 // Eample data....
@@ -28,6 +29,8 @@ enum
 //------------------------------------------------------------------------
 void Init()
 {
+	Engine::Get().Initialize();
+
 	//------------------------------------------------------------------------
 	// Example Sprite Code....
 	testSprite = App::CreateSprite("Assets/TestData/Test.bmp", 8, 4);
@@ -47,7 +50,9 @@ void Init()
 //------------------------------------------------------------------------
 void Update(float deltaTime)
 {
-	//OutputDebugStringA("in update\n");
+	Engine::Get().Update(deltaTime);
+
+
 	//------------------------------------------------------------------------
 	// Example Sprite Code....
 	testSprite->Update(deltaTime);
@@ -117,7 +122,9 @@ void Update(float deltaTime)
 // See App.h 
 //------------------------------------------------------------------------
 void Render()
-{	
+{
+	Engine::Get().Render();
+
 	//------------------------------------------------------------------------
 	// Example Sprite Code....
 	testSprite->Draw();

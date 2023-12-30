@@ -24,18 +24,18 @@ void Engine::Destroy()
 	SceneManager::Get().Destroy();
 }
 
-void Engine::GameLoop()
+void Engine::Update(float deltaTime)
 {
-	bool _isRunning = true;
-	while (_isRunning)
-	{
-		// --------------------- Pre-update Phase ---------------------
-		SceneManager::Get().PreUpdate();
+	// --------------------- Pre-update Phase ---------------------
+	SceneManager::Get().PreUpdate();
 
-		// --------------------- Update Phase ---------------------
-		SceneManager::Get().Update();
+	// --------------------- Update Phase ---------------------
+	SceneManager::Get().Update();
 
-		// --------------------- Post-update Phase ---------------------
-		SceneManager::Get().PostUpdate();
-	}
+	// --------------------- Post-update Phase ---------------------
+	SceneManager::Get().PostUpdate();
+}
+
+void Engine::Render()
+{
 }

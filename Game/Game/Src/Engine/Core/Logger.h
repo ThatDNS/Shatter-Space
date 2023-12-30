@@ -9,6 +9,13 @@
 #ifndef _LOGGER_H_
 #define _LOGGER_H_
 
+enum LOG_LEVEL
+{
+	DEBUG_LOG,
+	WARNING_LOG,
+	ERROR_LOG
+};
+
 class Logger
 {
 private:
@@ -30,6 +37,8 @@ public:
 		return instance;
 	}
 
+	void Log(const std::string&, LOG_LEVEL);
+	// Log with default log level (Debug)
 	void Log(const std::string&);
 
 	friend class Engine;

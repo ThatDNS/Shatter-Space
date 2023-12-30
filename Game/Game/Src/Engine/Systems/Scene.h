@@ -44,9 +44,6 @@ protected:
 	void Destroy();
 
 public:
-	// Only enabled scenes get updated & rendered
-	bool isEnabled = true;
-
 	Scene();
 	Scene(std::string guid);
 	~Scene() = default;
