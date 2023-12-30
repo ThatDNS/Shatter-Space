@@ -79,9 +79,9 @@ void SceneManager::PreUpdate()
 	activeScene->PreUpdate();
 }
 
-void SceneManager::Update()
+void SceneManager::Update(float deltaTime)
 {
-	activeScene->Update();
+	activeScene->Update(deltaTime);
 }
 
 void SceneManager::PostUpdate()

@@ -87,13 +87,13 @@ void Scene::PreUpdate()
 	}
 }
 
-void Scene::Update()
+void Scene::Update(float deltaTime)
 {
 	for (Entity* entity : entities)
 	{
 		if (entity->IsActive())
 		{
-			entity->Update();
+			entity->Update(deltaTime);
 		}
 	}
 }

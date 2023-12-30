@@ -60,7 +60,7 @@ protected:
 	/**
 	 * @brief Update the active scene.
 	 */
-	void Update();
+	void Update(float);
 
 	/**
 	 * @brief Call PostUpdate on the active scene.

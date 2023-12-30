@@ -49,6 +49,12 @@
     <Filter Include="Src\Engine\Source Files\Math">
       <UniqueIdentifier>{690c29e0-3cdb-4d24-8d9f-eff0d0f6b9f1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Src\Game\Header Files">
+      <UniqueIdentifier>{223f3554-3cb5-4ab0-b027-d999932ba631}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Game\Source Files">
+      <UniqueIdentifier>{ff6a61d8-4077-4954-b5d2-232e2b1f6bcd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="NextAPI\App\app.cpp">
@@ -68,9 +74,6 @@
     </ClCompile>
     <ClCompile Include="Include\stb_image\stb_image.cpp">
       <Filter>Include\stb_image</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\Game\Game.cpp">
-      <Filter>Src\Game</Filter>
     </ClCompile>
     <ClCompile Include="Src\Engine\Core\Engine_Register.cpp">
       <Filter>Src\Engine\Source Files\Core</Filter>
@@ -119,6 +122,15 @@
     </ClCompile>
     <ClCompile Include="Src\Engine\Systems\RenderSystem.cpp">
       <Filter>Src\Engine\Source Files\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Game\Game.cpp">
+      <Filter>Src\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Game\Game_Register.cpp">
+      <Filter>Src\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Game\Player.cpp">
+      <Filter>Src\Game\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -196,6 +208,9 @@
     </ClInclude>
     <ClInclude Include="Src\Engine\Systems\RenderSystem.h">
       <Filter>Src\Engine\Header Files\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Game\Player.h">
+      <Filter>Src\Game\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

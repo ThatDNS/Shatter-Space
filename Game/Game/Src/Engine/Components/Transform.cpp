@@ -15,12 +15,6 @@ Transform::Transform() :
 	position(Vector2(0, 0)), rotation(0), scale(Vector2(1, 1))
 {}
 
-Transform::~Transform() {}
-
-void Transform::Initialize() {}
-
-void Transform::Update() {}
-
 void Transform::Load(json::JSON& transformJSON)
 {
 	if (transformJSON.hasKey("Position")) {

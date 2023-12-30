@@ -55,7 +55,7 @@ void Sprite::Initialize()
 	Logger::Get().Log("Initialized sprite");
 }
 
-void Sprite::Update()
+void Sprite::Update(float deltaTime)
 {
 	// Update transform in CSimpleSprite
 	csprite->SetPosition(transform->position.x, transform->position.y);
@@ -65,7 +65,8 @@ void Sprite::Update()
 	// Update animation
 	csprite->SetAnimation(currentAnimation);
 
-	//Logger::Get().Log("Updated sprite");
+	// Update CSimpleSprite animation
+	csprite->Update(deltaTime);
 }
 
 void Sprite::Render()

@@ -75,13 +75,13 @@ void Entity::PreUpdate()
 	componentsToAdd.clear();
 } 
 
-void Entity::Update()
+void Entity::Update(float deltaTime)
 {
 	for (Object* component : components)
 	{
 		if (component->IsActive())
 		{
-			static_cast<Component*>(component)->Update();
+			static_cast<Component*>(component)->Update(deltaTime);
 		}
 	}
 }  

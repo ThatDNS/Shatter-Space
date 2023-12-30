@@ -48,7 +48,7 @@ protected:
 
 	void Load(json::JSON&) override;
 	void Initialize() override;
-	void Update() override;
+	void Update(float) override;
 	void Render() override;
 	void Destroy() override;
 
@@ -56,6 +56,10 @@ protected:
 	friend class RenderSystem;
 	// Sprite is part of an Entity
 	friend class Entity;
+
+public:
+	SPRITE_ANIM GetAnimation() const { return currentAnimation; }
+	void SetAnimation(SPRITE_ANIM _anim) { currentAnimation = _anim; }
 };
 
 #endif

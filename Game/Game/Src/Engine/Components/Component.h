@@ -23,7 +23,7 @@ protected:
 
 public:
     virtual void Load(json::JSON& node) override;
-    virtual void Update() = 0;
+    virtual void Update(float) = 0;
 
     void ChangeEntity(Entity*);
     Entity* GetEntity() const { return entity; };

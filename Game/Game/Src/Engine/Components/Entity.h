@@ -39,7 +39,7 @@ protected:
 
 	void Initialize() override;
 	void Load(json::JSON& _entityJSON) override;
-	void Update();
+	void Update(float);
 	void PreUpdate();
 	void PostUpdate();
 

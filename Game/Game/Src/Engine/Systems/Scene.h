@@ -63,7 +63,7 @@ protected:
 	/**
 	 * @brief Update all the active entities.
 	 */
-	void Update();
+	void Update(float);
 	/**
 	 * @brief Remove the to-be-destroyed entities.
 	 */
