@@ -1,7 +1,10 @@
 #include "stdafx.h"
+
 #include "Engine/Systems/Engine.h"
 #include "Engine/Core/Logger.h"
+
 #include "Engine/Systems/SceneManager.h"
+#include "Engine/Systems/RenderSystem.h"
 
 extern void Engine_Register();
 
@@ -17,6 +20,7 @@ void Engine::Initialize()
 
 	// Initialize the managers
 	SceneManager::Get().Initialize();
+	RenderSystem::Get().Initialize();
 }
 
 void Engine::Destroy()
@@ -38,4 +42,5 @@ void Engine::Update(float deltaTime)
 
 void Engine::Render()
 {
+	RenderSystem::Get().Render();
 }

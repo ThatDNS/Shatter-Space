@@ -111,6 +111,15 @@
     <ClCompile Include="Src\Engine\Core\Logger.cpp">
       <Filter>Src\Engine\Source Files\Core</Filter>
     </ClCompile>
+    <ClCompile Include="Src\Engine\Components\Renderable.cpp">
+      <Filter>Src\Engine\Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Components\Sprite.cpp">
+      <Filter>Src\Engine\Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Systems\RenderSystem.cpp">
+      <Filter>Src\Engine\Source Files\Systems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="NextAPI\App\app.h">
@@ -178,6 +187,15 @@
     </ClInclude>
     <ClInclude Include="Src\Engine\Core\Logger.h">
       <Filter>Src\Engine\Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Components\Renderable.h">
+      <Filter>Src\Engine\Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Components\Sprite.h">
+      <Filter>Src\Engine\Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Systems\RenderSystem.h">
+      <Filter>Src\Engine\Header Files\Systems</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

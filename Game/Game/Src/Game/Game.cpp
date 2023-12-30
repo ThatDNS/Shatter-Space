@@ -161,7 +161,9 @@ void Render()
 // Just before the app exits.
 //------------------------------------------------------------------------
 void Shutdown()
-{	
+{
+	Engine::Get().Destroy();
+
 	//------------------------------------------------------------------------
 	// Example Sprite Code....
 	delete testSprite;
