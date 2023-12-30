@@ -12,6 +12,7 @@ Logger::~Logger()
 {
 	if (_file.is_open())
 	{
+		Log("----------------------------- Game closed. Exiting... -----------------------------");
 		_file.close();
 	}
 }
@@ -35,6 +36,10 @@ void Logger::SetLogfile()
 	if (!_file.is_open())
 	{
 		std::cerr << "Error in opening logfile: " << logfile << std::endl;
+	}
+	else
+	{
+		Log("----------------------------- Game started! -----------------------------");
 	}
 }
 
