@@ -1,10 +1,7 @@
 // @file: SceneManager.h
 //
 // @brief: Header file for SceneManager, a singleton responsible for handling all scenes, entities, and components.
-// It can keep track of multiple scenes but there can be only 1 active scene at a time.
-//
-// In future, this class can be easily extended to support rendering of multiple scenes at a time.
-// 
+//  
 // @author: Divyanshu N Singh (DNS)
 // @date: 2023-12-29
 
@@ -19,6 +16,10 @@ class Entity;
  * @class SceneManager
  *
  * Scene Manager class provides an API to manage scenes and their entities.
+ * 
+ * It can keep track of multiple scenes but there can be only 1 active scene at a time.
+ * In future, this class can be easily extended to support rendering of multiple scenes at a time.
+ * 
  */
 class SceneManager
 {
@@ -74,8 +75,6 @@ protected:
 	void Destroy();
 
 public:
-	// ------------------------- Scene-related member functions -------------------------
-
 	/**
 	 * @brief Getter function to get the active scene.
 	 *
@@ -103,59 +102,6 @@ public:
 	 * @return Bool representing if operation was successful.
 	 */
 	bool SetActiveScene(STRCODE sceneId);
-
-	// ------------------------- Entity-related member functions -------------------------
-
-	/**
-	 * @brief Create a new entity in the active scene.
-	 *
-	 * @return Pointer to the newly created entity.
-	 */
-	Entity* CreateEntity();
-	/**
-	 * @brief Create a dangling entity. It is not part of any scene.
-	 * Useful in object pooling of entities.
-	 *
-	 * @return Pointer to the newly created entity.
-	 */
-	Entity* CreateDanglingEntity(bool);
-
-	/**
-	 * @brief Find an entity in the active scene.
-	 *
-	 * @param entityGUID GUID of the entity
-	 * @return Pointer to the found entity. If not found, returns nullptr.
-	 */
-	Entity* FindEntity(std::string& entityGUID);
-	/**
-	 * @brief Find an entity in the active scene.
-	 *
-	 * @param entityId UID of the entity
-	 * @return Pointer to the found entity. If not found, returns nullptr.
-	 */
-	Entity* FindEntity(STRCODE entityId);
-	/**
-	 * @brief Find entities in the active scene which contain a component class.
-	 *
-	 * @param componentClassName Name of a class which inherits from Component class
-	 * @return List of entity pointers.
-	 */
-	std::list<Entity*> FindEntityWithComponent(const std::string& componentClassName);
-
-	/**
-	 * @brief Remove an entity from the active scene.
-	 *
-	 * @param entityGUID GUID of the entity
-	 * @return Boolean representing if entity got removed successfully.
-	 */
-	bool RemoveEntity(std::string& entityGUID);
-	/**
-	 * @brief Remove an entity from the active scene.
-	 *
-	 * @param entityId UID of the entity
-	 * @return Boolean representing if entity got removed successfully.
-	 */
-	bool RemoveEntity(STRCODE entityId);
 };
 
 #endif // !_SCENE_MANAGER_H_

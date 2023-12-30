@@ -3,16 +3,14 @@
 // @brief: Cpp file for the Scene class. All entities are part of a Scene.
 //
 // @author: Divyanshu N Singh (DNS)
-// @date: 2023-11-29
+// @date: 2023-12-29
 
 #include "stdafx.h"
 #include "Engine/Systems/Scene.h"
 #include "Engine/Systems/SceneManager.h"
 #include "Engine/Components/Entity.h"
+#include "Engine/Core/Logger.h"
 
-/**
- * @brief Scene constructor generates a random GUID & UID.
- */
 Scene::Scene()
 {
 	UUID _guid;
@@ -23,21 +21,13 @@ Scene::Scene()
 	uid = GetHashCode(guid.c_str());
 }
 
-/**
- * @brief Constructor for Scene which generates a random GUID & UID.
- * 
- * @param _guid GUID of the scene.
- */
-Scene::Scene(std::string _guid)
+Scene::Scene(std::string& _guid)
 {
 	// Use the GUID passed to it
 	uid = GetHashCode(guid.c_str());
 	guid = _guid;
 }
 
-/**
- * @brief Initialize all the entities of this scene.
- */
 void Scene::Initialize()
 {
 	// Initialize happens before first PreUpdate. So it must be called on entitiesToBeAdded
@@ -47,11 +37,6 @@ void Scene::Initialize()
 	}
 }
 
-/**
- * @brief Load Scene data passed in a JSON.
- *
- * @param sceneJSON Scene data JSON.
- */
 void Scene::Load(json::JSON& sceneJSON)
 {
 	THROW_RUNTIME_ERROR(!sceneJSON.hasKey("Scene"), "Scene JSON must contain scene info.");
@@ -67,10 +52,6 @@ void Scene::Load(json::JSON& sceneJSON)
 		guid = sceneData["GUID"].ToString();
 		uid = GetHashCode(guid.c_str());
 	}
-	if (sceneData.hasKey("IsEnabled"))
-	{
-		isEnabled = sceneData["IsEnabled"].ToBool();
-	}
 
 	// Load the entities
 	if (sceneData.hasKey("Entities"))
@@ -82,12 +63,11 @@ void Scene::Load(json::JSON& sceneJSON)
 			entity->Load(entityJSON);
 		}
 	}
-	//LOG(name << " scene - " << entitiesToBeAdded.size() << " entites loaded.")
+	
+	std::string logMsg = "Scene (name=" + name + ", GUID=" + guid + ") loaded with " + std::to_string(entitiesToBeAdded.size()) + " entities.";
+	Logger::Get().Log(logMsg);
 }
 
-/**
- * @brief Load the to-be-added entities.
- */
 void Scene::PreUpdate()
 {
 	for (Entity* entity : entitiesToBeAdded)
@@ -107,23 +87,17 @@ void Scene::PreUpdate()
 	}
 }
 
-/**
- * @brief Update all the active entities.
- */
 void Scene::Update()
 {
 	for (Entity* entity : entities)
 	{
-		if (entity->IsActive() && !SceneManager::Get().sceneChanged)
+		if (entity->IsActive())
 		{
 			entity->Update();
 		}
 	}
 }
 
-/**
- * @brief Remove the to-be-destroyed entities.
- */
 void Scene::PostUpdate()
 {
 	// Call post update on all entites
@@ -151,28 +125,6 @@ void Scene::PostUpdate()
 	entitiesToUntrack.clear();
 }
 
-json::JSON Scene::Save()
-{
-	json::JSON sceneJSON;
-	sceneJSON["Name"] = name;
-	sceneJSON["GUID"] = guid;
-	sceneJSON["IsEnabled"] = true;
-	
-	json::JSON entitiesJSON = json::JSON::Array();
-	for (Entity* entity : entities)
-	{
-		if (entity->IsActive() && !SceneManager::Get().sceneChanged)
-		{
-			entitiesJSON.append(entity->Save());
-		}
-	}
-	sceneJSON["Entities"] = entitiesJSON;
-	return sceneJSON;
-}
-
-/**
- * @brief Destory all the entities.
- */
 void Scene::Destroy()
 {
 	for (Entity* entity : entities)
@@ -183,11 +135,6 @@ void Scene::Destroy()
 	entities.clear();
 }
 
-/**
- * @brief Create a new entity. Scene automatically keeps track of this entity.
- *
- * @return Pointer to the created entity.
- */
 Entity* Scene::CreateEntity()
 {
 	Entity* entity = new Entity();
@@ -196,12 +143,7 @@ Entity* Scene::CreateEntity()
 	return entity;
 }
 
-/**
- * @brief Creates an entity that is not part of a scene *yet*
- *
- * @return Pointer to the created entity.
- */
-Entity* Scene::CreateDanglingEntity(bool forObjectPool)
+Entity* Scene::CreateDanglingEntity(bool forObjectPool) const
 {
 	Entity* entity = new Entity();
 	entity->isPartOfObjectPool = forObjectPool;
@@ -214,25 +156,12 @@ void Scene::AddDanglingEntity(Entity* entity)
 	entitiesToBeAdded.push_back(entity);
 }
 
-/**
- * @brief Find an entity in the scene.
- *
- * @param entityGUID GUID of the entity.
- * @return Pointer to the found entity.
- */
-Entity* Scene::FindEntity(std::string& entityGUID)
+Entity* Scene::FindEntity(const std::string& entityGUID) const
 {
-	STRCODE entityId = GetHashCode(entityGUID.c_str());
-	return FindEntity(entityId);
+	return FindEntity(GetHashCode(entityGUID.c_str()));
 }
 
-/**
- * @brief Find an entity in the scene.
- *
- * @param entityId UID of the entity.
- * @return Pointer to the found entity.
- */
-Entity* Scene::FindEntity(STRCODE entityId)
+Entity* Scene::FindEntity(STRCODE entityId) const
 {
 	for (Entity* entity : entities)
 	{
@@ -252,13 +181,7 @@ Entity* Scene::FindEntity(STRCODE entityId)
 	return nullptr;
 }
 
-/**
- * @brief Search an entity by name in the scene.
- *
- * @param entityName Name of the entity.
- * @return List of pointers to the matched entities.
- */
-std::list<Entity*> Scene::FindEntityByName(std::string& entityName)
+std::list<Entity*> Scene::FindEntityByName(const std::string& entityName) const
 {
 	std::list<Entity*> foundEntities;
 	for (Entity* entity : entities)
@@ -279,13 +202,7 @@ std::list<Entity*> Scene::FindEntityByName(std::string& entityName)
 	return foundEntities;
 }
 
-/**
- * @brief Lookup entities with a certain component.
- *
- * @param componentName Name of a class which inherits from Component.
- * @return List of pointers to the found entities.
- */
-std::list<Entity*> Scene::FindEntityWithComponent(std::string& componentName)
+std::list<Entity*> Scene::FindEntityWithComponent(const std::string& componentName) const
 {
 	std::list<Entity*> foundEntities;
 	for (Entity* entity : entities)
@@ -306,24 +223,11 @@ std::list<Entity*> Scene::FindEntityWithComponent(std::string& componentName)
 	return foundEntities;
 }
 
-/**
- * @brief Remove an entity from the Scene.
- *
- * @param entityGUID GUID of the entity.
- * @return Boolean representing if the entity got removed successfully.
- */
 bool Scene::RemoveEntity(std::string& entityGUID)
 {
-	STRCODE entityId = GetHashCode(entityGUID.c_str());
-	return RemoveEntity(entityId);
+	return RemoveEntity(GetHashCode(entityGUID.c_str()));
 }
 
-/**
- * @brief Remove an entity from the Scene.
- *
- * @param entityId UID of the entity.
- * @return Boolean representing if the entity got removed successfully.
- */
 bool Scene::RemoveEntity(STRCODE entityId)
 {
 	for (Entity* entity : entities)
