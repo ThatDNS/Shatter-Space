@@ -1,0 +1,216 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="NextAPI">
+      <UniqueIdentifier>{f318918d-bb9f-4402-ae1c-4f72186d16f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include">
+      <UniqueIdentifier>{4f2ab105-027c-4508-a604-737d6dc2578c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\stb_image">
+      <UniqueIdentifier>{61cfc19b-c57e-4021-b530-bac172fcba86}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src">
+      <UniqueIdentifier>{8b84e118-296c-4518-abe4-9dd01f1f4376}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Engine">
+      <UniqueIdentifier>{d505b228-5950-45fe-a942-ad7336f24e09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Game">
+      <UniqueIdentifier>{65f5f5ef-6751-4425-8a2d-819f10050951}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Engine\Header Files">
+      <UniqueIdentifier>{3848393c-224d-4fbc-bc77-6bc933b3dea8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Engine\Source Files">
+      <UniqueIdentifier>{ecb8d949-2050-4650-adba-1539bf80b9d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Engine\Header Files\Components">
+      <UniqueIdentifier>{b8cb5921-dadf-43c9-9f04-12b2ee1a0a71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Engine\Header Files\Core">
+      <UniqueIdentifier>{78f138ff-a644-4f79-918b-4927d9174e5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Engine\Header Files\Systems">
+      <UniqueIdentifier>{50e07d0f-5633-415c-a864-ba05d477f8e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Engine\Source Files\Components">
+      <UniqueIdentifier>{2583a10d-a0a8-47d1-a08b-a07034035a3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Engine\Source Files\Core">
+      <UniqueIdentifier>{15f2112d-4f72-4fad-9720-5d33b2d2f359}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Engine\Source Files\Systems">
+      <UniqueIdentifier>{483bd4a5-0bae-4ca5-887f-487eb57a7304}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Engine\Header Files\Math">
+      <UniqueIdentifier>{02e625c5-a103-42f3-a374-7823dc92e9a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Engine\Source Files\Math">
+      <UniqueIdentifier>{690c29e0-3cdb-4d24-8d9f-eff0d0f6b9f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Game\Header Files">
+      <UniqueIdentifier>{223f3554-3cb5-4ab0-b027-d999932ba631}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Game\Source Files">
+      <UniqueIdentifier>{ff6a61d8-4077-4954-b5d2-232e2b1f6bcd}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="NextAPI\App\app.cpp">
+      <Filter>NextAPI</Filter>
+    </ClCompile>
+    <ClCompile Include="NextAPI\App\main.cpp">
+      <Filter>NextAPI</Filter>
+    </ClCompile>
+    <ClCompile Include="NextAPI\App\SimpleController.cpp">
+      <Filter>NextAPI</Filter>
+    </ClCompile>
+    <ClCompile Include="NextAPI\App\SimpleSound.cpp">
+      <Filter>NextAPI</Filter>
+    </ClCompile>
+    <ClCompile Include="NextAPI\App\SimpleSprite.cpp">
+      <Filter>NextAPI</Filter>
+    </ClCompile>
+    <ClCompile Include="Include\stb_image\stb_image.cpp">
+      <Filter>Include\stb_image</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Core\Engine_Register.cpp">
+      <Filter>Src\Engine\Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Core\json.cpp">
+      <Filter>Src\Engine\Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Core\Object.cpp">
+      <Filter>Src\Engine\Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Core\TypeClass.cpp">
+      <Filter>Src\Engine\Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Systems\Engine.cpp">
+      <Filter>Src\Engine\Source Files\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Include\stdafx.cpp">
+      <Filter>Include</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Components\Component.cpp">
+      <Filter>Src\Engine\Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Components\Entity.cpp">
+      <Filter>Src\Engine\Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Components\Transform.cpp">
+      <Filter>Src\Engine\Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Systems\Scene.cpp">
+      <Filter>Src\Engine\Source Files\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Systems\SceneManager.cpp">
+      <Filter>Src\Engine\Source Files\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Math\Vector2.cpp">
+      <Filter>Src\Engine\Source Files\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Core\Logger.cpp">
+      <Filter>Src\Engine\Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Components\Renderable.cpp">
+      <Filter>Src\Engine\Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Components\Sprite.cpp">
+      <Filter>Src\Engine\Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Systems\RenderSystem.cpp">
+      <Filter>Src\Engine\Source Files\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Game\Game.cpp">
+      <Filter>Src\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Game\Game_Register.cpp">
+      <Filter>Src\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Game\Player.cpp">
+      <Filter>Src\Game\Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="NextAPI\App\app.h">
+      <Filter>NextAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="NextAPI\App\AppSettings.h">
+      <Filter>NextAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="NextAPI\App\main.h">
+      <Filter>NextAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="NextAPI\App\SimpleController.h">
+      <Filter>NextAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="NextAPI\App\SimpleSound.h">
+      <Filter>NextAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="NextAPI\App\SimpleSprite.h">
+      <Filter>NextAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\targetver.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\stb_image\stb_image.h">
+      <Filter>Include\stb_image</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Core\json.hpp">
+      <Filter>Src\Engine\Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Core\Object.h">
+      <Filter>Src\Engine\Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Core\randomc.h">
+      <Filter>Src\Engine\Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Core\StandardTypes.h">
+      <Filter>Src\Engine\Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Core\TypeClass.h">
+      <Filter>Src\Engine\Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Systems\Engine.h">
+      <Filter>Src\Engine\Header Files\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\stdafx.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Components\Component.h">
+      <Filter>Src\Engine\Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Components\Entity.h">
+      <Filter>Src\Engine\Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Components\Transform.h">
+      <Filter>Src\Engine\Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Systems\Scene.h">
+      <Filter>Src\Engine\Header Files\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Systems\SceneManager.h">
+      <Filter>Src\Engine\Header Files\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Math\Vector2.h">
+      <Filter>Src\Engine\Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Core\Logger.h">
+      <Filter>Src\Engine\Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Components\Renderable.h">
+      <Filter>Src\Engine\Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Components\Sprite.h">
+      <Filter>Src\Engine\Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Systems\RenderSystem.h">
+      <Filter>Src\Engine\Header Files\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Game\Player.h">
+      <Filter>Src\Game\Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

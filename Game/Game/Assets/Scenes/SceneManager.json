@@ -1,0 +1,13 @@
+{
+    "ActiveSceneGUID": "1a9e5171-c7ab-47d4-9af4-d490d1494201",
+    "AllScenes": [
+        {
+            "GUID": "1a9e5171-c7ab-47d4-9af4-d490d1494201",
+            "Path": "Assets/Scenes/Scene01.json"
+        },
+        {
+            "GUID": "45f479c9-f110-43c5-be35-9fbbc5d7d694",
+            "Path": "Assets/Scenes/Scene02.json"
+        }
+    ]
+}

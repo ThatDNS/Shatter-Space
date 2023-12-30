@@ -1,0 +1,6 @@
+# Ignore the contents of this directory
+*
+# Do not ignore this .gitignore file
+# Goal here is to have this "Logs" directory on github without any of its content (logfiles)
+# Git doesn't allow empty directories to be tracked.
+!.gitignore

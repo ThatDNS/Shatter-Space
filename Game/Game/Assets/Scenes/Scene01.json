@@ -1,0 +1,38 @@
+{
+    "Scene": {
+        "Name": "First-Scene",
+        "GUID": "1a9e5171-c7ab-47d4-9af4-d490d1494201",
+        "Entities": [
+            {
+                "Name": "Level",
+                "GUID": "16bf2793-ed79-4a23-be26-ae1e8721f303",
+                "Components": [
+                    {
+                        "ClassName": "Transform",
+                        "ClassData": {
+                            "Position": [500.0, 500.0],
+                            "Rotation": 0,
+                            "Scale": [1.0, 1.0]
+                        }
+                    },
+                    {
+                        "ClassName": "Sprite",
+                        "ClassData": {
+                            "Image": {
+                                "Filepath": "Assets/TestData/Test.bmp",
+                                "Columns": 8,
+                                "Rows": 4
+                            }
+                        }
+                    },
+                    {
+                        "ClassName": "Player",
+                        "ClassData": {
+                            "MoveSpeed": 15.0
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+}

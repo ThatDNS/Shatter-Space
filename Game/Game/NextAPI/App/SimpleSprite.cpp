@@ -15,7 +15,7 @@
 #include "AppSettings.h"
 #include "SimpleSprite.h"
 
-#include "../stb_image/stb_image.h"
+#include "stb_image/stb_image.h"
 #include "../glut/include/GL/freeglut_ext.h"
 
 std::map<const char *, CSimpleSprite::sTextureDef > CSimpleSprite::m_textures;
