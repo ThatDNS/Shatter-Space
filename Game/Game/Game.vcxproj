@@ -41,6 +41,8 @@
     <ClCompile Include="Src\Engine\Core\Logger.cpp" />
     <ClCompile Include="Src\Engine\Core\Object.cpp" />
     <ClCompile Include="Src\Engine\Core\TypeClass.cpp" />
+    <ClCompile Include="Src\Engine\Math\Matrix4x4.cpp" />
+    <ClCompile Include="Src\Engine\Math\Vector3.cpp" />
     <ClCompile Include="Src\Engine\Math\Vector2.cpp" />
     <ClCompile Include="Src\Engine\Systems\Engine.cpp" />
     <ClCompile Include="Src\Engine\Systems\RenderSystem.cpp" />
@@ -71,6 +73,8 @@
     <ClInclude Include="Src\Engine\Core\randomc.h" />
     <ClInclude Include="Src\Engine\Core\StandardTypes.h" />
     <ClInclude Include="Src\Engine\Core\TypeClass.h" />
+    <ClInclude Include="Src\Engine\Math\Matrix4x4.h" />
+    <ClInclude Include="Src\Engine\Math\Vector3.h" />
     <ClInclude Include="Src\Engine\Math\Vector2.h" />
     <ClInclude Include="Src\Engine\Systems\Engine.h" />
     <ClInclude Include="Src\Engine\Systems\RenderSystem.h" />

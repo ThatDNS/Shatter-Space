@@ -132,6 +132,12 @@
     <ClCompile Include="Src\Game\Player.cpp">
       <Filter>Src\Game\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Src\Engine\Math\Vector3.cpp">
+      <Filter>Src\Engine\Source Files\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Math\Matrix4x4.cpp">
+      <Filter>Src\Engine\Source Files\Math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="NextAPI\App\app.h">
@@ -211,6 +217,12 @@
     </ClInclude>
     <ClInclude Include="Src\Game\Player.h">
       <Filter>Src\Game\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Math\Vector3.h">
+      <Filter>Src\Engine\Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Math\Matrix4x4.h">
+      <Filter>Src\Engine\Header Files\Math</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -10,8 +10,19 @@
 //------------------------------------------------------------------------
 #include "Engine/Core/Logger.h"
 #include "Engine/Systems/Engine.h"
+#include "Engine/Math/Vector3.h"
 
 extern void Game_Register();
+
+struct triangle
+{
+	Vector3 p[3];
+};
+
+struct mesh
+{
+	std::vector<triangle> tris;
+};
 
 //------------------------------------------------------------------------
 // Called before first update. Do any initial setup here.
@@ -56,7 +67,7 @@ void Render()
 	//------------------------------------------------------------------------
 	// Example Line Drawing.
 	//------------------------------------------------------------------------
-	static float a = 0.0f;
+	/*static float a = 0.0f;
 	float r = 1.0f;
 	float g = 1.0f;
 	float b = 1.0f;
@@ -71,7 +82,9 @@ void Render()
 		g = (float)i / 20.0f;
 		b = (float)i / 20.0f;
 		App::DrawLine(sx, sy, ex, ey,r,g,b);
-	}
+	}*/
+
+
 }
 
 //------------------------------------------------------------------------
