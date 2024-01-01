@@ -25,14 +25,19 @@ float Vector3::Distance(const Vector3& other) const
 	return std::sqrt(pow(other.x - x, 2) + pow(other.y - y, 2) + pow(other.z - z, 2));
 }
 
-Vector3 Vector3::Dot(const Vector3& other) const
+Vector3 Vector3::Dot(const Vector3& v1, const Vector3& v2)
 {
-	return Vector3(x * other.x, y * other.y, z * other.z);
+	return Vector3(v1.x * v2.x, v1.y * v2.y, v1.z * v2.z);
 }
 
-Vector3 Vector3::Cross(const Vector3& other) const
+Vector3 Vector3::Cross(const Vector3& v1, const Vector3& v2)
 {
-	return Vector3(y * other.z - z * other.y,
-		           z * other.x - x * other.z,
-		           x * other.y - y * other.x);
+	return Vector3(v1.y * v2.z - v1.z * v2.y,
+				   v1.z * v2.x - v1.x * v2.z,
+				   v1.x * v2.y - v1.y * v2.x);
+}
+
+std::string Vector3::ToString()
+{
+	return "Vector3(x=" + std::to_string(x) + ", y=" + std::to_string(y) + ", z=" + std::to_string(z) + ")";
 }

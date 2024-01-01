@@ -21,8 +21,10 @@ public:
 	
 	float Distance(const Vector3&) const;
 
-	Vector3 Dot(const Vector3&) const;
-	Vector3 Cross(const Vector3&) const;
+	static Vector3 Dot(const Vector3&, const Vector3&);
+	static Vector3 Cross(const Vector3&, const Vector3&);
+
+	std::string ToString();
 
 	// ---------------------- Operator overloaders ----------------------
 

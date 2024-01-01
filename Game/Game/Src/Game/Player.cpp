@@ -38,7 +38,6 @@ void Player::Load(json::JSON& playerJSON)
 void Player::Update(float deltaTime)
 {
 	Move(deltaTime);
-	Logger::Get().Log(std::to_string(deltaTime));
 }
 
 void Player::Move(float deltaTime)

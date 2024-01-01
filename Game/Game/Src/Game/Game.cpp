@@ -11,6 +11,7 @@
 #include "Engine/Core/Logger.h"
 #include "Engine/Systems/Engine.h"
 #include "Engine/Math/Vector3.h"
+#include "Engine/Math/Matrix4x4.h"
 
 extern void Game_Register();
 
@@ -24,6 +25,10 @@ struct mesh
 	std::vector<triangle> tris;
 };
 
+mesh meshCube;
+Matrix4x4 matProj;
+float rotTheta = 0.0f;
+
 //------------------------------------------------------------------------
 // Called before first update. Do any initial setup here.
 //------------------------------------------------------------------------
@@ -33,6 +38,36 @@ void Init()
 	Game_Register();
 
 	Engine::Get().Initialize();
+
+	meshCube.tris = {
+
+		// SOUTH
+		{ Vector3(0.0f, 0.0f, 0.0f),    Vector3(0.0f, 1.0f, 0.0f),    Vector3(1.0f, 1.0f, 0.0f) },
+		{ Vector3(0.0f, 0.0f, 0.0f),    Vector3(1.0f, 1.0f, 0.0f),    Vector3(1.0f, 0.0f, 0.0f) },
+
+		// EAST                                                      
+		{ Vector3(1.0f, 0.0f, 0.0f),    Vector3(1.0f, 1.0f, 0.0f),    Vector3(1.0f, 1.0f, 1.0f) },
+		{ Vector3(1.0f, 0.0f, 0.0f),    Vector3(1.0f, 1.0f, 1.0f),    Vector3(1.0f, 0.0f, 1.0f) },
+
+		// NORTH                                                     
+		{ Vector3(1.0f, 0.0f, 1.0f),    Vector3(1.0f, 1.0f, 1.0f),    Vector3(0.0f, 1.0f, 1.0f) },
+		{ Vector3(1.0f, 0.0f, 1.0f),    Vector3(0.0f, 1.0f, 1.0f),    Vector3(0.0f, 0.0f, 1.0f) },
+
+		// WEST                                                      
+		{ Vector3(0.0f, 0.0f, 1.0f),    Vector3(0.0f, 1.0f, 1.0f),    Vector3(0.0f, 1.0f, 0.0f) },
+		{ Vector3(0.0f, 0.0f, 1.0f),    Vector3(0.0f, 1.0f, 0.0f),    Vector3(0.0f, 0.0f, 0.0f) },
+
+		// TOP                                                       
+		{ Vector3(0.0f, 1.0f, 0.0f),    Vector3(0.0f, 1.0f, 1.0f),    Vector3(1.0f, 1.0f, 1.0f) },
+		{ Vector3(0.0f, 1.0f, 0.0f),    Vector3(1.0f, 1.0f, 1.0f),    Vector3(1.0f, 1.0f, 0.0f) },
+
+		// BOTTOM                                                    
+		{ Vector3(1.0f, 0.0f, 1.0f),    Vector3(0.0f, 0.0f, 1.0f),    Vector3(0.0f, 0.0f, 0.0f) },
+		{ Vector3(1.0f, 0.0f, 1.0f),    Vector3(0.0f, 0.0f, 0.0f),    Vector3(1.0f, 0.0f, 0.0f) },
+
+	};
+
+	matProj = Matrix4x4::CreatePerspectiveFieldOfView(90.0f, (float)APP_INIT_WINDOW_HEIGHT / (float)APP_INIT_WINDOW_WIDTH, 0.1f, 1000.0f);
 }
 
 //------------------------------------------------------------------------
@@ -49,6 +84,8 @@ void Update(float deltaTime)
 	{
 		App::PlaySound("Assets/TestData/Test.wav");
 	}
+
+	rotTheta += deltaTime / 800.0f;
 }
 
 //------------------------------------------------------------------------
@@ -84,7 +121,57 @@ void Render()
 		App::DrawLine(sx, sy, ex, ey,r,g,b);
 	}*/
 
+	// Draw the cube
+	for (auto tri : meshCube.tris)
+	{
+		// Rotate in Z-axis
+		tri.p[0] = Matrix4x4::CreateRotationZ(rotTheta) * tri.p[0];
+		tri.p[1] = Matrix4x4::CreateRotationZ(rotTheta) * tri.p[1];
+		tri.p[2] = Matrix4x4::CreateRotationZ(rotTheta) * tri.p[2];
 
+		// Rotate in X-axis
+		tri.p[0] = Matrix4x4::CreateRotationX(rotTheta * 0.5f) * tri.p[0];
+		tri.p[1] = Matrix4x4::CreateRotationX(rotTheta * 0.5f) * tri.p[1];
+		tri.p[2] = Matrix4x4::CreateRotationX(rotTheta * 0.5f) * tri.p[2];
+
+		// Offset into the screen
+		tri.p[0].z += 3.0f;
+		tri.p[1].z += 3.0f;
+		tri.p[2].z += 3.0f;
+
+		Vector3 line1, line2;
+		line1.x = tri.p[1].x - tri.p[0].x;
+		line1.y = tri.p[1].y - tri.p[0].y;
+		line1.z = tri.p[1].z - tri.p[0].z;
+		line2.x = tri.p[2].x - tri.p[0].x;
+		line2.y = tri.p[2].y - tri.p[0].y;
+		line2.z = tri.p[2].z - tri.p[0].z;
+		Vector3 normal = Vector3::Cross(line1, line2);
+		normal.Normalize();
+
+		if (normal.z > 0)
+			continue;
+
+		// Projection
+		tri.p[0] = matProj * tri.p[0];
+		tri.p[1] = matProj * tri.p[1];
+		tri.p[2] = matProj * tri.p[2];
+
+		// Scale the cube
+		tri.p[0].x += 1.0f; tri.p[0].y += 1.0f;
+		tri.p[1].x += 1.0f; tri.p[1].y += 1.0f;
+		tri.p[2].x += 1.0f; tri.p[2].y += 1.0f;
+		tri.p[0].x *= 0.5f * (float)APP_INIT_WINDOW_WIDTH;
+		tri.p[0].y *= 0.5f * (float)APP_INIT_WINDOW_HEIGHT;
+		tri.p[1].x *= 0.5f * (float)APP_INIT_WINDOW_WIDTH;
+		tri.p[1].y *= 0.5f * (float)APP_INIT_WINDOW_HEIGHT;
+		tri.p[2].x *= 0.5f * (float)APP_INIT_WINDOW_WIDTH;
+		tri.p[2].y *= 0.5f * (float)APP_INIT_WINDOW_HEIGHT;
+
+		App::DrawLine(tri.p[0].x, tri.p[0].y, tri.p[1].x, tri.p[1].y, 1.0f, 1.0f, 1.0f);
+		App::DrawLine(tri.p[1].x, tri.p[1].y, tri.p[2].x, tri.p[2].y, 1.0f, 1.0f, 1.0f);
+		App::DrawLine(tri.p[2].x, tri.p[2].y, tri.p[0].x, tri.p[0].y, 1.0f, 1.0f, 1.0f);
+	}
 }
 
 //------------------------------------------------------------------------
