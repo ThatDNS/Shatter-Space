@@ -22,3 +22,42 @@ Vector3 Matrix4x4::operator*(const Vector3& other) const
 	}
 	return result;
 }
+
+Matrix4x4 Matrix4x4::CreatePerspectiveFieldOfView(float fieldOfView, float aspectRatio, float nearPlaneDistance, float farPlaneDistance)
+{
+	float fieldOfViewInRad = 1.0f / tanf(fieldOfView * 0.5f / 180.0f * MATH_PI);
+
+	Matrix4x4 projection;
+	projection[0][0] = aspectRatio * fieldOfViewInRad;
+	projection[1][1] = fieldOfViewInRad;
+	projection[2][2] = farPlaneDistance / (farPlaneDistance - nearPlaneDistance);
+	projection[3][2] = (-farPlaneDistance * nearPlaneDistance) / (farPlaneDistance - nearPlaneDistance);
+	projection[2][3] = 1.0f;
+	projection[3][3] = 0.0f;
+
+	return projection;
+}
+
+Matrix4x4 Matrix4x4::CreateRotationX(float theta)
+{
+	Matrix4x4 rotation;
+	rotation[0][0] = 1;
+	rotation[1][1] = cosf(theta);
+	rotation[1][2] = sinf(theta);
+	rotation[2][1] = -sinf(theta);
+	rotation[2][2] = cosf(theta);
+	rotation[3][3] = 1;
+	return rotation;
+}
+
+Matrix4x4 Matrix4x4::CreateRotationZ(float theta)
+{
+	Matrix4x4 rotation;
+	rotation[0][0] = cosf(theta);
+	rotation[0][1] = sinf(theta);
+	rotation[1][0] = -sinf(theta);
+	rotation[1][1] = cosf(theta);
+	rotation[2][2] = 1;
+	rotation[3][3] = 1;
+	return rotation;
+}

@@ -18,6 +18,13 @@ class Matrix4x4
 public:
 	float data[4][4] = { 0 };
 
+	// Projection Matrix (World space to Screen space)
+	static Matrix4x4 CreatePerspectiveFieldOfView(float fieldOfView, float aspectRatio, float nearPlaneDistance, float farPlaneDistance);
+
+	// Rotation
+	static Matrix4x4 CreateRotationX(float theta);
+	static Matrix4x4 CreateRotationZ(float theta);
+
 	// Static member to create identity matrix
 	static Matrix4x4 Identity() {
 		Matrix4x4 identity;
