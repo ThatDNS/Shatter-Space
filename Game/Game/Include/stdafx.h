@@ -18,6 +18,8 @@
 // TODO: reference additional headers your program requires here
 #include <iostream>
 #include <sstream>
+#include <fstream>
+#include <strstream>
 #include <iomanip>
 #include <string>
 #include <map>
@@ -30,8 +32,8 @@
 #include <memory>
 #include <chrono>
 #include <thread>
-#include <fstream>
 #include <math.h>
+#include <algorithm>
 
 #include "Engine/Core/json.hpp"
 #include "Engine/Core/StandardTypes.h"

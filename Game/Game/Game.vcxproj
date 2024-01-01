@@ -42,6 +42,8 @@
     <ClCompile Include="Src\Engine\Core\Object.cpp" />
     <ClCompile Include="Src\Engine\Core\TypeClass.cpp" />
     <ClCompile Include="Src\Engine\Math\Matrix4x4.cpp" />
+    <ClCompile Include="Src\Engine\Math\Mesh.cpp" />
+    <ClCompile Include="Src\Engine\Math\Triangle.cpp" />
     <ClCompile Include="Src\Engine\Math\Vector3.cpp" />
     <ClCompile Include="Src\Engine\Math\Vector2.cpp" />
     <ClCompile Include="Src\Engine\Systems\Engine.cpp" />
@@ -74,6 +76,8 @@
     <ClInclude Include="Src\Engine\Core\StandardTypes.h" />
     <ClInclude Include="Src\Engine\Core\TypeClass.h" />
     <ClInclude Include="Src\Engine\Math\Matrix4x4.h" />
+    <ClInclude Include="Src\Engine\Math\Mesh.h" />
+    <ClInclude Include="Src\Engine\Math\Triangle.h" />
     <ClInclude Include="Src\Engine\Math\Vector3.h" />
     <ClInclude Include="Src\Engine\Math\Vector2.h" />
     <ClInclude Include="Src\Engine\Systems\Engine.h" />

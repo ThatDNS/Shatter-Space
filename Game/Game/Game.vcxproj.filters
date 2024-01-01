@@ -138,6 +138,12 @@
     <ClCompile Include="Src\Engine\Math\Matrix4x4.cpp">
       <Filter>Src\Engine\Source Files\Math</Filter>
     </ClCompile>
+    <ClCompile Include="Src\Engine\Math\Mesh.cpp">
+      <Filter>Src\Engine\Source Files\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Math\Triangle.cpp">
+      <Filter>Src\Engine\Source Files\Math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="NextAPI\App\app.h">
@@ -222,6 +228,12 @@
       <Filter>Src\Engine\Header Files\Math</Filter>
     </ClInclude>
     <ClInclude Include="Src\Engine\Math\Matrix4x4.h">
+      <Filter>Src\Engine\Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Math\Mesh.h">
+      <Filter>Src\Engine\Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Math\Triangle.h">
       <Filter>Src\Engine\Header Files\Math</Filter>
     </ClInclude>
   </ItemGroup>

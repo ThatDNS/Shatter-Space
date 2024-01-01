@@ -25,9 +25,9 @@ float Vector3::Distance(const Vector3& other) const
 	return std::sqrt(pow(other.x - x, 2) + pow(other.y - y, 2) + pow(other.z - z, 2));
 }
 
-Vector3 Vector3::Dot(const Vector3& v1, const Vector3& v2)
+float Vector3::Dot(const Vector3& v1, const Vector3& v2)
 {
-	return Vector3(v1.x * v2.x, v1.y * v2.y, v1.z * v2.z);
+	return (v1.x * v2.x + v1.y * v2.y + v1.z * v2.z);
 }
 
 Vector3 Vector3::Cross(const Vector3& v1, const Vector3& v2)

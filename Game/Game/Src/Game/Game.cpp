@@ -12,22 +12,16 @@
 #include "Engine/Systems/Engine.h"
 #include "Engine/Math/Vector3.h"
 #include "Engine/Math/Matrix4x4.h"
+#include "Engine/Math/Triangle.h"
+#include "Engine/Math/Mesh.h"
 
 extern void Game_Register();
 
-struct triangle
-{
-	Vector3 p[3];
-};
-
-struct mesh
-{
-	std::vector<triangle> tris;
-};
-
-mesh meshCube;
+Mesh mesh;
 Matrix4x4 matProj;
 float rotTheta = 0.0f;
+Vector3 vCamera;
+Vector3 lightDirection{ 0.0f, 0.0f, -1.0f };
 
 //------------------------------------------------------------------------
 // Called before first update. Do any initial setup here.
@@ -39,35 +33,9 @@ void Init()
 
 	Engine::Get().Initialize();
 
-	meshCube.tris = {
-
-		// SOUTH
-		{ Vector3(0.0f, 0.0f, 0.0f),    Vector3(0.0f, 1.0f, 0.0f),    Vector3(1.0f, 1.0f, 0.0f) },
-		{ Vector3(0.0f, 0.0f, 0.0f),    Vector3(1.0f, 1.0f, 0.0f),    Vector3(1.0f, 0.0f, 0.0f) },
-
-		// EAST                                                      
-		{ Vector3(1.0f, 0.0f, 0.0f),    Vector3(1.0f, 1.0f, 0.0f),    Vector3(1.0f, 1.0f, 1.0f) },
-		{ Vector3(1.0f, 0.0f, 0.0f),    Vector3(1.0f, 1.0f, 1.0f),    Vector3(1.0f, 0.0f, 1.0f) },
-
-		// NORTH                                                     
-		{ Vector3(1.0f, 0.0f, 1.0f),    Vector3(1.0f, 1.0f, 1.0f),    Vector3(0.0f, 1.0f, 1.0f) },
-		{ Vector3(1.0f, 0.0f, 1.0f),    Vector3(0.0f, 1.0f, 1.0f),    Vector3(0.0f, 0.0f, 1.0f) },
-
-		// WEST                                                      
-		{ Vector3(0.0f, 0.0f, 1.0f),    Vector3(0.0f, 1.0f, 1.0f),    Vector3(0.0f, 1.0f, 0.0f) },
-		{ Vector3(0.0f, 0.0f, 1.0f),    Vector3(0.0f, 1.0f, 0.0f),    Vector3(0.0f, 0.0f, 0.0f) },
-
-		// TOP                                                       
-		{ Vector3(0.0f, 1.0f, 0.0f),    Vector3(0.0f, 1.0f, 1.0f),    Vector3(1.0f, 1.0f, 1.0f) },
-		{ Vector3(0.0f, 1.0f, 0.0f),    Vector3(1.0f, 1.0f, 1.0f),    Vector3(1.0f, 1.0f, 0.0f) },
-
-		// BOTTOM                                                    
-		{ Vector3(1.0f, 0.0f, 1.0f),    Vector3(0.0f, 0.0f, 1.0f),    Vector3(0.0f, 0.0f, 0.0f) },
-		{ Vector3(1.0f, 0.0f, 1.0f),    Vector3(0.0f, 0.0f, 0.0f),    Vector3(1.0f, 0.0f, 0.0f) },
-
-	};
-
+	mesh.LoadFromObjectFile("Assets/VideoShip.obj");
 	matProj = Matrix4x4::CreatePerspectiveFieldOfView(90.0f, (float)APP_INIT_WINDOW_HEIGHT / (float)APP_INIT_WINDOW_WIDTH, 0.1f, 1000.0f);
+	lightDirection.Normalize();
 }
 
 //------------------------------------------------------------------------
@@ -121,56 +89,74 @@ void Render()
 		App::DrawLine(sx, sy, ex, ey,r,g,b);
 	}*/
 
-	// Draw the cube
-	for (auto tri : meshCube.tris)
+	std::vector<Triangle> triToRaster;
+	// Draw the mesh
+	for (Triangle tri : mesh.faces)
 	{
 		// Rotate in Z-axis
-		tri.p[0] = Matrix4x4::CreateRotationZ(rotTheta) * tri.p[0];
-		tri.p[1] = Matrix4x4::CreateRotationZ(rotTheta) * tri.p[1];
-		tri.p[2] = Matrix4x4::CreateRotationZ(rotTheta) * tri.p[2];
+		tri.points[0] = Matrix4x4::CreateRotationZ(rotTheta) * tri.points[0];
+		tri.points[1] = Matrix4x4::CreateRotationZ(rotTheta) * tri.points[1];
+		tri.points[2] = Matrix4x4::CreateRotationZ(rotTheta) * tri.points[2];
 
 		// Rotate in X-axis
-		tri.p[0] = Matrix4x4::CreateRotationX(rotTheta * 0.5f) * tri.p[0];
-		tri.p[1] = Matrix4x4::CreateRotationX(rotTheta * 0.5f) * tri.p[1];
-		tri.p[2] = Matrix4x4::CreateRotationX(rotTheta * 0.5f) * tri.p[2];
+		tri.points[0] = Matrix4x4::CreateRotationX(rotTheta * 0.5f) * tri.points[0];
+		tri.points[1] = Matrix4x4::CreateRotationX(rotTheta * 0.5f) * tri.points[1];
+		tri.points[2] = Matrix4x4::CreateRotationX(rotTheta * 0.5f) * tri.points[2];
 
 		// Offset into the screen
-		tri.p[0].z += 3.0f;
-		tri.p[1].z += 3.0f;
-		tri.p[2].z += 3.0f;
+		tri.points[0].z += 8.0f;
+		tri.points[1].z += 8.0f;
+		tri.points[2].z += 8.0f;
 
 		Vector3 line1, line2;
-		line1.x = tri.p[1].x - tri.p[0].x;
-		line1.y = tri.p[1].y - tri.p[0].y;
-		line1.z = tri.p[1].z - tri.p[0].z;
-		line2.x = tri.p[2].x - tri.p[0].x;
-		line2.y = tri.p[2].y - tri.p[0].y;
-		line2.z = tri.p[2].z - tri.p[0].z;
+		line1.x = tri.points[1].x - tri.points[0].x;
+		line1.y = tri.points[1].y - tri.points[0].y;
+		line1.z = tri.points[1].z - tri.points[0].z;
+		line2.x = tri.points[2].x - tri.points[0].x;
+		line2.y = tri.points[2].y - tri.points[0].y;
+		line2.z = tri.points[2].z - tri.points[0].z;
 		Vector3 normal = Vector3::Cross(line1, line2);
 		normal.Normalize();
 
-		if (normal.z > 0)
+		if (normal * (tri.points[0] - vCamera) > 0)
 			continue;
 
+		// Illumination
+		float lightIntensity = normal * lightDirection;
+
 		// Projection
-		tri.p[0] = matProj * tri.p[0];
-		tri.p[1] = matProj * tri.p[1];
-		tri.p[2] = matProj * tri.p[2];
+		tri.points[0] = matProj * tri.points[0];
+		tri.points[1] = matProj * tri.points[1];
+		tri.points[2] = matProj * tri.points[2];
 
 		// Scale the cube
-		tri.p[0].x += 1.0f; tri.p[0].y += 1.0f;
-		tri.p[1].x += 1.0f; tri.p[1].y += 1.0f;
-		tri.p[2].x += 1.0f; tri.p[2].y += 1.0f;
-		tri.p[0].x *= 0.5f * (float)APP_INIT_WINDOW_WIDTH;
-		tri.p[0].y *= 0.5f * (float)APP_INIT_WINDOW_HEIGHT;
-		tri.p[1].x *= 0.5f * (float)APP_INIT_WINDOW_WIDTH;
-		tri.p[1].y *= 0.5f * (float)APP_INIT_WINDOW_HEIGHT;
-		tri.p[2].x *= 0.5f * (float)APP_INIT_WINDOW_WIDTH;
-		tri.p[2].y *= 0.5f * (float)APP_INIT_WINDOW_HEIGHT;
+		tri.points[0].x += 1.0f; tri.points[0].y += 1.0f;
+		tri.points[1].x += 1.0f; tri.points[1].y += 1.0f;
+		tri.points[2].x += 1.0f; tri.points[2].y += 1.0f;
+		tri.points[0].x *= 0.5f * (float)APP_INIT_WINDOW_WIDTH;
+		tri.points[0].y *= 0.5f * (float)APP_INIT_WINDOW_HEIGHT;
+		tri.points[1].x *= 0.5f * (float)APP_INIT_WINDOW_WIDTH;
+		tri.points[1].y *= 0.5f * (float)APP_INIT_WINDOW_HEIGHT;
+		tri.points[2].x *= 0.5f * (float)APP_INIT_WINDOW_WIDTH;
+		tri.points[2].y *= 0.5f * (float)APP_INIT_WINDOW_HEIGHT;
 
-		App::DrawLine(tri.p[0].x, tri.p[0].y, tri.p[1].x, tri.p[1].y, 1.0f, 1.0f, 1.0f);
-		App::DrawLine(tri.p[1].x, tri.p[1].y, tri.p[2].x, tri.p[2].y, 1.0f, 1.0f, 1.0f);
-		App::DrawLine(tri.p[2].x, tri.p[2].y, tri.p[0].x, tri.p[0].y, 1.0f, 1.0f, 1.0f);
+		triToRaster.push_back(tri);
+	}
+
+	// Sort triangles from back to front
+	std::sort(triToRaster.begin(), triToRaster.end(), [](Triangle& t1, Triangle& t2)
+		{
+			// Get mid point of Z of triangle
+			float z1 = (t1.points[0].z + t1.points[1].z + t1.points[2].z) / 3.0f;
+			float z2 = (t2.points[0].z + t2.points[1].z + t2.points[2].z) / 3.0f;
+			return z1 > z2;
+		});
+
+	for (Triangle& tri : triToRaster)
+	{
+		App::DrawLine(tri.points[0].x, tri.points[0].y, tri.points[1].x, tri.points[1].y, 1.0f, 1.0f, 1.0f);
+		App::DrawLine(tri.points[1].x, tri.points[1].y, tri.points[2].x, tri.points[2].y, 1.0f, 1.0f, 1.0f);
+		App::DrawLine(tri.points[2].x, tri.points[2].y, tri.points[0].x, tri.points[0].y, 1.0f, 1.0f, 1.0f);
 	}
 }
 
