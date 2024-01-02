@@ -19,8 +19,12 @@ extern void Game_Register();
 
 Mesh mesh;
 Matrix4x4 matProj;
+Matrix4x4 matView;
 float rotTheta = 0.0f;
+
 Vector3 vCamera;
+Vector3 vLookDir;
+
 Vector3 lightDirection{ 0.0f, 0.0f, -1.0f };
 
 //------------------------------------------------------------------------
@@ -53,7 +57,25 @@ void Update(float deltaTime)
 		App::PlaySound("Assets/TestData/Test.wav");
 	}
 
-	rotTheta += deltaTime / 800.0f;
+	// Camera movement
+	if (App::GetController().GetLeftThumbStickX() > 0.5f)
+	{
+		vCamera.x += deltaTime / 20.0f;
+	}
+	if (App::GetController().GetLeftThumbStickX() < -0.5f)
+	{
+		vCamera.x -= deltaTime / 20.0f;
+	}
+	if (App::GetController().GetLeftThumbStickY() > 0.5f)
+	{
+		vCamera.y += deltaTime / 20.0f;
+	}
+	if (App::GetController().GetLeftThumbStickY() < -0.5f)
+	{
+		vCamera.y -= deltaTime / 20.0f;
+	}
+
+	//rotTheta += deltaTime / 800.0f;
 }
 
 //------------------------------------------------------------------------
@@ -96,6 +118,12 @@ void Render()
 
 	Matrix4x4 mWorld = (mRotZ * mRotX) * mTrans;
 
+	vLookDir = { 0, 0, 1 };
+	Vector3 vUp = { 0, 1, 0 };
+	Vector3 vTarget = vCamera + vLookDir;
+
+	matView = Matrix4x4::CreateLookAt(vCamera, vTarget, vUp);
+
 	std::vector<Triangle> triToRaster;
 	// Draw the mesh
 	for (Triangle tri : mesh.faces)
@@ -116,9 +144,14 @@ void Render()
 			continue;
 
 		// Illumination
-		float lightIntensity = std::max(1.0f, Vector3::Dot(normal, lightDirection));
+		//float lightIntensity = std::max(1.0f, Vector3::Dot(normal, lightDirection));
 
-		// Projection
+		// World space -> View space
+		tri.points[0] = matView * tri.points[0];
+		tri.points[1] = matView * tri.points[1];
+		tri.points[2] = matView * tri.points[2];
+
+		// Projection (3D -> 2D)
 		tri.points[0] = matProj * tri.points[0];
 		tri.points[1] = matProj * tri.points[1];
 		tri.points[2] = matProj * tri.points[2];
@@ -128,7 +161,7 @@ void Render()
 		tri.points[1] /= tri.points[1].w;
 		tri.points[2] /= tri.points[2].w;
 
-		// Scale the cube
+		// Scale the object
 		tri.points[0] += 1.0f;
 		tri.points[1] += 1.0f;
 		tri.points[2] += 1.0f;

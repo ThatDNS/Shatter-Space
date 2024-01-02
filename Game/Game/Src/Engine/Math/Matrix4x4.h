@@ -15,11 +15,17 @@ class Vector3;
  */
 class Matrix4x4
 {
-public:
 	float data[4][4] = { 0 };
+
+public:
+	// View Matrix
+	static Matrix4x4 CreateLookAt(Vector3& position, Vector3& target, Vector3& up);
 
 	// Projection Matrix (World space to Screen space)
 	static Matrix4x4 CreatePerspectiveFieldOfView(float fieldOfView, float aspectRatio, float nearPlaneDistance, float farPlaneDistance);
+
+	// Scale
+	static Matrix4x4 CreateScale(float x, float y, float z);
 
 	// Translation
 	static Matrix4x4 CreateTranslation(float x, float y, float z);

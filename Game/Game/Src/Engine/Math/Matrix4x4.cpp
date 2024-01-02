@@ -16,6 +16,47 @@ Vector3 Matrix4x4::operator*(const Vector3& other) const
 	return result;
 }
 
+Matrix4x4 Matrix4x4::CreateLookAt(Vector3& position, Vector3& target, Vector3& up)
+{
+	// Compute forward direction
+	Vector3 forward = (target - position);
+	forward.Normalize();
+
+	// Forward direction may have Y component (causing pitch -- rotation along X-axis)
+	// It will cause up vector to change
+	Vector3 upForwardProj = forward * Vector3::Dot(up, forward);
+	Vector3 newUp = up - upForwardProj;
+	newUp.Normalize();
+
+	Vector3 perpendicular = Vector3::Cross(newUp, forward);
+
+	// Point-at matrix
+	// [Ax, Ay, Az, 0]
+	// [Bx, By, Bz, 0]
+	// [Cx, Cy, Cz, 0]
+	// [Px, Py, Pz, 1]
+	Matrix4x4 pointAt;
+	pointAt[0][0] = perpendicular.x; pointAt[0][1] = perpendicular.y; pointAt[0][2] = perpendicular.z; pointAt[0][3] = 0.0f;
+	pointAt[1][0] = newUp.x;         pointAt[1][1] = newUp.y;         pointAt[1][2] = newUp.z;         pointAt[1][3] = 0.0f;
+	pointAt[2][0] = forward.x;       pointAt[2][1] = forward.y;       pointAt[2][2] = forward.z;       pointAt[2][3] = 0.0f;
+	pointAt[3][0] = position.x;      pointAt[3][1] = position.y;      pointAt[3][2] = position.z;      pointAt[3][3] = 1.0f;
+	
+	// Invert point-at matrix to get look-at matrix
+	// This inverse function is not generic
+	Matrix4x4 lookAt;
+	lookAt[0][0] = pointAt[0][0]; lookAt[0][1] = pointAt[1][0]; lookAt[0][2] = pointAt[2][0]; lookAt[0][3] = 0.0f;
+	lookAt[1][0] = pointAt[0][1]; lookAt[1][1] = pointAt[1][1]; lookAt[1][2] = pointAt[2][1]; lookAt[1][3] = 0.0f;
+	lookAt[2][0] = pointAt[0][2]; lookAt[2][1] = pointAt[1][2]; lookAt[2][2] = pointAt[2][2]; lookAt[2][3] = 0.0f;
+	lookAt[3][0] = -(pointAt[3][0] * lookAt[0][0] + pointAt[3][1] * lookAt[1][0] + pointAt[3][2] * lookAt[2][0]);
+	lookAt[3][1] = -(pointAt[3][0] * lookAt[0][1] + pointAt[3][1] * lookAt[1][1] + pointAt[3][2] * lookAt[2][1]);
+	lookAt[3][2] = -(pointAt[3][0] * lookAt[0][2] + pointAt[3][1] * lookAt[1][2] + pointAt[3][2] * lookAt[2][2]);
+	lookAt[3][3] = 1.0f;
+	
+	return pointAt;
+}
+
+
+
 Matrix4x4 Matrix4x4::CreatePerspectiveFieldOfView(float fieldOfView, float aspectRatio, float nearPlaneDistance, float farPlaneDistance)
 {
 	float fieldOfViewInRad = 1.0f / tanf(fieldOfView * 0.5f / 180.0f * MATH_PI);
@@ -29,6 +70,16 @@ Matrix4x4 Matrix4x4::CreatePerspectiveFieldOfView(float fieldOfView, float aspec
 	projection[3][3] = 0.0f;
 
 	return projection;
+}
+
+Matrix4x4 Matrix4x4::CreateScale(float x, float y, float z)
+{
+	Matrix4x4 scale;
+	scale[0][0] = x;
+	scale[1][1] = y;
+	scale[2][2] = z;
+	scale[3][3] = 1.0f;
+	return scale;
 }
 
 Matrix4x4 Matrix4x4::CreateTranslation(float x, float y, float z)
