@@ -6,7 +6,7 @@
 #ifndef _TRIANGLE_H_
 #define _TRIANGLE_H_
 
-#include "Engine/Math/Vector3.h";
+#include "Engine/Math/Vector3.h"
 
 class Triangle
 {

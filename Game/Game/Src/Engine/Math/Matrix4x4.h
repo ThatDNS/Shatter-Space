@@ -21,21 +21,22 @@ public:
 	// Projection Matrix (World space to Screen space)
 	static Matrix4x4 CreatePerspectiveFieldOfView(float fieldOfView, float aspectRatio, float nearPlaneDistance, float farPlaneDistance);
 
+	// Translation
+	static Matrix4x4 CreateTranslation(float x, float y, float z);
+
 	// Rotation
 	static Matrix4x4 CreateRotationX(float theta);
+	static Matrix4x4 CreateRotationY(float theta);
 	static Matrix4x4 CreateRotationZ(float theta);
 
 	// Static member to create identity matrix
-	static Matrix4x4 Identity() {
-		Matrix4x4 identity;
-		for (size_t i = 0; i < 4; ++i)
-			identity[i][i] = 1.0f;
-		return identity;
-	}
+	static Matrix4x4 Identity();
 
 	// Access elements
 	float* operator[](size_t i) { return data[i]; }
 	const float* operator[](size_t i) const { return data[i]; }
+
+	std::string ToString();
 
 	// -------------------------- Operator overloads --------------------------
 	Matrix4x4 operator*(const Matrix4x4& other) const

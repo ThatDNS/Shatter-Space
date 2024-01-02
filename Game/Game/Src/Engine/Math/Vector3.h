@@ -12,9 +12,10 @@ public:
 	float x = 0.0f;
 	float y = 0.0f;
 	float z = 0.0f;
+	float w = 1.0f;  // Used in 4x4 matrix multiplication
 
 	Vector3() = default;
-	Vector3(float _x, float _y, float _z) : x(_x), y(_y), z(_z) {}
+	Vector3(float _x, float _y, float _z) : x(_x), y(_y), z(_z), w(1.0f) {}
 
 	float Magnitude() const;
 	void Normalize();
@@ -46,18 +47,21 @@ public:
 		return result;
 	}
 
-	// Dot product
-	float operator*(const Vector3& other) const
-	{
-		return (this->x * other.x + this->y * other.y + this->z * other.z);
-	}
-
 	Vector3 operator*(float other) const
 	{
 		Vector3 result;
 		result.x = this->x * other;
 		result.y = this->y * other;
 		result.z = this->z * other;
+		return result;
+	}
+
+	Vector3 operator/(float other) const
+	{
+		Vector3 result;
+		result.x = this->x / other;
+		result.y = this->y / other;
+		result.z = this->z / other;
 		return result;
 	}
 
@@ -69,6 +73,14 @@ public:
 		return *this;
 	}
 
+	Vector3& operator+=(float other)
+	{
+		this->x += other;
+		this->y += other;
+		this->z += other;
+		return *this;
+	}
+
 	Vector3& operator-=(const Vector3& other)
 	{
 		this->x -= other.x;
@@ -77,11 +89,27 @@ public:
 		return *this;
 	}
 
+	Vector3& operator-=(float other)
+	{
+		this->x -= other;
+		this->y -= other;
+		this->z -= other;
+		return *this;
+	}
+
 	Vector3& operator*=(float other)
 	{
 		this->x *= other;
 		this->y *= other;
 		this->z *= other;
+		return *this;
+	}
+
+	Vector3& operator/=(float other)
+	{
+		this->x /= other;
+		this->y /= other;
+		this->z /= other;
 		return *this;
 	}
 

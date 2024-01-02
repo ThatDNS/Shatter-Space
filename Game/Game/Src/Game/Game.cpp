@@ -89,50 +89,49 @@ void Render()
 		App::DrawLine(sx, sy, ex, ey,r,g,b);
 	}*/
 
+	// World matrix (Scale, Rotate, Translate)
+	Matrix4x4 mRotZ = Matrix4x4::CreateRotationZ(rotTheta);
+	Matrix4x4 mRotX = Matrix4x4::CreateRotationX(rotTheta * 0.5f);
+	Matrix4x4 mTrans = Matrix4x4::CreateTranslation(0.0f, 0.0f, 8.0f);
+
+	Matrix4x4 mWorld = (mRotZ * mRotX) * mTrans;
+
 	std::vector<Triangle> triToRaster;
 	// Draw the mesh
 	for (Triangle tri : mesh.faces)
 	{
-		// Rotate in Z-axis
-		tri.points[0] = Matrix4x4::CreateRotationZ(rotTheta) * tri.points[0];
-		tri.points[1] = Matrix4x4::CreateRotationZ(rotTheta) * tri.points[1];
-		tri.points[2] = Matrix4x4::CreateRotationZ(rotTheta) * tri.points[2];
+		// Transform to world
+		tri.points[0] = mWorld * tri.points[0];
+		tri.points[1] = mWorld * tri.points[1];
+		tri.points[2] = mWorld * tri.points[2];
 
-		// Rotate in X-axis
-		tri.points[0] = Matrix4x4::CreateRotationX(rotTheta * 0.5f) * tri.points[0];
-		tri.points[1] = Matrix4x4::CreateRotationX(rotTheta * 0.5f) * tri.points[1];
-		tri.points[2] = Matrix4x4::CreateRotationX(rotTheta * 0.5f) * tri.points[2];
-
-		// Offset into the screen
-		tri.points[0].z += 8.0f;
-		tri.points[1].z += 8.0f;
-		tri.points[2].z += 8.0f;
-
-		Vector3 line1, line2;
-		line1.x = tri.points[1].x - tri.points[0].x;
-		line1.y = tri.points[1].y - tri.points[0].y;
-		line1.z = tri.points[1].z - tri.points[0].z;
-		line2.x = tri.points[2].x - tri.points[0].x;
-		line2.y = tri.points[2].y - tri.points[0].y;
-		line2.z = tri.points[2].z - tri.points[0].z;
+		// Compute normals (to determine what is facing camera)
+		Vector3 line1 = tri.points[1] - tri.points[0];
+		Vector3 line2 = tri.points[2] - tri.points[0];
 		Vector3 normal = Vector3::Cross(line1, line2);
 		normal.Normalize();
 
-		if (normal * (tri.points[0] - vCamera) > 0)
+		// Ray casted from triangle to camera
+		if (Vector3::Dot(normal, (tri.points[0] - vCamera)) > 0)
 			continue;
 
 		// Illumination
-		float lightIntensity = normal * lightDirection;
+		float lightIntensity = std::max(1.0f, Vector3::Dot(normal, lightDirection));
 
 		// Projection
 		tri.points[0] = matProj * tri.points[0];
 		tri.points[1] = matProj * tri.points[1];
 		tri.points[2] = matProj * tri.points[2];
 
+		// Normalize projection coordinates
+		tri.points[0] /= tri.points[0].w;
+		tri.points[1] /= tri.points[1].w;
+		tri.points[2] /= tri.points[2].w;
+
 		// Scale the cube
-		tri.points[0].x += 1.0f; tri.points[0].y += 1.0f;
-		tri.points[1].x += 1.0f; tri.points[1].y += 1.0f;
-		tri.points[2].x += 1.0f; tri.points[2].y += 1.0f;
+		tri.points[0] += 1.0f;
+		tri.points[1] += 1.0f;
+		tri.points[2] += 1.0f;
 		tri.points[0].x *= 0.5f * (float)APP_INIT_WINDOW_WIDTH;
 		tri.points[0].y *= 0.5f * (float)APP_INIT_WINDOW_HEIGHT;
 		tri.points[1].x *= 0.5f * (float)APP_INIT_WINDOW_WIDTH;
@@ -143,7 +142,7 @@ void Render()
 		triToRaster.push_back(tri);
 	}
 
-	// Sort triangles from back to front
+	// Sort triangles from back to front (THIS DOES NOT MATTER IN WIREFRAME??)
 	std::sort(triToRaster.begin(), triToRaster.end(), [](Triangle& t1, Triangle& t2)
 		{
 			// Get mid point of Z of triangle

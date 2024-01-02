@@ -22,7 +22,7 @@ void Vector3::Normalize()
 
 float Vector3::Distance(const Vector3& other) const
 {
-	return std::sqrt(pow(other.x - x, 2) + pow(other.y - y, 2) + pow(other.z - z, 2));
+	return (float) std::sqrt(pow(other.x - x, 2) + pow(other.y - y, 2) + pow(other.z - z, 2));
 }
 
 float Vector3::Dot(const Vector3& v1, const Vector3& v2)
