@@ -3,6 +3,7 @@
 // @brief: Cpp file for RenderSystem, a singleton responsible for handling rendering of all renderables.
 
 #include "stdafx.h"
+#include "app\app.h"
 
 #include "Engine/Systems/RenderSystem.h"
 #include "Engine/Core/Logger.h"
@@ -58,10 +59,18 @@ void RenderSystem::Initialize()
 	{
 		uidToRenderable[renderable->GetUid()] = renderable;
 	}
+	// Set camera position
+	// TODO: Get value from data file
+	cameraPosition = { 0.0, 0.0, -5.0f };
+	projectionMatrix = Matrix4x4::CreatePerspectiveFieldOfView(90.0f, (float)APP_INIT_WINDOW_HEIGHT / (float)APP_INIT_WINDOW_WIDTH, 0.1f, 1000.0f);
 }
 
 void RenderSystem::Render()
 {
+	// Update view matrix (to be used in renderables)
+	// TODO: Make camera target & up vector change as per camera movement
+	viewMatrix = Matrix4x4::CreateLookAt(cameraPosition, Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 0.1f, 0.0f));
+
 	for (Renderable* renderable : renderables)
 	{
 		if (renderable->IsActive())

@@ -55,8 +55,6 @@ Matrix4x4 Matrix4x4::CreateLookAt(Vector3& position, Vector3& target, Vector3& u
 	return pointAt;
 }
 
-
-
 Matrix4x4 Matrix4x4::CreatePerspectiveFieldOfView(float fieldOfView, float aspectRatio, float nearPlaneDistance, float farPlaneDistance)
 {
 	float fieldOfViewInRad = 1.0f / tanf(fieldOfView * 0.5f / 180.0f * MATH_PI);
@@ -72,6 +70,11 @@ Matrix4x4 Matrix4x4::CreatePerspectiveFieldOfView(float fieldOfView, float aspec
 	return projection;
 }
 
+Matrix4x4 Matrix4x4::CreateScale(Vector3& vScale)
+{
+	return CreateScale(vScale.x, vScale.y, vScale.z);
+}
+
 Matrix4x4 Matrix4x4::CreateScale(float x, float y, float z)
 {
 	Matrix4x4 scale;
@@ -82,6 +85,11 @@ Matrix4x4 Matrix4x4::CreateScale(float x, float y, float z)
 	return scale;
 }
 
+Matrix4x4 Matrix4x4::CreateTranslation(Vector3& vPosition)
+{
+	return CreateTranslation(vPosition.x, vPosition.y, vPosition.z);
+}
+
 Matrix4x4 Matrix4x4::CreateTranslation(float x, float y, float z)
 {
 	Matrix4x4 translation = Identity();
@@ -89,6 +97,11 @@ Matrix4x4 Matrix4x4::CreateTranslation(float x, float y, float z)
 	translation.data[3][1] = y;
 	translation.data[3][2] = z;
 	return translation;
+}
+
+Matrix4x4 Matrix4x4::CreateRotation(Vector3& vRotation)
+{
+	return CreateRotationX(vRotation.x) * CreateRotationY(vRotation.y) * CreateRotationZ(vRotation.z);
 }
 
 Matrix4x4 Matrix4x4::CreateRotationX(float theta)
@@ -102,7 +115,6 @@ Matrix4x4 Matrix4x4::CreateRotationX(float theta)
 	rotation[3][3] = 1;
 	return rotation;
 }
-
 
 Matrix4x4 Matrix4x4::CreateRotationY(float theta)
 {

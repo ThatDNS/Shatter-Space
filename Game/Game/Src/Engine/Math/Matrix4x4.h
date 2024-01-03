@@ -25,12 +25,15 @@ public:
 	static Matrix4x4 CreatePerspectiveFieldOfView(float fieldOfView, float aspectRatio, float nearPlaneDistance, float farPlaneDistance);
 
 	// Scale
+	static Matrix4x4 CreateScale(Vector3& vScale);
 	static Matrix4x4 CreateScale(float x, float y, float z);
 
 	// Translation
+	static Matrix4x4 CreateTranslation(Vector3& vPosition);
 	static Matrix4x4 CreateTranslation(float x, float y, float z);
 
 	// Rotation
+	static Matrix4x4 CreateRotation(Vector3& vRotation);
 	static Matrix4x4 CreateRotationX(float theta);
 	static Matrix4x4 CreateRotationY(float theta);
 	static Matrix4x4 CreateRotationZ(float theta);

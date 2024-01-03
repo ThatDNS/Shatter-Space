@@ -11,14 +11,19 @@
 #include "Engine/Math/Mesh.h"
 #include "Engine/Components/Transform.h"
 
+class Matrix4x4;
+
 class MeshRenderer : public Renderable
 {
 	DECLARE_DYNAMIC_DERIVED_CLASS(MeshRenderer, Renderable)
 	
 	Mesh mesh;
+	bool renderBackSide = false;
 
 	// Cached transform
 	Transform* transform;
+
+	Matrix4x4 GetWorldMatrix();
 
 protected:
 	MeshRenderer() = default;
