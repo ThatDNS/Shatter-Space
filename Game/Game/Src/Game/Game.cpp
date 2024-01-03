@@ -40,7 +40,7 @@ void Init()
 
 	Engine::Get().Initialize();
 
-	mesh.LoadFromObjectFile("Assets/VideoShip.obj");
+	mesh.LoadFromObjectFile("Assets/mountains.obj");
 	matProj = Matrix4x4::CreatePerspectiveFieldOfView(90.0f, (float)APP_INIT_WINDOW_HEIGHT / (float)APP_INIT_WINDOW_WIDTH, 0.1f, 1000.0f);
 	lightDirection.Normalize();
 }
@@ -100,7 +100,7 @@ void Update(float deltaTime)
 //------------------------------------------------------------------------
 void Render()
 {
-	Engine::Get().Render();
+	//Engine::Get().Render();
 
 	//------------------------------------------------------------------------
 	// Example Text.
@@ -160,8 +160,8 @@ void Render()
 		normal.Normalize();
 
 		// Ray casted from triangle to camera
-		if (Vector3::Dot(normal, (tri.points[0] - vCamera)) > 0)
-			continue;
+		/*if (Vector3::Dot(normal, (tri.points[0] - vCamera)) > 0)
+			continue;*/
 
 		// Illumination
 		//float lightIntensity = std::max(1.0f, Vector3::Dot(normal, lightDirection));
@@ -214,9 +214,57 @@ void Render()
 
 	for (Triangle& tri : triToRaster)
 	{
+		// Clip triangles against all four screen edges, this could yield
+		// a bunch of triangles, so create a queue that we traverse to 
+		//  ensure we only test new triangles generated against planes
+		Triangle clipped[2];
+		std::list<Triangle> listTriangles;
+
+		// Add initial triangle
+		listTriangles.push_back(tri);
+		size_t nNewTriangles = 1;
+
+		for (int p = 0; p < 4; p++)
+		{
+			int nTrisToAdd = 0;
+			while (nNewTriangles > 0)
+			{
+				// Take triangle from front of queue
+				Triangle test = listTriangles.front();
+				listTriangles.pop_front();
+				nNewTriangles--;
+
+				// Clip it against a plane. We only need to test each 
+				// subsequent plane, against subsequent new triangles
+				// as all triangles after a plane clip are guaranteed
+				// to lie on the inside of the plane. I like how this
+				// comment is almost completely and utterly justified
+				switch (p)
+				{
+				case 0:	nTrisToAdd = ClipTriangleByPlane(Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 1.0f, 0.0f), test, clipped[0], clipped[1]); break;
+				case 1:	nTrisToAdd = ClipTriangleByPlane(Vector3(0.0f, (float)APP_INIT_WINDOW_HEIGHT - 1, 0.0f), Vector3(0.0f, -1.0f, 0.0f), test, clipped[0], clipped[1]); break;
+				case 2:	nTrisToAdd = ClipTriangleByPlane(Vector3(0.0f, 0.0f, 0.0f), Vector3(1.0f, 0.0f, 0.0f), test, clipped[0], clipped[1]); break;
+				case 3:	nTrisToAdd = ClipTriangleByPlane(Vector3((float)APP_INIT_WINDOW_WIDTH - 1, 0.0f, 0.0f), Vector3(-1.0f, 0.0f, 0.0f), test, clipped[0], clipped[1]); break;
+				}
+
+				// Clipping may yield a variable number of triangles, so
+				// add these new ones to the back of the queue for subsequent
+				// clipping against next planes
+				for (int w = 0; w < nTrisToAdd; w++)
+					listTriangles.push_back(clipped[w]);
+			}
+			nNewTriangles = listTriangles.size();
+		}
+
+		// Draw the transformed, viewed, clipped, projected, sorted, clipped triangles
+		for (auto& t : listTriangles)
+		{
+			App::DrawLine(t.points[0].x, t.points[0].y, t.points[1].x, t.points[1].y, 1.0f, 1.0f, 1.0f);
+		}
+		/*
 		App::DrawLine(tri.points[0].x, tri.points[0].y, tri.points[1].x, tri.points[1].y, 1.0f, 1.0f, 1.0f);
 		App::DrawLine(tri.points[1].x, tri.points[1].y, tri.points[2].x, tri.points[2].y, 1.0f, 1.0f, 1.0f);
-		App::DrawLine(tri.points[2].x, tri.points[2].y, tri.points[0].x, tri.points[0].y, 1.0f, 1.0f, 1.0f);
+		App::DrawLine(tri.points[2].x, tri.points[2].y, tri.points[0].x, tri.points[0].y, 1.0f, 1.0f, 1.0f);*/
 	}
 }
 

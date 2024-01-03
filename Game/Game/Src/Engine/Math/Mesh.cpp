@@ -41,5 +41,7 @@ bool Mesh::LoadFromObjectFile(const std::string& objFilename)
 			faces.push_back({ vertices[vNum[0] - 1], vertices[vNum[1] - 1], vertices[vNum[2] - 1] });
 		}
 	}
+
+	file.close();
 	return true;
 }
