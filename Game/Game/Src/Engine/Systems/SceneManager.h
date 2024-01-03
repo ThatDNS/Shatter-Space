@@ -25,7 +25,7 @@ class SceneManager
 private:
 	DECLARE_SINGLETON(SceneManager)
 
-	const std::string DATA_FILE = "Assets/Scenes/SceneManager.json";
+	const std::string DATA_FILE = "Assets/SceneManager.json";
 
 	Scene* activeScene = nullptr;
 

@@ -10,8 +10,28 @@
 //------------------------------------------------------------------------
 #include "Engine/Core/Logger.h"
 #include "Engine/Systems/Engine.h"
+#include "Engine/Math/Vector3.h"
+#include "Engine/Math/Matrix4x4.h"
+#include "Engine/Math/Triangle.h"
+#include "Engine/Math/Mesh.h"
+#include "Engine/Math/EngineMath.h"
+#include "Engine/Systems/RenderSystem.h"
 
 extern void Game_Register();
+
+Mesh mesh;
+Matrix4x4 matProj;
+Matrix4x4 matView;
+float rotTheta = 0.0f;
+
+Vector3 vCamera;
+Vector3 vLookDir;
+float cameraYaw = 0.0f;  // Y rotation
+
+Vector3 lightDirection{ 0.0f, 0.0f, -1.0f };
+float moveSpeed = 0.05f;
+
+float objZ = 0.0f;
 
 //------------------------------------------------------------------------
 // Called before first update. Do any initial setup here.
@@ -56,7 +76,7 @@ void Render()
 	//------------------------------------------------------------------------
 	// Example Line Drawing.
 	//------------------------------------------------------------------------
-	static float a = 0.0f;
+	/*static float a = 0.0f;
 	float r = 1.0f;
 	float g = 1.0f;
 	float b = 1.0f;
@@ -71,7 +91,8 @@ void Render()
 		g = (float)i / 20.0f;
 		b = (float)i / 20.0f;
 		App::DrawLine(sx, sy, ex, ey,r,g,b);
-	}
+	}*/
+
 }
 
 //------------------------------------------------------------------------

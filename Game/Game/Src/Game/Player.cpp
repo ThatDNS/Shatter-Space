@@ -11,7 +11,7 @@
 #include "Engine/Components/Entity.h"
 #include "Engine/Components/Component.h"
 #include "Engine/Components/Transform.h"
-#include "Engine/Math/Vector2.h"
+#include "Engine/Math/Vector3.h"
 
 IMPLEMENT_DYNAMIC_CLASS(Player)
 
@@ -38,7 +38,6 @@ void Player::Load(json::JSON& playerJSON)
 void Player::Update(float deltaTime)
 {
 	Move(deltaTime);
-	Logger::Get().Log(std::to_string(deltaTime));
 }
 
 void Player::Move(float deltaTime)
@@ -86,10 +85,10 @@ void Player::Move(float deltaTime)
 		testSprite->SetAnimation(-1);
 	}*/
 
-	Vector2 moveVector((float) horizontalMove, (float) verticalMove);
+	Vector3 moveVector{ (float)horizontalMove, (float)verticalMove, 0.0f };
 	moveVector.Normalize();
 	moveVector = moveVector * (moveSpeed * deltaTime / 100.0f);
-	Vector2 newPosition = transform->position + moveVector;
+	Vector3 newPosition = transform->position + moveVector;
 
 	// Translate the transform
 	transform->Translate(moveVector);

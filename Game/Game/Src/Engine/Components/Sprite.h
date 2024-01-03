@@ -7,7 +7,7 @@
 #ifndef _SPRITE_H_
 #define _SPRITE_H_
 
-#include "Renderable.h"
+#include "Engine/Components/Renderable.h"
 
 class CSimpleSprite;
 class Transform;
@@ -38,6 +38,8 @@ class Sprite : public Renderable
 
 	// Cached component to avoid reoccuring calls for its retreival from Entity
 	Transform* transform = nullptr;
+
+	void UpdatePosition();
 
 protected:
 	Sprite() = default;

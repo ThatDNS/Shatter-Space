@@ -8,26 +8,25 @@
 #define _TRANSFORM_H_
 
 #include "Engine/Components/Component.h"
-#include "Engine/Math/Vector2.h"
+#include "Engine/Math/Vector3.h"
 
 class Transform : public Component {
     DECLARE_DYNAMIC_DERIVED_CLASS(Transform, Component)
 
 public:
-    Vector2 position{};
-    float rotation;
-    Vector2 scale{};
+    Vector3 position{ 0.0f, 0.0f, 0.0f };
+    Vector3 rotation{ 0.0f, 0.0f, 0.0f };  // degrees
+    Vector3 scale{ 1.0f, 1.0f, 1.0f };
 
-    Transform();
+    Transform() = default;
 
     void Initialize() override {}
     void Update(float) override {}
     void Load(json::JSON& node) override;
-    void Destroy() override;
+    void Destroy() override {}
 
-    void Translate(const Vector2& delta);
-    void Rotate(float delta);
-    void Scale(const Vector2& delta);
+    void Translate(const Vector3& delta);
+    void Rotate(const Vector3& delta);
 };
 
 #endif // !_TRANSFORM_H_
