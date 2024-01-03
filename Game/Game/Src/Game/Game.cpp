@@ -14,6 +14,7 @@
 #include "Engine/Math/Matrix4x4.h"
 #include "Engine/Math/Triangle.h"
 #include "Engine/Math/Mesh.h"
+#include "Engine/Math/EngineMath.h"
 
 extern void Game_Register();
 
@@ -170,28 +171,36 @@ void Render()
 		tri.points[1] = matView * tri.points[1];
 		tri.points[2] = matView * tri.points[2];
 
-		// Projection (3D -> 2D)
-		tri.points[0] = matProj * tri.points[0];
-		tri.points[1] = matProj * tri.points[1];
-		tri.points[2] = matProj * tri.points[2];
+		// Clip the view space triangle agaist near plane
+		// This can form 2 new triangles (due to formation of a quad)
+		Triangle clipped[2];
+		int nClippedTriangles = ClipTriangleByPlane(Vector3(0.0f, 0.0f, 0.1f), Vector3(0.0f, 0.0f, 1.0f), tri, clipped[0], clipped[1]);
 
-		// Normalize projection coordinates
-		tri.points[0] /= tri.points[0].w;
-		tri.points[1] /= tri.points[1].w;
-		tri.points[2] /= tri.points[2].w;
+		for (size_t i = 0; i < nClippedTriangles; i++)
+		{
+			// Projection (3D -> 2D)
+			clipped[i].points[0] = matProj * clipped[i].points[0];
+			clipped[i].points[1] = matProj * clipped[i].points[1];
+			clipped[i].points[2] = matProj * clipped[i].points[2];
 
-		// Scale the object
-		tri.points[0] += 1.0f;
-		tri.points[1] += 1.0f;
-		tri.points[2] += 1.0f;
-		tri.points[0].x *= 0.5f * (float)APP_INIT_WINDOW_WIDTH;
-		tri.points[0].y *= 0.5f * (float)APP_INIT_WINDOW_HEIGHT;
-		tri.points[1].x *= 0.5f * (float)APP_INIT_WINDOW_WIDTH;
-		tri.points[1].y *= 0.5f * (float)APP_INIT_WINDOW_HEIGHT;
-		tri.points[2].x *= 0.5f * (float)APP_INIT_WINDOW_WIDTH;
-		tri.points[2].y *= 0.5f * (float)APP_INIT_WINDOW_HEIGHT;
+			// Normalize projection coordinates
+			clipped[i].points[0] /= clipped[i].points[0].w;
+			clipped[i].points[1] /= clipped[i].points[1].w;
+			clipped[i].points[2] /= clipped[i].points[2].w;
 
-		triToRaster.push_back(tri);
+			// Scale the object
+			clipped[i].points[0] += 1.0f;
+			clipped[i].points[1] += 1.0f;
+			clipped[i].points[2] += 1.0f;
+			clipped[i].points[0].x *= 0.5f * (float)APP_INIT_WINDOW_WIDTH;
+			clipped[i].points[0].y *= 0.5f * (float)APP_INIT_WINDOW_HEIGHT;
+			clipped[i].points[1].x *= 0.5f * (float)APP_INIT_WINDOW_WIDTH;
+			clipped[i].points[1].y *= 0.5f * (float)APP_INIT_WINDOW_HEIGHT;
+			clipped[i].points[2].x *= 0.5f * (float)APP_INIT_WINDOW_WIDTH;
+			clipped[i].points[2].y *= 0.5f * (float)APP_INIT_WINDOW_HEIGHT;
+
+			triToRaster.push_back(clipped[i]);
+		}
 	}
 
 	// Sort triangles from back to front (THIS DOES NOT MATTER IN WIREFRAME??)

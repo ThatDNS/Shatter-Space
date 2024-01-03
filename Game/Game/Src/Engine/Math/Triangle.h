@@ -13,6 +13,7 @@ class Triangle
 public:
 	Vector3 points[3];
 
+	Triangle() = default;
 	Triangle(const Vector3& v1, const Vector3& v2, const Vector3& v3) : points{ v1, v2, v3 } { }
 };
 
