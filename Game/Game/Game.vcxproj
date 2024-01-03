@@ -33,6 +33,7 @@
     <ClCompile Include="NextAPI\App\SimpleSprite.cpp" />
     <ClCompile Include="Src\Engine\Components\Component.cpp" />
     <ClCompile Include="Src\Engine\Components\Entity.cpp" />
+    <ClCompile Include="Src\Engine\Components\MeshRenderer.cpp" />
     <ClCompile Include="Src\Engine\Components\Renderable.cpp" />
     <ClCompile Include="Src\Engine\Components\Sprite.cpp" />
     <ClCompile Include="Src\Engine\Components\Transform.cpp" />
@@ -46,7 +47,6 @@
     <ClCompile Include="Src\Engine\Math\Mesh.cpp" />
     <ClCompile Include="Src\Engine\Math\Triangle.cpp" />
     <ClCompile Include="Src\Engine\Math\Vector3.cpp" />
-    <ClCompile Include="Src\Engine\Math\Vector2.cpp" />
     <ClCompile Include="Src\Engine\Systems\Engine.cpp" />
     <ClCompile Include="Src\Engine\Systems\RenderSystem.cpp" />
     <ClCompile Include="Src\Engine\Systems\Scene.cpp" />
@@ -67,6 +67,7 @@
     <ClInclude Include="NextAPI\App\SimpleSprite.h" />
     <ClInclude Include="Src\Engine\Components\Component.h" />
     <ClInclude Include="Src\Engine\Components\Entity.h" />
+    <ClInclude Include="Src\Engine\Components\MeshRenderer.h" />
     <ClInclude Include="Src\Engine\Components\Renderable.h" />
     <ClInclude Include="Src\Engine\Components\Sprite.h" />
     <ClInclude Include="Src\Engine\Components\Transform.h" />
@@ -81,7 +82,6 @@
     <ClInclude Include="Src\Engine\Math\Mesh.h" />
     <ClInclude Include="Src\Engine\Math\Triangle.h" />
     <ClInclude Include="Src\Engine\Math\Vector3.h" />
-    <ClInclude Include="Src\Engine\Math\Vector2.h" />
     <ClInclude Include="Src\Engine\Systems\Engine.h" />
     <ClInclude Include="Src\Engine\Systems\RenderSystem.h" />
     <ClInclude Include="Src\Engine\Systems\Scene.h" />

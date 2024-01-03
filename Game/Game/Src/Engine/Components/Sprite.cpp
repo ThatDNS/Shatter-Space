@@ -9,7 +9,7 @@
 #include "Engine/Components/Sprite.h"
 #include "Engine/Components/Entity.h"
 #include "Engine/Components/Transform.h"
-#include "Engine/Math/Vector2.h"
+#include "Engine/Math/Vector3.h"
 
 IMPLEMENT_DYNAMIC_CLASS(Sprite)
 
@@ -40,9 +40,7 @@ void Sprite::Initialize()
 	transform = GetEntity()->GetTransform();
 
 	// Set initial transform & create animations
-	csprite->SetPosition(transform->position.x, transform->position.y);
-	csprite->SetAngle(transform->rotation);
-	csprite->SetScale(transform->scale.x);  // CSimpleSprite accepts float in scale
+	UpdatePosition();
 	float speed = 1.0f / 15.0f;
 	csprite->CreateAnimation(ANIM_BACKWARDS, speed, { 0,1,2,3,4,5,6,7 });
 	csprite->CreateAnimation(ANIM_LEFT, speed, { 8,9,10,11,12,13,14,15 });
@@ -54,16 +52,21 @@ void Sprite::Initialize()
 
 void Sprite::Update(float deltaTime)
 {
-	// Update transform in CSimpleSprite
-	csprite->SetPosition(transform->position.x, transform->position.y);
-	csprite->SetAngle(transform->rotation);
-	csprite->SetScale(transform->scale.x);
+	UpdatePosition();
 
 	// Update animation
 	csprite->SetAnimation(currentAnimation);
 
 	// Update CSimpleSprite animation
 	csprite->Update(deltaTime);
+}
+
+void Sprite::UpdatePosition()
+{
+	// Update transform in CSimpleSprite
+	csprite->SetPosition(transform->position.x, transform->position.y);
+	csprite->SetAngle(transform->rotation.z);  // 2D rotation
+	csprite->SetScale(transform->scale.x);
 }
 
 void Sprite::Render()

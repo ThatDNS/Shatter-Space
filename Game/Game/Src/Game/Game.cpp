@@ -30,6 +30,8 @@ float cameraYaw = 0.0f;  // Y rotation
 Vector3 lightDirection{ 0.0f, 0.0f, -1.0f };
 float moveSpeed = 0.05f;
 
+float objZ = 0.0f;
+
 //------------------------------------------------------------------------
 // Called before first update. Do any initial setup here.
 //------------------------------------------------------------------------
@@ -80,9 +82,9 @@ void Update(float deltaTime)
 
 	// For Z-axis movement, camera should move on look-at vector direction
 	Vector3 vForward = vLookDir * (deltaTime * moveSpeed);
-	if (App::GetController(0).GetRightThumbStickY() > 0.5f)
-		vCamera += vForward;
 	if (App::GetController(0).GetRightThumbStickY() < -0.5f)
+		vCamera += vForward;
+	if (App::GetController(0).GetRightThumbStickY() > 0.5f)
 		vCamera -= vForward;
 
 	// Camera rotation
@@ -92,6 +94,7 @@ void Update(float deltaTime)
 		cameraYaw -= deltaTime / 100.0f;
 
 	//rotTheta += deltaTime / 800.0f;
+	objZ += deltaTime / 1000.0f;
 }
 
 //------------------------------------------------------------------------
@@ -130,7 +133,7 @@ void Render()
 	// World matrix (Scale, Rotate, Translate)
 	Matrix4x4 mRotZ = Matrix4x4::CreateRotationZ(rotTheta);
 	Matrix4x4 mRotX = Matrix4x4::CreateRotationX(rotTheta * 0.5f);
-	Matrix4x4 mTrans = Matrix4x4::CreateTranslation(0.0f, 0.0f, 8.0f);
+	Matrix4x4 mTrans = Matrix4x4::CreateTranslation(0.0f, 0.0f, objZ);
 
 	Matrix4x4 mWorld = (mRotZ * mRotX) * mTrans;
 
@@ -138,10 +141,10 @@ void Render()
 	// Camera by default points to Z-direction
 	Vector3 vTarget = { 0, 0, 1 };
 	// Player rotated in Y direction, rotate camera too
-	Matrix4x4 matCameraRot = Matrix4x4::CreateRotationY(cameraYaw);
+	Matrix4x4 matCameraRot = Matrix4x4::CreateRotationX(cameraYaw);
 	vLookDir = matCameraRot * vTarget;
 	vTarget = vCamera + vLookDir;
-
+	
 	matView = Matrix4x4::CreateLookAt(vCamera, vTarget, vUp);
 
 	std::vector<Triangle> triToRaster;
