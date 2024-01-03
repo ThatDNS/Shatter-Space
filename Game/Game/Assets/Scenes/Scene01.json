@@ -38,7 +38,7 @@
                     {
                         "ClassName": "Transform",
                         "ClassData": {
-                            "Position": [0.0, -5.0, 0.0],
+                            "Position": [0.0, -15.0, 100.0],
                             "Scale": [1.0, 1.0, 1.0]
                         }
                     },

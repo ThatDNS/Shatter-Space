@@ -42,11 +42,6 @@ void Init()
 	Game_Register();
 
 	Engine::Get().Initialize();
-
-	mesh.LoadFromObjectFile("Assets/mountains.obj");
-	//matProj = Matrix4x4::CreatePerspectiveFieldOfView(90.0f, (float)APP_INIT_WINDOW_HEIGHT / (float)APP_INIT_WINDOW_WIDTH, 0.1f, 1000.0f);
-	matProj = RenderSystem::Get().GetProjectionMatrix();
-	lightDirection.Normalize();
 }
 
 //------------------------------------------------------------------------
@@ -63,41 +58,6 @@ void Update(float deltaTime)
 	{
 		App::PlaySound("Assets/TestData/Test.wav");
 	}
-	/*
-	// Camera movement
-	if (App::GetController(0).GetLeftThumbStickX() > 0.5f)
-	{
-		vCamera.x += deltaTime * moveSpeed;
-	}
-	if (App::GetController(0).GetLeftThumbStickX() < -0.5f)
-	{
-		vCamera.x -= deltaTime * moveSpeed;
-	}
-	if (App::GetController(0).GetLeftThumbStickY() > 0.5f)
-	{
-		vCamera.y += deltaTime * moveSpeed;
-	}
-	if (App::GetController(0).GetLeftThumbStickY() < -0.5f)
-	{
-		vCamera.y -= deltaTime * moveSpeed;
-	}
-
-	// For Z-axis movement, camera should move on look-at vector direction
-	Vector3 vForward = vLookDir * (deltaTime * moveSpeed);
-	if (App::GetController(0).GetRightThumbStickY() < -0.5f)
-		vCamera += vForward;
-	if (App::GetController(0).GetRightThumbStickY() > 0.5f)
-		vCamera -= vForward;
-
-	// Camera rotation
-	if (App::GetController(0).GetRightThumbStickX() > 0.5f)
-		cameraYaw += deltaTime / 100.0f;
-	if (App::GetController(0).GetRightThumbStickX() < -0.5f)
-		cameraYaw -= deltaTime / 100.0f;
-
-	//rotTheta += deltaTime / 800.0f;
-	objZ += deltaTime / 1000.0f;
-	*/
 }
 
 //------------------------------------------------------------------------
@@ -132,6 +92,7 @@ void Render()
 		b = (float)i / 20.0f;
 		App::DrawLine(sx, sy, ex, ey,r,g,b);
 	}*/
+
 }
 
 //------------------------------------------------------------------------

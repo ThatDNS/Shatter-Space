@@ -17,6 +17,8 @@ class RenderSystem
 	DECLARE_SINGLETON(RenderSystem)
 
 private:
+	const std::string DATA_FILE = "Assets/RenderSystem.json";
+
 	std::list<Renderable*> renderables;
 	std::list<Renderable*> renderablesToBeRemoved;
 	std::map<STRCODE, Renderable*> uidToRenderable;
@@ -25,6 +27,11 @@ private:
 
 	// Camera
 	Vector3 cameraPosition;
+	Vector3 cameraTarget;
+
+	// Directional light (sun)
+	Vector3 lightDirection{ 0.0f, 0.0f, -1.0f };
+	bool enableSun = true;
 
 	Matrix4x4 viewMatrix;
 	Matrix4x4 projectionMatrix;
@@ -38,6 +45,10 @@ public:
 	Vector3& GetCameraPosition() { return cameraPosition; }
 	Matrix4x4& GetViewMatrix() { return viewMatrix; }
 	Matrix4x4& GetProjectionMatrix() { return projectionMatrix; }
+	bool HasSun() const { return enableSun; }
+	Vector3& GetSunlightDirection() { return lightDirection; }
+	void SetSun(bool enable) { enableSun = enable; }
+	void SetSunlight(Vector3& direction) { lightDirection = direction; }
 	void SetRenderableActive(STRCODE, bool);
 
 protected:

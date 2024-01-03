@@ -48,6 +48,7 @@ void MeshRenderer::Render()
 	// Projection matrix
 	Matrix4x4 mProj = RenderSystem::Get().GetProjectionMatrix();
 
+	float lightIntensity = 1.0f;
 	// Draw the mesh (Does world, view, projection transformation)
 	// Triangle gets transformed so creating a copy in loop
 	std::vector<Triangle> triToRaster;  // Not all triangles get rendered, filtering here
@@ -58,21 +59,23 @@ void MeshRenderer::Render()
 		tri.points[1] = mWorld * tri.points[1];
 		tri.points[2] = mWorld * tri.points[2];
 
+		// Triangle normal
+		Vector3 line1 = tri.points[1] - tri.points[0];
+		Vector3 line2 = tri.points[2] - tri.points[0];
+		Vector3 normal = Vector3::Cross(line1, line2);
+		normal.Normalize();
 		if (!renderBackSide)
 		{
-			// Compute normals (to determine what is facing camera)
-			Vector3 line1 = tri.points[1] - tri.points[0];
-			Vector3 line2 = tri.points[2] - tri.points[0];
-			Vector3 normal = Vector3::Cross(line1, line2);
-			normal.Normalize();
-
 			// Ray casted from triangle to camera
 			if (Vector3::Dot(normal, (tri.points[0] - RenderSystem::Get().GetCameraPosition())) > 0)
 				continue;
 		}
 
-		// FYI: For directional light (in case I add it later)
-		// float lightIntensity = std::max(1.0f, Vector3::Dot(normal, lightDirection));
+		// Directional light
+		if (RenderSystem::Get().HasSun())
+		{
+			lightIntensity = std::max(1.0f, Vector3::Dot(normal, RenderSystem::Get().GetSunlightDirection()));
+		}
 
 		// 2.) Transform to view space
 		tri.points[0] = mView * tri.points[0];
@@ -85,7 +88,7 @@ void MeshRenderer::Render()
 		int nClippedTriangles = ClipTriangleByPlane(Vector3(0.0f, 0.0f, 0.1f), Vector3(0.0f, 0.0f, 1.0f), tri, clipped[0], clipped[1]);
 		for (size_t i = 0; i < nClippedTriangles; i++)
 		{
-			// Projection (3D -> 2D)
+			// 3.) Projection (3D -> 2D)
 			clipped[i].points[0] = mProj * clipped[i].points[0];
 			clipped[i].points[1] = mProj * clipped[i].points[1];
 			clipped[i].points[2] = mProj * clipped[i].points[2];
@@ -155,7 +158,7 @@ void MeshRenderer::Render()
 		// Draw the transformed, viewed, clipped, projected, sorted, clipped triangles
 		for (Triangle& t : listTriangles)
 		{
-			App::DrawLine(t.points[0].x, t.points[0].y, t.points[1].x, t.points[1].y, 1.0f, 1.0f, 1.0f);
+			App::DrawLine(t.points[0].x, t.points[0].y, t.points[1].x, t.points[1].y, lightIntensity, lightIntensity, lightIntensity);
 		}
 	}
 }

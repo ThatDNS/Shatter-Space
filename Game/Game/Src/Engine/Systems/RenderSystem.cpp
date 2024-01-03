@@ -59,17 +59,18 @@ void RenderSystem::Initialize()
 	{
 		uidToRenderable[renderable->GetUid()] = renderable;
 	}
-	// Set camera position
-	// TODO: Get value from data file
-	cameraPosition = { 0.0, 0.0, -5.0f };
+	
+	// Set initial camera position and target
+	cameraPosition = { 0.0f, 0.0f, -5.0f };
+	cameraTarget = { 0.0f, 0.0f, 0.0f };
+
 	projectionMatrix = Matrix4x4::CreatePerspectiveFieldOfView(90.0f, (float)APP_INIT_WINDOW_HEIGHT / (float)APP_INIT_WINDOW_WIDTH, 0.1f, 1000.0f);
 }
 
 void RenderSystem::Render()
 {
 	// Update view matrix (to be used in renderables)
-	// TODO: Make camera target & up vector change as per camera movement
-	viewMatrix = Matrix4x4::CreateLookAt(cameraPosition, Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 0.1f, 0.0f));
+	viewMatrix = Matrix4x4::CreateLookAt(cameraPosition, cameraTarget, Vector3(0.0f, 0.1f, 0.0f));
 
 	for (Renderable* renderable : renderables)
 	{
