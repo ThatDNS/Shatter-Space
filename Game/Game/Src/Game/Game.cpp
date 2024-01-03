@@ -24,8 +24,10 @@ float rotTheta = 0.0f;
 
 Vector3 vCamera;
 Vector3 vLookDir;
+float cameraYaw = 0.0f;  // Y rotation
 
 Vector3 lightDirection{ 0.0f, 0.0f, -1.0f };
+float moveSpeed = 0.05f;
 
 //------------------------------------------------------------------------
 // Called before first update. Do any initial setup here.
@@ -58,22 +60,35 @@ void Update(float deltaTime)
 	}
 
 	// Camera movement
-	if (App::GetController().GetLeftThumbStickX() > 0.5f)
+	if (App::GetController(0).GetLeftThumbStickX() > 0.5f)
 	{
-		vCamera.x += deltaTime / 20.0f;
+		vCamera.x += deltaTime * moveSpeed;
 	}
-	if (App::GetController().GetLeftThumbStickX() < -0.5f)
+	if (App::GetController(0).GetLeftThumbStickX() < -0.5f)
 	{
-		vCamera.x -= deltaTime / 20.0f;
+		vCamera.x -= deltaTime * moveSpeed;
 	}
-	if (App::GetController().GetLeftThumbStickY() > 0.5f)
+	if (App::GetController(0).GetLeftThumbStickY() > 0.5f)
 	{
-		vCamera.y += deltaTime / 20.0f;
+		vCamera.y += deltaTime * moveSpeed;
 	}
-	if (App::GetController().GetLeftThumbStickY() < -0.5f)
+	if (App::GetController(0).GetLeftThumbStickY() < -0.5f)
 	{
-		vCamera.y -= deltaTime / 20.0f;
+		vCamera.y -= deltaTime * moveSpeed;
 	}
+
+	// For Z-axis movement, camera should move on look-at vector direction
+	Vector3 vForward = vLookDir * (deltaTime * moveSpeed);
+	if (App::GetController(0).GetRightThumbStickY() > 0.5f)
+		vCamera += vForward;
+	if (App::GetController(0).GetRightThumbStickY() < -0.5f)
+		vCamera -= vForward;
+
+	// Camera rotation
+	if (App::GetController(0).GetRightThumbStickX() > 0.5f)
+		cameraYaw += deltaTime / 100.0f;
+	if (App::GetController(0).GetRightThumbStickX() < -0.5f)
+		cameraYaw -= deltaTime / 100.0f;
 
 	//rotTheta += deltaTime / 800.0f;
 }
@@ -118,9 +133,13 @@ void Render()
 
 	Matrix4x4 mWorld = (mRotZ * mRotX) * mTrans;
 
-	vLookDir = { 0, 0, 1 };
 	Vector3 vUp = { 0, 1, 0 };
-	Vector3 vTarget = vCamera + vLookDir;
+	// Camera by default points to Z-direction
+	Vector3 vTarget = { 0, 0, 1 };
+	// Player rotated in Y direction, rotate camera too
+	Matrix4x4 matCameraRot = Matrix4x4::CreateRotationY(cameraYaw);
+	vLookDir = matCameraRot * vTarget;
+	vTarget = vCamera + vLookDir;
 
 	matView = Matrix4x4::CreateLookAt(vCamera, vTarget, vUp);
 
