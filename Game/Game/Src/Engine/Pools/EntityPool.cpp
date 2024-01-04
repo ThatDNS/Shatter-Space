@@ -46,17 +46,6 @@ Object* EntityPool::CreateObjectForPool()
 
 void EntityPool::InitializeObjectForUse(Object* object)
 {
-	if (!object->IsEntity())
-		return;
-
-	Entity* entity = static_cast<Entity*>(object);
-
-	// Entities in pool might not have a transform
-	if (entity->transform == nullptr)
-	{
-		entity->transform = (Transform*)entity->CreateComponent("Transform");
-		entity->isEntity = true;
-	}
 }
 
 void EntityPool::CleanUpObject(Object* object)
@@ -74,8 +63,6 @@ void EntityPool::CleanUpObject(Object* object)
 	scene->UntrackEntity(entity);
 	entity->MarkFreeInObjectPool();
 
-	// Remove all components. Even transform, to prevent unintended memory leaks
+	// Remove all components
 	entity->Destroy();
-	// Just to double ensure that nothing ends up accessing deleted memory addr
-	entity->transform = nullptr;
 }

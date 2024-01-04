@@ -8,8 +8,8 @@
 #define _ENTITY_H_
 
 #include "Engine/Core/Object.h"
+#include "Engine/Components/Transform.h"
 
-class Transform;
 class Component;
 
 class Entity final : public Object
@@ -17,7 +17,8 @@ class Entity final : public Object
 	DECLARE_DYNAMIC_DERIVED_CLASS(Entity, Object)
 
 private:
-	Transform* transform = nullptr;
+	// An entity always has transform
+	Transform transform;
 
 	// Need to store the components as Object*, else TypeClass fails
 	// Reason: When we create a component using TypeClass, we get Object*. 
@@ -51,7 +52,7 @@ public:
 	bool RemoveComponent(const std::string& componentClassName);
 	bool RemoveComponent(Component* _component);
 
-	Transform* GetTransform() const { return transform; }
+	Transform& GetTransform() { return transform; }
 
 	friend class Scene;
 	friend class EntityPool;

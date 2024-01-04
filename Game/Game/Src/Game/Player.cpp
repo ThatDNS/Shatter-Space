@@ -17,7 +17,6 @@ IMPLEMENT_DYNAMIC_CLASS(Player)
 
 void Player::Initialize()
 {
-	transform = GetEntity()->GetTransform();
 }
 
 void Player::Load(json::JSON& playerJSON)
@@ -55,8 +54,10 @@ void Player::Move(float deltaTime)
 
 	moveVector.Normalize();
 	moveVector = moveVector * (moveSpeed * deltaTime / 100.0f);
-	Vector3 newPosition = transform->position + moveVector;
+
+	Transform& transform = GetEntity()->GetTransform();
+	Vector3 newPosition = transform.position + moveVector;
 
 	// Translate the transform
-	transform->Translate(moveVector);
+	transform.Translate(moveVector);
 }

@@ -25,16 +25,15 @@ void MeshRenderer::Load(json::JSON& mJSON)
 
 void MeshRenderer::Initialize()
 {
-	// Cache transform
-	transform = GetEntity()->GetTransform();
 }
 
 Matrix4x4 MeshRenderer::GetWorldMatrix()
 {
 	// Scale, Rotate, Translate
-	return (Matrix4x4::CreateScale(transform->scale) *
-		    Matrix4x4::CreateRotation(transform->rotation) *
-			Matrix4x4::CreateTranslation(transform->position));
+	Transform& transform = GetEntity()->GetTransform();
+	return (Matrix4x4::CreateScale(transform.scale) *
+		    Matrix4x4::CreateRotation(transform.rotation) *
+			Matrix4x4::CreateTranslation(transform.position));
 }
 
 void MeshRenderer::Render()

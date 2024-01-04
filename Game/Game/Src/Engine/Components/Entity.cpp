@@ -12,16 +12,12 @@ IMPLEMENT_DYNAMIC_CLASS(Entity)
 
 Entity::Entity()
 {
-	// Assign a default value to ensure we always have a transform
-	transform = (Transform*)CreateComponent("Transform");
 	// Mark it as an entity
 	isEntity = true;
 }
 
 Entity::Entity(std::string _guid) : Object(_guid)
 {
-	// Assign a default value to ensure we always have a transform
-	transform = (Transform*)CreateComponent("Transform");
 }
 
 void Entity::Initialize()
@@ -52,15 +48,15 @@ void Entity::Load(json::JSON& entityData)
 		for (json::JSON& componentJSON : entityData["Components"].ArrayRange())
 		{
 			std::string componentClassName = componentJSON["ClassName"].ToString();
-			Component* component = CreateComponent(componentClassName);
-			component->Load(componentJSON["ClassData"]);
-
-			// Store transform separately too for easier / quicker access
 			if (componentClassName == "Transform")
 			{
-				transform = (Transform*)component;
+				transform.Load(componentJSON["ClassData"]);
 			}
-			//LOG("Loaded up component " << componentClassName << " in entity " << name)
+			else
+			{
+				Component* component = CreateComponent(componentClassName);
+				component->Load(componentJSON["ClassData"]);
+			}
 		}
 	}
 }
@@ -97,7 +93,6 @@ void Entity::PostUpdate()
 
 void Entity::Destroy()
 {
-	// Transform is also one of the components. We don't have to delete it separately
 	for (Object* component : components)
 	{
 		component->Destroy();
@@ -196,9 +191,9 @@ std::list<Component*> Entity::GetComponents(const std::string& componentClassNam
 Component* Entity::CreateComponent(const std::string& componentClassName)
 {
 	// Prevent creation of duplicate transform component
-	if (componentClassName == "Transform" && HasComponent(componentClassName))
+	if (componentClassName == "Transform")
 	{
-		return GetComponent(componentClassName);
+		return nullptr;
 	}
 
 	// DO NOT typecast to Component* here. Object slicing destroys derived class-specific information
@@ -211,9 +206,9 @@ Component* Entity::CreateComponent(const std::string& componentClassName)
 Component* Entity::LoadComponent(const std::string& componentClassName, json::JSON& componentJSON)
 {
 	// Prevent creation of duplicate transform component
-	if (componentClassName == "Transform" && HasComponent(componentClassName))
+	if (componentClassName == "Transform")
 	{
-		return GetComponent(componentClassName);
+		return nullptr;
 	}
 
 	// DO NOT typecast to Component* here. Object slicing destroys derived class-specific information
