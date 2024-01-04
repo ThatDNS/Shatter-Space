@@ -7,6 +7,7 @@
 #include "Engine/Systems/SceneManager.h"
 #include "Engine/Components/Entity.h"
 #include "Engine/Core/Logger.h"
+#include "Engine/Pools/EntityPool.h"
 
 Scene::Scene()
 {
@@ -134,8 +135,8 @@ void Scene::Destroy()
 
 Entity* Scene::CreateEntity()
 {
-	Entity* entity = new Entity();
-	// The scene that creates an entity has its ownership
+	// Get new entity from entity pool
+	Entity* entity = static_cast<Entity*>(EntityPool::Get().GetFreeObject());
 	entitiesToBeAdded.push_back(entity);
 	return entity;
 }
@@ -143,8 +144,8 @@ Entity* Scene::CreateEntity()
 Entity* Scene::CreateDanglingEntity(bool forObjectPool) const
 {
 	Entity* entity = new Entity();
-	entity->isPartOfObjectPool = forObjectPool;
-	entity->isIdleInObjectPool = forObjectPool;
+	entity->SetPartOfObjectPool();
+	entity->MarkFreeInObjectPool();
 	return entity;
 }
 

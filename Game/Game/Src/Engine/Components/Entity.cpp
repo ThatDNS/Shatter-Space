@@ -14,6 +14,8 @@ Entity::Entity()
 {
 	// Assign a default value to ensure we always have a transform
 	transform = (Transform*)CreateComponent("Transform");
+	// Mark it as an entity
+	isEntity = true;
 }
 
 Entity::Entity(std::string _guid) : Object(_guid)
@@ -122,6 +124,12 @@ bool Entity::HasComponent(const std::string& componentClassName)
 		}
 	}
 	return false;
+}
+
+bool Entity::HasRenderable()
+{
+	// TODO: Find a way to avoid this hard-coding
+	return (HasComponent("Sprite") || HasComponent("MeshRenderer"));
 }
 
 Component* const Entity::GetComponent(STRCODE componentUId)

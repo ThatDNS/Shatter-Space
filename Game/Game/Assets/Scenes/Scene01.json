@@ -45,7 +45,7 @@
                     {
                         "ClassName": "MeshRenderer",
                         "ClassData": {
-                            "ObjectFile": "Assets/mountains.obj",
+                            "ObjectFile": "Assets/Objects/mountains.obj",
                             "RenderBackSide": true
                         }
                     }

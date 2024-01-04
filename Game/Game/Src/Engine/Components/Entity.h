@@ -17,10 +17,6 @@ class Entity final : public Object
 	DECLARE_DYNAMIC_DERIVED_CLASS(Entity, Object)
 
 private:
-	// Variables used for object pooling
-	bool isPartOfObjectPool = false;
-	bool isIdleInObjectPool = false;
-
 	Transform* transform = nullptr;
 
 	// Need to store the components as Object*, else TypeClass fails
@@ -44,6 +40,7 @@ protected:
 
 public:
 	bool HasComponent(const std::string& componentClassName);
+	bool HasRenderable();
 	Component* const GetComponent(STRCODE componentUId);
 	Component* const GetComponent(const std::string& componentClassName);
 	std::list<Component*> GetComponents(const std::string& componentClassName);
@@ -54,16 +51,10 @@ public:
 	bool RemoveComponent(const std::string& componentClassName);
 	bool RemoveComponent(Component* _component);
 
-	// ----------------------- Getters -----------------------------------
-
 	Transform* GetTransform() const { return transform; }
 
-	bool IsPartOfObjectPool() const { return isPartOfObjectPool; }
-	bool IsIdleInObjectPool() const { return isIdleInObjectPool; }
-	void MarkOccupiedInObjectPool() { isIdleInObjectPool = false; }
-	void MarkIdleInObjectPool() { isIdleInObjectPool = true; }
-
 	friend class Scene;
+	friend class EntityPool;
 };
 
 #endif // !_ENTITY_H_

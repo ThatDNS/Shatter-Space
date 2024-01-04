@@ -12,7 +12,13 @@ class Object
 	DECLARE_ABSTRACT_BASE_CLASS(Object)
 
 protected:
+	// Variables used for object pooling
+	bool isPartOfObjectPool = false;
+	bool isFreeInObjectPool = true;
+
 	bool isActive = true;
+
+	bool isEntity = false;  // useful in derived class Entity
 
 	std::string name = "";
 	std::string guid = "";
@@ -35,6 +41,14 @@ public:
 	const std::string& GetName() { return name; }
 	const std::string& GetGUID() { return guid; }
 	const STRCODE GetUid() { return uid; }
+
+	bool IsPartOfObjectPool() const { return isPartOfObjectPool; }
+	bool IsFreeInObjectPool() const { return isFreeInObjectPool; }
+	void SetPartOfObjectPool() { isPartOfObjectPool = true; }
+	void MarkOccupiedInObjectPool() { isFreeInObjectPool = false; }
+	void MarkFreeInObjectPool() { isFreeInObjectPool = true; }
+
+	bool IsEntity() const { return isEntity; }
 };
 
 #endif // !_OBJECT_H_
