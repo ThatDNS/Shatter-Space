@@ -25,10 +25,6 @@ ObjectPool::ObjectPool()
 	}
 }
 
-ObjectPool::~ObjectPool()
-{
-}
-
 Object* ObjectPool::GetFreeObject()
 {
 	if (availableIndices.empty())

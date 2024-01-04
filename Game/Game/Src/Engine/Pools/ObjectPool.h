@@ -37,7 +37,6 @@ protected:
 
 public:
 	ObjectPool();
-	~ObjectPool();
 
 	Object* GetFreeObject();
 	void MarkObjectAsFree(Object*);

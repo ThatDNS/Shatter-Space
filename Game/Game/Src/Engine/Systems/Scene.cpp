@@ -125,10 +125,12 @@ void Scene::PostUpdate()
 
 void Scene::Destroy()
 {
+	// Entities will get removed in the EntityPool
+	// No need of removing them here, just mark them as free
+
 	for (Entity* entity : entities)
 	{
-		entity->Destroy();
-		delete entity;
+		EntityPool::Get().MarkObjectAsFree(static_cast<Object*>(entity));
 	}
 	entities.clear();
 }

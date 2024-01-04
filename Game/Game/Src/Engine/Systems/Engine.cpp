@@ -2,9 +2,9 @@
 
 #include "Engine/Systems/Engine.h"
 #include "Engine/Core/Logger.h"
-
 #include "Engine/Systems/SceneManager.h"
 #include "Engine/Systems/RenderSystem.h"
+#include "Engine/Pools/EntityPool.h"
 
 extern void Engine_Register();
 

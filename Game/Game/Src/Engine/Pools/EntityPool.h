@@ -29,6 +29,8 @@ private:
 public:
 	EntityPool();
 	~EntityPool();
+
+	friend class Engine;
 };
 
 #endif // !_ENTITY_POOL_H_

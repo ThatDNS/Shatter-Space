@@ -30,14 +30,8 @@ EntityPool::~EntityPool()
 {
 	for (Object* object : objects)
 	{
-		// If object is not being used in scene, free up the memory
-		// Else, the scene which is using it will free up the memory
-		if (object->IsFreeInObjectPool())
-		{
-			CleanUpObject(object);
-			object->Destroy();
-			delete object;
-		}
+		object->Destroy();
+		delete object;
 	}
 	objects.clear();
 }
@@ -74,6 +68,9 @@ void EntityPool::CleanUpObject(Object* object)
 
 	// Remove it from the scene
 	Scene* scene = SceneManager::Get().GetActiveScene();
+	if (scene == nullptr)
+		return;
+
 	scene->UntrackEntity(entity);
 	entity->MarkFreeInObjectPool();
 
