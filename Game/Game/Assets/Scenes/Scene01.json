@@ -18,7 +18,7 @@
                         "ClassName": "MeshRenderer",
                         "ClassData": {
                             "ObjectFile": "Assets/Objects/cube.obj",
-                            "RenderBackSide": true
+                            "RenderBackSide": false
                         }
                     },
                     {
