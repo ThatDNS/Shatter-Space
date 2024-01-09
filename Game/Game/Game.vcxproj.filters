@@ -55,6 +55,12 @@
     <Filter Include="Src\Game\Source Files">
       <UniqueIdentifier>{ff6a61d8-4077-4954-b5d2-232e2b1f6bcd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Src\Engine\Header Files\Pools">
+      <UniqueIdentifier>{04198566-1804-4fd6-9ad7-62e18103c69a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Engine\Source Files\Pools">
+      <UniqueIdentifier>{c886d601-f14d-4351-bd78-f67b6d58d5e4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="NextAPI\App\app.cpp">
@@ -108,9 +114,6 @@
     <ClCompile Include="Src\Engine\Systems\SceneManager.cpp">
       <Filter>Src\Engine\Source Files\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Engine\Math\Vector2.cpp">
-      <Filter>Src\Engine\Source Files\Math</Filter>
-    </ClCompile>
     <ClCompile Include="Src\Engine\Core\Logger.cpp">
       <Filter>Src\Engine\Source Files\Core</Filter>
     </ClCompile>
@@ -146,6 +149,15 @@
     </ClCompile>
     <ClCompile Include="Src\Engine\Math\EngineMath.cpp">
       <Filter>Src\Engine\Source Files\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Components\MeshRenderer.cpp">
+      <Filter>Src\Engine\Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Pools\EntityPool.cpp">
+      <Filter>Src\Engine\Source Files\Pools</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Pools\ObjectPool.cpp">
+      <Filter>Src\Engine\Source Files\Pools</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -209,9 +221,6 @@
     <ClInclude Include="Src\Engine\Systems\SceneManager.h">
       <Filter>Src\Engine\Header Files\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Engine\Math\Vector2.h">
-      <Filter>Src\Engine\Header Files\Math</Filter>
-    </ClInclude>
     <ClInclude Include="Src\Engine\Core\Logger.h">
       <Filter>Src\Engine\Header Files\Core</Filter>
     </ClInclude>
@@ -241,6 +250,15 @@
     </ClInclude>
     <ClInclude Include="Src\Engine\Math\EngineMath.h">
       <Filter>Src\Engine\Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Components\MeshRenderer.h">
+      <Filter>Src\Engine\Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Pools\EntityPool.h">
+      <Filter>Src\Engine\Header Files\Pools</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Pools\ObjectPool.h">
+      <Filter>Src\Engine\Header Files\Pools</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

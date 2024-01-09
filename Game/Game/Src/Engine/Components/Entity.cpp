@@ -54,7 +54,7 @@ void Entity::Load(json::JSON& entityData)
 			}
 			else
 			{
-				Component* component = CreateComponent(componentClassName);
+				Component* component = GetComponent(componentClassName);
 				component->Load(componentJSON["ClassData"]);
 			}
 		}
@@ -186,37 +186,6 @@ std::list<Component*> Entity::GetComponents(const std::string& componentClassNam
 		}
 	}
 	return compsFound;
-}
-
-Component* Entity::CreateComponent(const std::string& componentClassName)
-{
-	// Prevent creation of duplicate transform component
-	if (componentClassName == "Transform")
-	{
-		return nullptr;
-	}
-
-	// DO NOT typecast to Component* here. Object slicing destroys derived class-specific information
-	Object* component = CreateObject(componentClassName.c_str());
-	componentsToAdd.push_back(component);
-	static_cast<Component*>(component)->entity = this;
-	return static_cast<Component*>(component);
-}
-
-Component* Entity::LoadComponent(const std::string& componentClassName, json::JSON& componentJSON)
-{
-	// Prevent creation of duplicate transform component
-	if (componentClassName == "Transform")
-	{
-		return nullptr;
-	}
-
-	// DO NOT typecast to Component* here. Object slicing destroys derived class-specific information
-	Object* component = CreateObject(componentClassName.c_str());
-	static_cast<Component*>(component)->entity = this;
-	component->Load(componentJSON);
-	componentsToAdd.push_back(component);
-	return static_cast<Component*>(component);
 }
 
 bool Entity::RemoveComponent(const std::string& componentClassName)

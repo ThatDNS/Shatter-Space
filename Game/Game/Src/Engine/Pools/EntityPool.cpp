@@ -11,8 +11,9 @@
 #include "Engine/Systems/SceneManager.h"
 #include "Engine/Systems/Scene.h"
 
-EntityPool::EntityPool()
+EntityPool::EntityPool(std::vector<std::string>& components)
 {
+	componentClassNames = components;
 	for (size_t i = 0; i < poolSize; i++)
 	{
 		Object* object = CreateObjectForPool();
@@ -38,14 +39,35 @@ EntityPool::~EntityPool()
 
 Object* EntityPool::CreateObjectForPool()
 {
-	Entity* entity = SceneManager::Get().GetActiveScene()->CreateDanglingEntity(true);
-	Object* obj = static_cast<Object*>(entity);
+	Object* obj = new Entity();
+	// InitializeObjectForUse must be called right after creating the entity for most cache coherence.
 	InitializeObjectForUse(obj);
 	return obj;
 }
 
 void EntityPool::InitializeObjectForUse(Object* object)
 {
+	if (!object->IsEntity())
+		return;
+
+	Entity* entity = static_cast<Entity*>(object);
+	for (std::string& componentClass : componentClassNames)
+	{
+		// "Transform" component is not created dynamically. It is part of an Entity.
+		// Ideally, "Transform" will never be here, but in case someone modifies the scene JSON 
+		// manually to add Transform, this check saves the game from unintended errors.
+		if (componentClass == "Transform")
+			continue;
+
+		Object* component = CreateObject(componentClass.c_str());
+		// DO NOT typecast to Component* here. Object slicing destroys derived class-specific information
+		entity->componentsToAdd.push_back(component);
+
+		// All components must know about their entity
+		static_cast<Component*>(component)->entity = entity;
+	}
+	// Attach source pool
+	entity->sourcePool = this;
 }
 
 void EntityPool::CleanUpObject(Object* object)
@@ -61,7 +83,6 @@ void EntityPool::CleanUpObject(Object* object)
 		return;
 
 	scene->UntrackEntity(entity);
-	entity->MarkFreeInObjectPool();
 
 	// Remove all components
 	entity->Destroy();

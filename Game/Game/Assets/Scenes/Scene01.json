@@ -6,6 +6,7 @@
             {
                 "Name": "Spaceship",
                 "GUID": "16bf2793-ed79-4a23-be26-ae1e8721f303",
+                "Archetype": ["MeshRenderer", "Player"],
                 "Components": [
                     {
                         "ClassName": "Transform",

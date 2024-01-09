@@ -13,7 +13,6 @@ class Object
 
 protected:
 	// Variables used for object pooling
-	bool isPartOfObjectPool = false;
 	bool isFreeInObjectPool = true;
 
 	bool isActive = true;
@@ -42,11 +41,9 @@ public:
 	const std::string& GetGUID() { return guid; }
 	const STRCODE GetUid() { return uid; }
 
-	bool IsPartOfObjectPool() const { return isPartOfObjectPool; }
-	bool IsFreeInObjectPool() const { return isFreeInObjectPool; }
-	void SetPartOfObjectPool() { isPartOfObjectPool = true; }
+	/*bool IsFreeInObjectPool() const { return isFreeInObjectPool; }
 	void MarkOccupiedInObjectPool() { isFreeInObjectPool = false; }
-	void MarkFreeInObjectPool() { isFreeInObjectPool = true; }
+	void MarkFreeInObjectPool() { isFreeInObjectPool = true; }*/
 
 	bool IsEntity() const { return isEntity; }
 };

@@ -48,8 +48,6 @@ Object* ObjectPool::GetFreeObject()
 	availableIndices.pop();
 
 	Object* object = objects[freeIndex];
-	// Mark the object as being used
-	object->MarkOccupiedInObjectPool();
 	object->SetActive(true);  // Not really required, but why not
 
 	// Anything the derived classes would want to do with this object before using it
@@ -60,8 +58,7 @@ Object* ObjectPool::GetFreeObject()
 
 void ObjectPool::MarkObjectAsFree(Object* object)
 {
-	if (!object->IsPartOfObjectPool() ||
-		(objectPtrToIndex.find(object) == objectPtrToIndex.end()))
+	if (objectPtrToIndex.find(object) == objectPtrToIndex.end())
 	{
 		return;
 	}

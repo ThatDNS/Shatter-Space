@@ -11,6 +11,7 @@
 #include "Engine/Components/Transform.h"
 
 class Component;
+class EntityPool;
 
 class Entity final : public Object
 {
@@ -19,6 +20,8 @@ class Entity final : public Object
 private:
 	// An entity always has transform
 	Transform transform;
+	// Each entity must know about its source pool to return back to it
+	EntityPool* sourcePool = nullptr;
 
 	// Need to store the components as Object*, else TypeClass fails
 	// Reason: When we create a component using TypeClass, we get Object*. 
@@ -45,9 +48,6 @@ public:
 	Component* const GetComponent(STRCODE componentUId);
 	Component* const GetComponent(const std::string& componentClassName);
 	std::list<Component*> GetComponents(const std::string& componentClassName);
-
-	Component* CreateComponent(const std::string& componentClassName);
-	Component* LoadComponent(const std::string& componentClassName, json::JSON& componentJSON);
 
 	bool RemoveComponent(const std::string& componentClassName);
 	bool RemoveComponent(Component* _component);

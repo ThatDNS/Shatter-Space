@@ -75,16 +75,11 @@ public:
 	/**
 	 * @brief Create a new entity in the scene.
 	 *
+	 * @param components Vector containing components that are part of this entity.
+	 * Useful in determining appropriate entity pool.
 	 * @return Pointer to the created entity.
 	 */
-	Entity* CreateEntity();
-	/**
-	 * @brief Creates an entity that is not part of a scene *yet*.
-	 *
-	 * @param forObjectPool Bool representing if entity is intended to be used in an object pool.
-	 * @return Pointer to the created entity.
-	 */
-	Entity* CreateDanglingEntity(bool forObjectPool) const;
+	Entity* CreateEntity(std::vector<std::string>& components);
 	/**
 	 * @brief Add a dangling entity to the scene.
 	 *

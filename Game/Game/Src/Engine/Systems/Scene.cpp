@@ -57,7 +57,14 @@ void Scene::Load(json::JSON& sceneJSON)
 		json::JSON entitiesJSON = sceneData["Entities"];
 		for (json::JSON& entityJSON : entitiesJSON.ArrayRange())
 		{
-			Entity* entity = CreateEntity();
+			// Each entity has an archetype that tells which components are part of this entity
+			std::vector<std::string> entityComponents;
+			for (json::JSON& entityArchJSON : entityJSON["Archetype"].ArrayRange())
+			{
+				entityComponents.push_back(entityArchJSON.ToString());
+			}
+
+			Entity* entity = CreateEntity(entityComponents);
 			entity->Load(entityJSON);
 		}
 	}
@@ -127,27 +134,17 @@ void Scene::Destroy()
 {
 	// Entities will get removed in the EntityPool
 	// No need of removing them here, just mark them as free
-
 	for (Entity* entity : entities)
 	{
-		EntityPool::Get().MarkObjectAsFree(static_cast<Object*>(entity));
+		entity->sourcePool->MarkObjectAsFree(static_cast<Object*>(entity));
 	}
 	entities.clear();
 }
 
-Entity* Scene::CreateEntity()
+Entity* Scene::CreateEntity(std::vector<std::string>& components)
 {
-	// Get new entity from entity pool
-	Entity* entity = static_cast<Entity*>(EntityPool::Get().GetFreeObject());
+	Entity* entity = SceneManager::Get().GetNewEntity(components);
 	entitiesToBeAdded.push_back(entity);
-	return entity;
-}
-
-Entity* Scene::CreateDanglingEntity(bool forObjectPool) const
-{
-	Entity* entity = new Entity();
-	entity->SetPartOfObjectPool();
-	entity->MarkFreeInObjectPool();
 	return entity;
 }
 
