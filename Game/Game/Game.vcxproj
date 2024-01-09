@@ -47,6 +47,8 @@
     <ClCompile Include="Src\Engine\Math\Mesh.cpp" />
     <ClCompile Include="Src\Engine\Math\Triangle.cpp" />
     <ClCompile Include="Src\Engine\Math\Vector3.cpp" />
+    <ClCompile Include="Src\Engine\Pools\EntityPool.cpp" />
+    <ClCompile Include="Src\Engine\Pools\ObjectPool.cpp" />
     <ClCompile Include="Src\Engine\Systems\Engine.cpp" />
     <ClCompile Include="Src\Engine\Systems\RenderSystem.cpp" />
     <ClCompile Include="Src\Engine\Systems\Scene.cpp" />
@@ -82,6 +84,8 @@
     <ClInclude Include="Src\Engine\Math\Mesh.h" />
     <ClInclude Include="Src\Engine\Math\Triangle.h" />
     <ClInclude Include="Src\Engine\Math\Vector3.h" />
+    <ClInclude Include="Src\Engine\Pools\EntityPool.h" />
+    <ClInclude Include="Src\Engine\Pools\ObjectPool.h" />
     <ClInclude Include="Src\Engine\Systems\Engine.h" />
     <ClInclude Include="Src\Engine\Systems\RenderSystem.h" />
     <ClInclude Include="Src\Engine\Systems\Scene.h" />

@@ -9,7 +9,6 @@
 
 #include "Engine/Components/Renderable.h"
 #include "Engine/Math/Mesh.h"
-#include "Engine/Components/Transform.h"
 
 class Matrix4x4;
 
@@ -19,9 +18,6 @@ class MeshRenderer : public Renderable
 	
 	Mesh mesh;
 	bool renderBackSide = false;
-
-	// Cached transform
-	Transform* transform;
 
 	Matrix4x4 GetWorldMatrix();
 

@@ -8,6 +8,7 @@
 
 class Scene;
 class Entity;
+class EntityPool;
 
 /**
  * @class SceneManager
@@ -34,7 +35,12 @@ private:
 	STRCODE toBeSetAsActive = 0;
 
 	// Keep track of file location for each Scene available (this data comes from DATA_FILE json)
-	std::map <STRCODE, std::string> stringUIDToFile;
+	std::unordered_map<STRCODE, std::string> stringUIDToFile;
+
+	// All entity pools used
+	// There are different entity pools because different entities have different types of components
+	// attached to them. Having different pools ensures both less memory fragmentation as well as cache coherence.
+	std::unordered_map<STRCODE, EntityPool*> entityPools;
 
 protected:
 	/**
@@ -99,6 +105,16 @@ public:
 	 * @return Bool representing if operation was successful.
 	 */
 	bool SetActiveScene(STRCODE sceneId);
+
+	/**
+	 * @brief Gets the required entity from the appropriate entity pool.
+	 * In case no entity pool exists for the passed components, it creates a new entity pool.
+	 *
+	 * @param components Vector containing components that are part of this entity.
+	 * Useful in determining appropriate entity pool.
+	 * @return Pointer to the entity.
+	 */
+	Entity* GetNewEntity(std::vector<std::string>& components);
 };
 
 #endif // !_SCENE_MANAGER_H_

@@ -7,6 +7,7 @@
 #include "Engine/Systems/SceneManager.h"
 #include "Engine/Components/Entity.h"
 #include "Engine/Core/Logger.h"
+#include "Engine/Pools/EntityPool.h"
 
 Scene::Scene()
 {
@@ -56,7 +57,14 @@ void Scene::Load(json::JSON& sceneJSON)
 		json::JSON entitiesJSON = sceneData["Entities"];
 		for (json::JSON& entityJSON : entitiesJSON.ArrayRange())
 		{
-			Entity* entity = CreateEntity();
+			// Each entity has an archetype that tells which components are part of this entity
+			std::vector<std::string> entityComponents;
+			for (json::JSON& entityArchJSON : entityJSON["Archetype"].ArrayRange())
+			{
+				entityComponents.push_back(entityArchJSON.ToString());
+			}
+
+			Entity* entity = CreateEntity(entityComponents);
 			entity->Load(entityJSON);
 		}
 	}
@@ -124,27 +132,19 @@ void Scene::PostUpdate()
 
 void Scene::Destroy()
 {
+	// Entities will get removed in the EntityPool
+	// No need of removing them here, just mark them as free
 	for (Entity* entity : entities)
 	{
-		entity->Destroy();
-		delete entity;
+		entity->sourcePool->MarkObjectAsFree(static_cast<Object*>(entity));
 	}
 	entities.clear();
 }
 
-Entity* Scene::CreateEntity()
+Entity* Scene::CreateEntity(std::vector<std::string>& components)
 {
-	Entity* entity = new Entity();
-	// The scene that creates an entity has its ownership
+	Entity* entity = SceneManager::Get().GetNewEntity(components);
 	entitiesToBeAdded.push_back(entity);
-	return entity;
-}
-
-Entity* Scene::CreateDanglingEntity(bool forObjectPool) const
-{
-	Entity* entity = new Entity();
-	entity->isPartOfObjectPool = forObjectPool;
-	entity->isIdleInObjectPool = forObjectPool;
 	return entity;
 }
 

@@ -26,6 +26,7 @@ public:
     Entity* GetEntity() const { return entity; };
 
     friend class Entity;
+    friend class EntityPool;
 };
 
 #endif // !_COMPONENT_H_

@@ -6,6 +6,8 @@
 #include "Engine/Systems/SceneManager.h"
 #include "Engine/Core/Logger.h"
 #include "Engine/Systems/Scene.h"
+#include "Engine/Components/Entity.h"
+#include "Engine/Pools/EntityPool.h"
 
 void SceneManager::Load()
 {
@@ -103,8 +105,6 @@ void SceneManager::Destroy()
 	activeScene = nullptr;
 }
 
-// ------------------------- Scene-related member functions -------------------------
-
 Scene* SceneManager::GetActiveScene()
 {
 	return activeScene;
@@ -133,4 +133,27 @@ bool SceneManager::SetActiveScene(STRCODE sceneId)
 
 	toBeSetAsActive = sceneId;
 	return true;
+}
+
+Entity* SceneManager::GetNewEntity(std::vector<std::string>& components)
+{
+	// Create the string whose hash is used as key for the Entity pool
+	std::string compStr = "";
+	for (std::string& component : components)
+		compStr += component;
+
+	EntityPool* relevantPool = nullptr;
+	STRCODE compHash = GetHashCode(compStr.c_str());
+	if (entityPools.find(compHash) == entityPools.end())
+	{
+		// Create new entity pool
+		relevantPool = new EntityPool(components);
+		// Track it
+		entityPools[compHash] = relevantPool;
+	}
+	else
+	{
+		relevantPool = entityPools[compHash];
+	}
+	return static_cast<Entity*>(relevantPool->GetFreeObject());
 }

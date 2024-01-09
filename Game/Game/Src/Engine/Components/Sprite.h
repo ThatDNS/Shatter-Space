@@ -10,7 +10,6 @@
 #include "Engine/Components/Renderable.h"
 
 class CSimpleSprite;
-class Transform;
 
 enum SPRITE_ANIM
 {
@@ -35,9 +34,6 @@ class Sprite : public Renderable
 
 	CSimpleSprite* csprite;
 	SPRITE_ANIM currentAnimation = ANIM_FORWARDS;
-
-	// Cached component to avoid reoccuring calls for its retreival from Entity
-	Transform* transform = nullptr;
 
 	void UpdatePosition();
 

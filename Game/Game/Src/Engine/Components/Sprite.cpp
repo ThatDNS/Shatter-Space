@@ -36,9 +36,6 @@ void Sprite::Load(json::JSON& spriteJSON)
 
 void Sprite::Initialize()
 {
-	// Get transform & cache it
-	transform = GetEntity()->GetTransform();
-
 	// Set initial transform & create animations
 	UpdatePosition();
 	float speed = 1.0f / 15.0f;
@@ -64,9 +61,10 @@ void Sprite::Update(float deltaTime)
 void Sprite::UpdatePosition()
 {
 	// Update transform in CSimpleSprite
-	csprite->SetPosition(transform->position.x, transform->position.y);
-	csprite->SetAngle(transform->rotation.z);  // 2D rotation
-	csprite->SetScale(transform->scale.x);
+	Transform& transform = GetEntity()->GetTransform();
+	csprite->SetPosition(transform.position.x, transform.position.y);
+	csprite->SetAngle(transform.rotation.z);  // 2D rotation
+	csprite->SetScale(transform.scale.x);
 }
 
 void Sprite::Render()

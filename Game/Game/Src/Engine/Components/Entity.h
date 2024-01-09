@@ -8,20 +8,20 @@
 #define _ENTITY_H_
 
 #include "Engine/Core/Object.h"
+#include "Engine/Components/Transform.h"
 
-class Transform;
 class Component;
+class EntityPool;
 
 class Entity final : public Object
 {
 	DECLARE_DYNAMIC_DERIVED_CLASS(Entity, Object)
 
 private:
-	// Variables used for object pooling
-	bool isPartOfObjectPool = false;
-	bool isIdleInObjectPool = false;
-
-	Transform* transform = nullptr;
+	// An entity always has transform
+	Transform transform;
+	// Each entity must know about its source pool to return back to it
+	EntityPool* sourcePool = nullptr;
 
 	// Need to store the components as Object*, else TypeClass fails
 	// Reason: When we create a component using TypeClass, we get Object*. 
@@ -44,26 +44,18 @@ protected:
 
 public:
 	bool HasComponent(const std::string& componentClassName);
+	bool HasRenderable();
 	Component* const GetComponent(STRCODE componentUId);
 	Component* const GetComponent(const std::string& componentClassName);
 	std::list<Component*> GetComponents(const std::string& componentClassName);
 
-	Component* CreateComponent(const std::string& componentClassName);
-	Component* LoadComponent(const std::string& componentClassName, json::JSON& componentJSON);
-
 	bool RemoveComponent(const std::string& componentClassName);
 	bool RemoveComponent(Component* _component);
 
-	// ----------------------- Getters -----------------------------------
-
-	Transform* GetTransform() const { return transform; }
-
-	bool IsPartOfObjectPool() const { return isPartOfObjectPool; }
-	bool IsIdleInObjectPool() const { return isIdleInObjectPool; }
-	void MarkOccupiedInObjectPool() { isIdleInObjectPool = false; }
-	void MarkIdleInObjectPool() { isIdleInObjectPool = true; }
+	Transform& GetTransform() { return transform; }
 
 	friend class Scene;
+	friend class EntityPool;
 };
 
 #endif // !_ENTITY_H_

@@ -25,16 +25,15 @@ void MeshRenderer::Load(json::JSON& mJSON)
 
 void MeshRenderer::Initialize()
 {
-	// Cache transform
-	transform = GetEntity()->GetTransform();
 }
 
 Matrix4x4 MeshRenderer::GetWorldMatrix()
 {
 	// Scale, Rotate, Translate
-	return (Matrix4x4::CreateScale(transform->scale) *
-		    Matrix4x4::CreateRotation(transform->rotation) *
-			Matrix4x4::CreateTranslation(transform->position));
+	Transform& transform = GetEntity()->GetTransform();
+	return (Matrix4x4::CreateScale(transform.scale) *
+		    Matrix4x4::CreateRotation(transform.rotation) *
+			Matrix4x4::CreateTranslation(transform.position));
 }
 
 void MeshRenderer::Render()
@@ -112,8 +111,11 @@ void MeshRenderer::Render()
 		}
 	}
 
+	// Add line points to set to avoid redrawing any line
+	std::set<std::pair<std::pair<float, float>, std::pair<float, float>>> linesToDraw;
 	for (Triangle& tri : triToRaster)
 	{
+
 		// Clip triangles against all four screen edges, this could yield
 		// a bunch of triangles, so create a queue that we traverse to 
 		// ensure we only test new triangles generated against planes
@@ -158,7 +160,17 @@ void MeshRenderer::Render()
 		// Draw the transformed, viewed, clipped, projected, sorted, clipped triangles
 		for (Triangle& t : listTriangles)
 		{
-			App::DrawLine(t.points[0].x, t.points[0].y, t.points[1].x, t.points[1].y, lightIntensity, lightIntensity, lightIntensity);
+			linesToDraw.insert({ {t.points[0].x, t.points[0].y}, {t.points[1].x, t.points[1].y} });
+			linesToDraw.insert({ {t.points[0].x, t.points[0].y}, {t.points[2].x, t.points[2].y} });
+			linesToDraw.insert({ {t.points[1].x, t.points[1].y}, {t.points[2].x, t.points[2].y} });
 		}
+	}
+
+	// Draw the lines
+	for (auto& linePoints : linesToDraw)
+	{
+		auto& firstPt = linePoints.first;
+		auto& secondPt = linePoints.second;
+		App::DrawLine(firstPt.first, firstPt.second, secondPt.first, secondPt.second, lightIntensity, lightIntensity, lightIntensity);
 	}
 }

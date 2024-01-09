@@ -1,0 +1,4 @@
+{
+    "PoolSize": 10,
+    "PoolSizeIncrement": 5
+}
