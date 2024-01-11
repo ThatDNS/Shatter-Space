@@ -54,8 +54,8 @@ void EntityPool::InitializeObjectForUse(Object* object)
 	for (std::string& componentClass : componentClassNames)
 	{
 		// "Transform" component is not created dynamically. It is part of an Entity.
-		// Ideally, "Transform" will never be here, but in case someone modifies the scene JSON 
-		// manually to add Transform, this check saves the game from unintended errors.
+		// Ideally, "Transform" will never be here, but in case the game developer tris to
+		// manually add Transform, this check saves the game from unintended errors.
 		if (componentClass == "Transform")
 			continue;
 

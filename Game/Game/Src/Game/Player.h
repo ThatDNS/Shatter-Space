@@ -21,6 +21,8 @@ public:
 	void Load(json::JSON& jsonData);
 	void Update(float) override;
 	void Destroy() override {}
+
+	void SetMoveSpeed(float value) { moveSpeed = value; }
 };
 
 #endif // !_PLAYER_H_

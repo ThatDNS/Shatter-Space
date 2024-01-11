@@ -38,6 +38,7 @@ public:
 	void SetActive(bool value) { isActive = value; }
 	bool IsActive() const { return isActive; }
 	const std::string& GetName() { return name; }
+	void SetName(const std::string& n) { name = n; }
 	const std::string& GetGUID() { return guid; }
 	const STRCODE GetUid() { return uid; }
 

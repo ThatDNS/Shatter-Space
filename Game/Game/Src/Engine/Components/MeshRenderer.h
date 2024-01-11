@@ -31,6 +31,10 @@ protected:
 	void Render() override;
 	void Destroy() override {}
 
+public:
+	void LoadMesh(const std::string&);
+	void SetRenderBackSide(bool value) { renderBackSide = value; }
+
 	// RenderSystem is going to call Render()
 	friend class RenderSystem;
 	// MeshRenderer is part of an Entity

@@ -50,9 +50,6 @@ Object* ObjectPool::GetFreeObject()
 	Object* object = objects[freeIndex];
 	object->SetActive(true);  // Not really required, but why not
 
-	// Anything the derived classes would want to do with this object before using it
-	InitializeObjectForUse(object);
-
 	return object;
 }
 

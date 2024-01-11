@@ -9,6 +9,11 @@ class Engine
 
 public:
 	/**
+	 * @brief Anything that must be done before the level loads up 
+	 */
+	void Wakeup();
+
+	/**
 	 * @brief Loads and Initializes all game systems.
 	 * Any slow data-loading call must happen here.
 	 */

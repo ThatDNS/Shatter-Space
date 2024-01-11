@@ -138,11 +138,12 @@ public:
 	 */
 	void UntrackEntity(Entity* entity);
 
-	// ----------------------- Getters -----------------------------------
+	// ----------------------- Getters & Setters -----------------------------------
 
 	const std::string& GetGUID() const { return guid; }
 	const STRCODE GetUID() const { return uid; }
 	const std::string& GetName() const { return name; }
+	void SetName(const std::string& n) { name = n; }
 
 	friend class SceneManager;
 };
