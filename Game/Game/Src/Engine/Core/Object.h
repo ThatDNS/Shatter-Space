@@ -9,8 +9,6 @@
 
 class Object
 {
-	DECLARE_ABSTRACT_BASE_CLASS(Object)
-
 protected:
 	// Variables used for object pooling
 	bool isFreeInObjectPool = true;
@@ -30,7 +28,6 @@ protected:
 
 public:
 	virtual ~Object() = default;
-	virtual void Load(json::JSON&);
 
 	virtual void Initialize() = 0;
 	virtual void Destroy() = 0;
@@ -38,6 +35,7 @@ public:
 	void SetActive(bool value) { isActive = value; }
 	bool IsActive() const { return isActive; }
 	const std::string& GetName() { return name; }
+	void SetName(const std::string& n) { name = n; }
 	const std::string& GetGUID() { return guid; }
 	const STRCODE GetUid() { return uid; }
 

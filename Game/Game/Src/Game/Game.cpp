@@ -17,7 +17,7 @@
 #include "Engine/Math/EngineMath.h"
 #include "Engine/Systems/RenderSystem.h"
 
-extern void Game_Register();
+extern void SetupLevel1();
 
 Mesh mesh;
 Matrix4x4 matProj;
@@ -38,8 +38,11 @@ float objZ = 0.0f;
 //------------------------------------------------------------------------
 void Init()
 {
-	// Register type classes used in game code
-	Game_Register();
+	// Wake up the engine
+	Engine::Get().Wakeup();
+
+	// Setup level 1
+	SetupLevel1();
 
 	Engine::Get().Initialize();
 }

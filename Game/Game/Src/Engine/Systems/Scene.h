@@ -40,18 +40,14 @@ protected:
 	 * @param guid GUID of the scene.
 	 */
 	Scene(std::string& guid);
+
+	// Destructor is protected so that only SceneManager can delete a scene.
 	~Scene() = default;
 
 	/**
 	 * @brief Initialize all the entities of this scene.
 	 */
 	void Initialize();
-	/**
-	 * @brief Load Scene data passed in a JSON.
-	 *
-	 * @param sceneJSON Scene data JSON.
-	 */
-	void Load(json::JSON& sceneJSON);
 
 	/**
 	 * @brief Load the to-be-added entities.
@@ -79,7 +75,7 @@ public:
 	 * Useful in determining appropriate entity pool.
 	 * @return Pointer to the created entity.
 	 */
-	Entity* CreateEntity(std::vector<std::string>& components);
+	Entity* CreateEntity(std::vector<ComponentType>& components);
 	/**
 	 * @brief Add a dangling entity to the scene.
 	 *
@@ -112,10 +108,10 @@ public:
 	/**
 	 * @brief Lookup entities with a certain component.
 	 *
-	 * @param componentName Name of a class, which inherits from Component.
+	 * @param componentType Type of the component
 	 * @return List of pointers to the found entities.
 	 */
-	std::list<Entity*> FindEntityWithComponent(const std::string& componentClassName) const;
+	std::list<Entity*> FindEntityWithComponent(ComponentType componentType) const;
 
 	/**
 	 * @brief Remove an entity from the Scene and delete it.
@@ -138,11 +134,12 @@ public:
 	 */
 	void UntrackEntity(Entity* entity);
 
-	// ----------------------- Getters -----------------------------------
+	// ----------------------- Getters & Setters -----------------------------------
 
 	const std::string& GetGUID() const { return guid; }
 	const STRCODE GetUID() const { return uid; }
 	const std::string& GetName() const { return name; }
+	void SetName(const std::string& n) { name = n; }
 
 	friend class SceneManager;
 };

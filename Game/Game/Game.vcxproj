@@ -37,11 +37,9 @@
     <ClCompile Include="Src\Engine\Components\Renderable.cpp" />
     <ClCompile Include="Src\Engine\Components\Sprite.cpp" />
     <ClCompile Include="Src\Engine\Components\Transform.cpp" />
-    <ClCompile Include="Src\Engine\Core\Engine_Register.cpp" />
-    <ClCompile Include="Src\Engine\Core\json.cpp" />
     <ClCompile Include="Src\Engine\Core\Logger.cpp" />
     <ClCompile Include="Src\Engine\Core\Object.cpp" />
-    <ClCompile Include="Src\Engine\Core\TypeClass.cpp" />
+    <ClCompile Include="Src\Engine\Core\util.cpp" />
     <ClCompile Include="Src\Engine\Math\EngineMath.cpp" />
     <ClCompile Include="Src\Engine\Math\Matrix4x4.cpp" />
     <ClCompile Include="Src\Engine\Math\Mesh.cpp" />
@@ -54,7 +52,7 @@
     <ClCompile Include="Src\Engine\Systems\Scene.cpp" />
     <ClCompile Include="Src\Engine\Systems\SceneManager.cpp" />
     <ClCompile Include="Src\Game\Game.cpp" />
-    <ClCompile Include="Src\Game\Game_Register.cpp" />
+    <ClCompile Include="Src\Game\GameLevel.cpp" />
     <ClCompile Include="Src\Game\Player.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -73,12 +71,9 @@
     <ClInclude Include="Src\Engine\Components\Renderable.h" />
     <ClInclude Include="Src\Engine\Components\Sprite.h" />
     <ClInclude Include="Src\Engine\Components\Transform.h" />
-    <ClInclude Include="Src\Engine\Core\json.hpp" />
     <ClInclude Include="Src\Engine\Core\Logger.h" />
     <ClInclude Include="Src\Engine\Core\Object.h" />
-    <ClInclude Include="Src\Engine\Core\randomc.h" />
-    <ClInclude Include="Src\Engine\Core\StandardTypes.h" />
-    <ClInclude Include="Src\Engine\Core\TypeClass.h" />
+    <ClInclude Include="Src\Engine\Core\util.h" />
     <ClInclude Include="Src\Engine\Math\EngineMath.h" />
     <ClInclude Include="Src\Engine\Math\Matrix4x4.h" />
     <ClInclude Include="Src\Engine\Math\Mesh.h" />

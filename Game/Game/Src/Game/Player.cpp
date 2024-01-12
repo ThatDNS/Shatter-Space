@@ -13,18 +13,8 @@
 #include "Engine/Components/Transform.h"
 #include "Engine/Math/Vector3.h"
 
-IMPLEMENT_DYNAMIC_CLASS(Player)
-
 void Player::Initialize()
 {
-}
-
-void Player::Load(json::JSON& playerJSON)
-{
-	if (playerJSON.hasKey("MoveSpeed"))
-	{
-		moveSpeed = (float)playerJSON["MoveSpeed"].ToFloat();
-	}
 }
 
 void Player::Update(float deltaTime)

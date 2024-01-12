@@ -16,8 +16,6 @@
  */
 class Renderable : public Component
 {
-	DECLARE_ABSTRACT_DERIVED_CLASS(Renderable, Component)
-
 protected:
 	Renderable();
 	~Renderable();

@@ -17,7 +17,6 @@ class EntityPool;
  * 
  * It can keep track of multiple scenes but there can be only 1 active scene at a time.
  * In future, this class can be easily extended to support rendering of multiple scenes at a time.
- * 
  */
 class SceneManager
 {
@@ -26,29 +25,23 @@ class SceneManager
 private:
 	DECLARE_SINGLETON(SceneManager)
 
-	const std::string DATA_FILE = "Assets/SceneManager.json";
-
 	Scene* activeScene = nullptr;
 
 	// UID of the Scene to be set as active (happens in pre-update)
 	// Useful when user changes the current scene
 	STRCODE toBeSetAsActive = 0;
-
-	// Keep track of file location for each Scene available (this data comes from DATA_FILE json)
-	std::unordered_map<STRCODE, std::string> stringUIDToFile;
+	Scene* newActiveScene = nullptr;
 
 	// All entity pools used
 	// There are different entity pools because different entities have different types of components
 	// attached to them. Having different pools ensures both less memory fragmentation as well as cache coherence.
 	std::unordered_map<STRCODE, EntityPool*> entityPools;
 
-protected:
-	/**
-	 * @brief Load Scene Manager data from SceneManager.json file.
-	 * It loads up the first scene (active scene) and keeps track of all the other scenes).
-	 */
-	void Load();
+	// Keep track of all the created scenes as only Scene Manager can destroy & delete scenes
+	// NOTE: Developers are allowed to create new scenes using SceneManager & change the active scene, but they can't delete scenes.
+	std::vector<Scene*> allScenes;
 
+protected:
 	/**
 	 * @brief Initialize the active scene.
 	 */
@@ -79,6 +72,13 @@ protected:
 
 public:
 	/**
+	 * @brief Create a new empty scene
+	 *
+	 * @return Pointer to the created scene.
+	 */
+	Scene* CreateNewScene();
+
+	/**
 	 * @brief Getter function to get the active scene.
 	 *
 	 * @return Pointer to the active scene.
@@ -92,19 +92,11 @@ public:
 	STRCODE GetActiveSceneId();
 
 	/**
-	 * @brief Setter function to set the active scene using Scene GUID.
+	 * @brief Set the passed scene as the active scene.
 	 *
-	 * @param sceneGUID GUID of the scene to be set as active.
-	 * @return Bool representing if operation was successful.
+	 * @return Pointer to the active scene.
 	 */
-	bool SetActiveScene(const std::string& sceneGUID);
-	/**
-	 * @brief Setter function to set the active scene using Scene UID.
-	 *
-	 * @param sceneId UID of the scene to be set as active.
-	 * @return Bool representing if operation was successful.
-	 */
-	bool SetActiveScene(STRCODE sceneId);
+	void SetActiveScene(Scene*);
 
 	/**
 	 * @brief Gets the required entity from the appropriate entity pool.
@@ -114,7 +106,7 @@ public:
 	 * Useful in determining appropriate entity pool.
 	 * @return Pointer to the entity.
 	 */
-	Entity* GetNewEntity(std::vector<std::string>& components);
+	Entity* GetNewEntity(std::vector<ComponentType>& components);
 };
 
 #endif // !_SCENE_MANAGER_H_

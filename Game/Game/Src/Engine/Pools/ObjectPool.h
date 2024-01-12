@@ -15,12 +15,10 @@ class Object;
  */
 class ObjectPool
 {
-	const std::string CONFIG_FILE = "Assets/ObjectPoolConfig.json";
-
 protected:
-	int poolSize = 0;
+	int poolSize = 10;
 	// If all objects in pool gets used up, its size gets increased by this amount
-	int poolIncrementSize = 1;
+	int poolIncrementSize = 5;
 
 	// Using vector due to O(1) access time
 	std::vector<Object*> objects;
@@ -47,7 +45,7 @@ protected:
 	virtual Object* CreateObjectForPool() = 0;
 
 public:
-	ObjectPool();
+	ObjectPool() = default;
 
 	Object* GetFreeObject();
 	void MarkObjectAsFree(Object*);

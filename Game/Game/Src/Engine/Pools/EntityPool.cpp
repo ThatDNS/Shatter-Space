@@ -6,14 +6,15 @@
 
 #include "Engine/Pools/EntityPool.h"
 #include "Engine/Core/Object.h"
+#include "Engine/Core/Logger.h"
 #include "Engine/Components/Transform.h"
 #include "Engine/Components/Entity.h"
 #include "Engine/Systems/SceneManager.h"
 #include "Engine/Systems/Scene.h"
 
-EntityPool::EntityPool(std::vector<std::string>& components)
+EntityPool::EntityPool(std::vector<ComponentType>& components)
 {
-	componentClassNames = components;
+	componentTypes = components;
 	for (size_t i = 0; i < poolSize; i++)
 	{
 		Object* object = CreateObjectForPool();
@@ -51,20 +52,24 @@ void EntityPool::InitializeObjectForUse(Object* object)
 		return;
 
 	Entity* entity = static_cast<Entity*>(object);
-	for (std::string& componentClass : componentClassNames)
+	for (ComponentType componentType : componentTypes)
 	{
 		// "Transform" component is not created dynamically. It is part of an Entity.
-		// Ideally, "Transform" will never be here, but in case someone modifies the scene JSON 
-		// manually to add Transform, this check saves the game from unintended errors.
-		if (componentClass == "Transform")
+		// Ideally, "Transform" will never be here, but in case the game developer tris to
+		// manually add Transform, this check saves the game from unintended errors.
+		if (componentType == TransformC)
 			continue;
 
-		Object* component = CreateObject(componentClass.c_str());
-		// DO NOT typecast to Component* here. Object slicing destroys derived class-specific information
+		Component* component = CreateComponent(componentType);
+		if (component == nullptr)
+		{
+			Logger::Get().Log("Entity pool tried to create null component in entity " + entity->GetName());
+			continue;
+		}
 		entity->componentsToAdd.push_back(component);
 
 		// All components must know about their entity
-		static_cast<Component*>(component)->entity = entity;
+		component->entity = entity;
 	}
 	// Attach source pool
 	entity->sourcePool = this;

@@ -30,18 +30,15 @@ enum SPRITE_ANIM
  */
 class Sprite : public Renderable
 {
-	DECLARE_DYNAMIC_DERIVED_CLASS(Sprite, Renderable)
-
 	CSimpleSprite* csprite;
 	SPRITE_ANIM currentAnimation = ANIM_FORWARDS;
 
 	void UpdatePosition();
 
 protected:
-	Sprite() = default;
+	// Protected destructor so that only Entity can delete it
 	~Sprite() = default;
 
-	void Load(json::JSON&) override;
 	void Initialize() override;
 	void Update(float) override;
 	void Render() override;
@@ -53,6 +50,8 @@ protected:
 	friend class Entity;
 
 public:
+	Sprite() { type = SpriteC; }
+
 	SPRITE_ANIM GetAnimation() const { return currentAnimation; }
 	void SetAnimation(SPRITE_ANIM _anim) { currentAnimation = _anim; }
 };

@@ -11,15 +11,22 @@
 
 class Entity;
 
+// Any new derived class of Component must be added here (except abstract classes)
+enum ComponentType {
+    UNDEFINEDC,  // default value
+    TransformC,
+    MeshRendererC,
+    SpriteC,
+    PlayerC
+};
+
 class Component : public Object
 {
-    DECLARE_ABSTRACT_DERIVED_CLASS(Component, Object)
-
 protected:
     Entity* entity = nullptr;
+    ComponentType type = UNDEFINEDC;
 
 public:
-    virtual void Load(json::JSON& node) override;
     virtual void Update(float) = 0;
 
     void ChangeEntity(Entity*);

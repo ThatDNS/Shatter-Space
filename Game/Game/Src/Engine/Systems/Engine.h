@@ -9,6 +9,12 @@ class Engine
 
 public:
 	/**
+	 * @brief Anything that must be done before the game loads up.
+	 * Example, setting up the logger.
+	 */
+	void Wakeup();
+
+	/**
 	 * @brief Loads and Initializes all game systems.
 	 * Any slow data-loading call must happen here.
 	 */
