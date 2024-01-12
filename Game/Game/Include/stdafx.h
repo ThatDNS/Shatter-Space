@@ -8,8 +8,6 @@
 #define NOMINMAX
 #include <windows.h>
 
-#pragma comment(lib, "rpcrt4.lib")
-
 #include "targetver.h"
 
 #include <stdio.h>
@@ -36,5 +34,6 @@
 #include <math.h>
 #include <algorithm>
 
-#include "Engine/Core/StandardTypes.h"
+#include "Engine/Core/util.h"
+//#include "Engine/Core/StandardTypes.h"
 #include "Engine/Core/TypeClass.h"

@@ -156,6 +156,9 @@
     <ClCompile Include="Src\Engine\Pools\ObjectPool.cpp">
       <Filter>Src\Engine\Source Files\Pools</Filter>
     </ClCompile>
+    <ClCompile Include="Src\Engine\Core\util.cpp">
+      <Filter>Src\Engine\Source Files\Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="NextAPI\App\app.h">
@@ -183,9 +186,6 @@
       <Filter>Include\stb_image</Filter>
     </ClInclude>
     <ClInclude Include="Src\Engine\Core\Object.h">
-      <Filter>Src\Engine\Header Files\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\Engine\Core\randomc.h">
       <Filter>Src\Engine\Header Files\Core</Filter>
     </ClInclude>
     <ClInclude Include="Src\Engine\Core\StandardTypes.h">
@@ -253,6 +253,9 @@
     </ClInclude>
     <ClInclude Include="Src\Engine\Pools\ObjectPool.h">
       <Filter>Src\Engine\Header Files\Pools</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Core\util.h">
+      <Filter>Src\Engine\Header Files\Core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

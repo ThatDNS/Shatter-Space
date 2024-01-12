@@ -57,7 +57,7 @@ Matrix4x4 Matrix4x4::CreateLookAt(Vector3& position, Vector3& target, Vector3& u
 
 Matrix4x4 Matrix4x4::CreatePerspectiveFieldOfView(float fieldOfView, float aspectRatio, float nearPlaneDistance, float farPlaneDistance)
 {
-	float fieldOfViewInRad = 1.0f / tanf(fieldOfView * 0.5f / 180.0f * MATH_PI);
+	float fieldOfViewInRad = 1.0f / tanf(fieldOfView * 0.5f / 180.0f * 3.14159265359f);
 
 	Matrix4x4 projection;
 	projection[0][0] = aspectRatio * fieldOfViewInRad;
