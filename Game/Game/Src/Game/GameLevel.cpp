@@ -9,12 +9,6 @@
 
 #include "Game/Player.h"
 
-// Registering type classes is important or else we won't be able to use TypeClass.
-void Game_Register()
-{
-	REGISTER_TYPECLASS(Player)
-}
-
 /**
  * @brief Function used to load up the 1st scene.
  * 
@@ -30,19 +24,19 @@ void SetupLevel1()
 	scene->SetName("Level 1");
 
 	// Create a spaceship entity with archetype (mesh renderer, player)
-	std::vector<std::string> spaceshipArchetype{ "MeshRenderer", "Player" };
+	std::vector<ComponentType> spaceshipArchetype{ MeshRendererC, PlayerC };
 	Entity* entity = scene->CreateEntity(spaceshipArchetype);
 	entity->SetName("PlayerSpaceship");
 
 	// Load the data to the components of spaceship entity
 	entity->GetTransform().position = Vector3(0.0f, 0.0f, 10.0f);
 
-	Component* component = entity->GetComponent("MeshRenderer");
+	Component* component = entity->GetComponent(MeshRendererC);
 	MeshRenderer* mr = static_cast<MeshRenderer*>(component);
 	mr->LoadMesh("Assets/Objects/cube.obj");
 	mr->SetRenderBackSide(false);
 
-	component = entity->GetComponent("Player");
+	component = entity->GetComponent(PlayerC);
 	Player* player = static_cast<Player*>(component);
 	player->SetMoveSpeed(1.5f);
 

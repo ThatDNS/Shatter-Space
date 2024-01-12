@@ -10,13 +10,13 @@
 
 class Player : public Component
 {
-	DECLARE_DYNAMIC_DERIVED_CLASS(Player, Component)
-
 	float moveSpeed = 1.0f;
 
 	void Move(float);
 
 public:
+	Player() { type = PlayerC; }
+
 	void Initialize() override;
 	void Update(float) override;
 	void Destroy() override {}

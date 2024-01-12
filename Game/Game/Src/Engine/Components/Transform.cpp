@@ -7,8 +7,6 @@
 #include "Engine/Components/Transform.h"
 #include "Engine/Math/Vector3.h"
 
-IMPLEMENT_DYNAMIC_CLASS(Transform)
-
 void Transform::Translate(const Vector3& delta) {
 	position += delta;
 }

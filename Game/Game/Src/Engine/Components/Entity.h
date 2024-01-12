@@ -15,20 +15,15 @@ class EntityPool;
 
 class Entity final : public Object
 {
-	DECLARE_DYNAMIC_DERIVED_CLASS(Entity, Object)
-
 private:
 	// An entity always has transform
 	Transform transform;
 	// Each entity must know about its source pool to return back to it
 	EntityPool* sourcePool = nullptr;
 
-	// Need to store the components as Object*, else TypeClass fails
-	// Reason: When we create a component using TypeClass, we get Object*. 
-	//         Force casting it to Component* causes GetDerivedClassName() to return "Component".
-	std::list<Object*> components;
-	std::list<Object*> componentsToAdd;
-	std::list<Object*> componentsToRemove;
+	std::list<Component*> components;
+	std::list<Component*> componentsToAdd;
+	std::list<Component*> componentsToRemove;
 
 protected:
 	Entity();
@@ -42,13 +37,12 @@ protected:
 	void Destroy() override;
 
 public:
-	bool HasComponent(const std::string& componentClassName);
+	bool HasComponent(ComponentType);
 	bool HasRenderable();
 	Component* const GetComponent(STRCODE componentUId);
-	Component* const GetComponent(const std::string& componentClassName);
-	std::list<Component*> GetComponents(const std::string& componentClassName);
+	Component* const GetComponent(ComponentType);
 
-	bool RemoveComponent(const std::string& componentClassName);
+	bool RemoveComponent(ComponentType);
 	bool RemoveComponent(Component* _component);
 
 	Transform& GetTransform() { return transform; }

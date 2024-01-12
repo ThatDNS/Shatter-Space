@@ -5,8 +5,6 @@
 #include "stdafx.h"
 #include "Engine/Core/Object.h"
 
-IMPLEMENT_ABSTRACT_CLASS(Object)
-
 Object::Object()
 {
     UUID _uid;

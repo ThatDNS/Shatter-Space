@@ -9,8 +9,6 @@
 
 class Object
 {
-	DECLARE_ABSTRACT_BASE_CLASS(Object)
-
 protected:
 	// Variables used for object pooling
 	bool isFreeInObjectPool = true;

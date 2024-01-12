@@ -25,6 +25,7 @@ private:\
 #pragma comment(lib, "rpcrt4.lib")
 #include <windows.h>
 #include <string>
+#include "Engine/Components/Component.h"
 
 /**
  * @brief Generate a hash code from the given string using FVN-1.
@@ -58,5 +59,21 @@ std::string GUIDTostring(UUID& guid);
  * @return an unsigned integer
  */
 STRCODE GUIDToSTRCODE(UUID& guid);
+
+/*
+ * @brief Create a component given the component type.
+ *
+ * @param componentType ComponentType enum
+ * @return Component pointer
+ */
+Component* CreateComponent(ComponentType);
+
+/*
+ * @brief Convert component type value to a string value.
+ *
+ * @param componentType ComponentType enum
+ * @return string value
+ */
+std::string ComponentTypeToStr(ComponentType);
 
 #endif // !_UTIL_H_

@@ -13,8 +13,6 @@
 #include "Engine/Components/Transform.h"
 #include "Engine/Math/Vector3.h"
 
-IMPLEMENT_DYNAMIC_CLASS(Player)
-
 void Player::Initialize()
 {
 }

@@ -11,14 +11,13 @@
 #include "Engine/Math/Vector3.h"
 
 class Transform : public Component {
-    DECLARE_DYNAMIC_DERIVED_CLASS(Transform, Component)
 
 public:
     Vector3 position{ 0.0f, 0.0f, 0.0f };
     Vector3 rotation{ 0.0f, 0.0f, 0.0f };  // degrees
     Vector3 scale{ 1.0f, 1.0f, 1.0f };
 
-    Transform() = default;
+    Transform() { type = TransformC; }
 
     void Initialize() override {}
     void Update(float) override {}

@@ -28,8 +28,8 @@ class EntityPool : public ObjectPool
 private:
 	// Stores the components which are supposed to be part of the entities
 	// present in this entity pool.
-	// Component creation happens with new entity creates. Improves cache coherence.
-	std::vector<std::string> componentClassNames;
+	// Component creation happens with new entity creation. Improves cache coherence.
+	std::vector<ComponentType> componentTypes;
 
 	void CleanUpObject(Object*) override;
 	Object* CreateObjectForPool() override;
@@ -41,7 +41,7 @@ private:
 	inline EntityPool& operator=(EntityPool const&) = delete;
 
 public:
-	EntityPool(std::vector<std::string>&);
+	EntityPool(std::vector<ComponentType>&);
 	~EntityPool();
 
 	friend class Engine;

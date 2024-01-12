@@ -13,16 +13,14 @@
 class Matrix4x4;
 
 class MeshRenderer : public Renderable
-{
-	DECLARE_DYNAMIC_DERIVED_CLASS(MeshRenderer, Renderable)
-	
+{	
 	Mesh mesh;
 	bool renderBackSide = false;
 
 	Matrix4x4 GetWorldMatrix();
 
 protected:
-	MeshRenderer() = default;
+	// Protected destructor so that only Entity can delete it
 	~MeshRenderer() = default;
 
 	void Initialize() override;
@@ -31,6 +29,8 @@ protected:
 	void Destroy() override {}
 
 public:
+	MeshRenderer() { type = MeshRendererC; }
+
 	void LoadMesh(const std::string&);
 	void SetRenderBackSide(bool value) { renderBackSide = value; }
 

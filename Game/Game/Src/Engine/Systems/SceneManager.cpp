@@ -78,12 +78,12 @@ void SceneManager::SetActiveScene(Scene* scene)
 	newActiveScene = scene;
 }
 
-Entity* SceneManager::GetNewEntity(std::vector<std::string>& components)
+Entity* SceneManager::GetNewEntity(std::vector<ComponentType>& components)
 {
 	// Create the string whose hash is used as key for the Entity pool
 	std::string compStr = "";
-	for (std::string& component : components)
-		compStr += component;
+	for (ComponentType componentType : components)
+		compStr += ComponentTypeToStr(componentType);
 
 	EntityPool* relevantPool = nullptr;
 	STRCODE compHash = GetHashCode(compStr.c_str());

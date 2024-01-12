@@ -105,7 +105,7 @@ void Scene::Destroy()
 	entities.clear();
 }
 
-Entity* Scene::CreateEntity(std::vector<std::string>& components)
+Entity* Scene::CreateEntity(std::vector<ComponentType>& components)
 {
 	Entity* entity = SceneManager::Get().GetNewEntity(components);
 	entitiesToBeAdded.push_back(entity);
@@ -163,12 +163,12 @@ std::list<Entity*> Scene::FindEntityByName(const std::string& entityName) const
 	return foundEntities;
 }
 
-std::list<Entity*> Scene::FindEntityWithComponent(const std::string& componentName) const
+std::list<Entity*> Scene::FindEntityWithComponent(ComponentType componentType) const
 {
 	std::list<Entity*> foundEntities;
 	for (Entity* entity : entities)
 	{
-		if (entity->GetComponent(componentName))
+		if (entity->GetComponent(componentType))
 		{
 			foundEntities.push_back(entity);
 		}
@@ -176,7 +176,7 @@ std::list<Entity*> Scene::FindEntityWithComponent(const std::string& componentNa
 	// Maybe the entity is yet to be added
 	for (Entity* entity : entitiesToBeAdded)
 	{
-		if (entity->GetComponent(componentName))
+		if (entity->GetComponent(componentType))
 		{
 			foundEntities.push_back(entity);
 		}

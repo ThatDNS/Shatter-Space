@@ -75,7 +75,7 @@ public:
 	 * Useful in determining appropriate entity pool.
 	 * @return Pointer to the created entity.
 	 */
-	Entity* CreateEntity(std::vector<std::string>& components);
+	Entity* CreateEntity(std::vector<ComponentType>& components);
 	/**
 	 * @brief Add a dangling entity to the scene.
 	 *
@@ -108,10 +108,10 @@ public:
 	/**
 	 * @brief Lookup entities with a certain component.
 	 *
-	 * @param componentName Name of a class, which inherits from Component.
+	 * @param componentType Type of the component
 	 * @return List of pointers to the found entities.
 	 */
-	std::list<Entity*> FindEntityWithComponent(const std::string& componentClassName) const;
+	std::list<Entity*> FindEntityWithComponent(ComponentType componentType) const;
 
 	/**
 	 * @brief Remove an entity from the Scene and delete it.

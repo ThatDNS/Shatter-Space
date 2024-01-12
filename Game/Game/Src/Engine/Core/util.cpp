@@ -4,6 +4,12 @@
 
 #include "stdafx.h"
 #include "Engine/Core/util.h"
+#include "Engine/Core/Logger.h"
+
+// All components used in the game
+#include "Engine/Components/MeshRenderer.h"
+#include "Engine/Components/Sprite.h"
+#include "Game/Player.h"
 
 STRCODE GetHashCode(const char* str)
 {
@@ -42,3 +48,53 @@ STRCODE GUIDToSTRCODE(UUID& guid)
 {
 	return GetHashCode(GUIDTostring(guid).c_str());
 }
+
+Component* CreateComponent(ComponentType componentType)
+{
+	Component* component = nullptr;
+
+	switch (componentType)
+	{
+	case TransformC:
+		Logger::Get().Log("Trying to create a Transform on an entity. All entities have transform by default.", ERROR_LOG);
+		break;
+	case MeshRendererC:
+		component = new MeshRenderer();
+		break;
+	case SpriteC:
+		component = new Sprite();
+		break;
+	case PlayerC:
+		component = new Player();
+		break;
+	default:
+		Logger::Get().Log("Trying to create an invalid component on an entity.", ERROR_LOG);
+	}
+	return component;
+}
+
+std::string ComponentTypeToStr(ComponentType componentType)
+{
+	std::string componentName = "";
+
+	switch (componentType)
+	{
+	case TransformC:
+		componentName = "Transform";
+		break;
+	case MeshRendererC:
+		componentName = "MeshRenderer";
+		break;
+	case SpriteC:
+		componentName = "Sprite";
+		break;
+	case PlayerC:
+		componentName = "Player";
+		break;
+	default:
+		Logger::Get().Log("Trying to get string representation of invalid component.", ERROR_LOG);
+	}
+
+	return componentName;
+}
+

@@ -106,7 +106,7 @@ public:
 	 * Useful in determining appropriate entity pool.
 	 * @return Pointer to the entity.
 	 */
-	Entity* GetNewEntity(std::vector<std::string>& components);
+	Entity* GetNewEntity(std::vector<ComponentType>& components);
 };
 
 #endif // !_SCENE_MANAGER_H_

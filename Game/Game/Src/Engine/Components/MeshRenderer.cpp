@@ -9,8 +9,6 @@
 #include "Engine/Systems/RenderSystem.h"
 #include "Engine/Core/Logger.h"
 
-IMPLEMENT_DYNAMIC_CLASS(MeshRenderer)
-
 void MeshRenderer::LoadMesh(const std::string& objFileLocation)
 {
 	Logger::Get().Log("Loading mesh from " + objFileLocation);

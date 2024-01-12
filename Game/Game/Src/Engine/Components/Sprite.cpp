@@ -11,8 +11,6 @@
 #include "Engine/Components/Transform.h"
 #include "Engine/Math/Vector3.h"
 
-IMPLEMENT_DYNAMIC_CLASS(Sprite)
-
 void Sprite::Initialize()
 {
 	// Set initial transform & create animations

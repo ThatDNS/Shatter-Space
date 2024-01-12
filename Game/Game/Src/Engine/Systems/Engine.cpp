@@ -6,8 +6,6 @@
 #include "Engine/Systems/RenderSystem.h"
 #include "Engine/Pools/EntityPool.h"
 
-extern void Engine_Register();
-
 void Engine::Wakeup()
 {
 	// Setup the logger
@@ -16,8 +14,6 @@ void Engine::Wakeup()
 
 void Engine::Initialize()
 {
-	Engine_Register();
-
 	// Initialize the managers
 	SceneManager::Get().Initialize();
 	RenderSystem::Get().Initialize();
