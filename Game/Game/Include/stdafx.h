@@ -35,5 +35,3 @@
 #include <algorithm>
 
 #include "Engine/Core/util.h"
-//#include "Engine/Core/StandardTypes.h"
-//#include "Engine/Core/TypeClass.h"

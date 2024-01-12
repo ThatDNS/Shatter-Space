@@ -39,7 +39,6 @@
     <ClCompile Include="Src\Engine\Components\Transform.cpp" />
     <ClCompile Include="Src\Engine\Core\Logger.cpp" />
     <ClCompile Include="Src\Engine\Core\Object.cpp" />
-    <ClCompile Include="Src\Engine\Core\TypeClass.cpp" />
     <ClCompile Include="Src\Engine\Core\util.cpp" />
     <ClCompile Include="Src\Engine\Math\EngineMath.cpp" />
     <ClCompile Include="Src\Engine\Math\Matrix4x4.cpp" />
@@ -74,8 +73,6 @@
     <ClInclude Include="Src\Engine\Components\Transform.h" />
     <ClInclude Include="Src\Engine\Core\Logger.h" />
     <ClInclude Include="Src\Engine\Core\Object.h" />
-    <ClInclude Include="Src\Engine\Core\StandardTypes.h" />
-    <ClInclude Include="Src\Engine\Core\TypeClass.h" />
     <ClInclude Include="Src\Engine\Core\util.h" />
     <ClInclude Include="Src\Engine\Math\EngineMath.h" />
     <ClInclude Include="Src\Engine\Math\Matrix4x4.h" />
