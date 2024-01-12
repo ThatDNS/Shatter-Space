@@ -97,4 +97,3 @@ std::string ComponentTypeToStr(ComponentType componentType)
 
 	return componentName;
 }
-

@@ -31,6 +31,8 @@
     <ClCompile Include="NextAPI\App\SimpleController.cpp" />
     <ClCompile Include="NextAPI\App\SimpleSound.cpp" />
     <ClCompile Include="NextAPI\App\SimpleSprite.cpp" />
+    <ClCompile Include="Src\Engine\Components\BoxCollider.cpp" />
+    <ClCompile Include="Src\Engine\Components\Collider.cpp" />
     <ClCompile Include="Src\Engine\Components\Component.cpp" />
     <ClCompile Include="Src\Engine\Components\Entity.cpp" />
     <ClCompile Include="Src\Engine\Components\MeshRenderer.cpp" />
@@ -47,6 +49,7 @@
     <ClCompile Include="Src\Engine\Math\Vector3.cpp" />
     <ClCompile Include="Src\Engine\Pools\EntityPool.cpp" />
     <ClCompile Include="Src\Engine\Pools\ObjectPool.cpp" />
+    <ClCompile Include="Src\Engine\Systems\CollisionSystem.cpp" />
     <ClCompile Include="Src\Engine\Systems\Engine.cpp" />
     <ClCompile Include="Src\Engine\Systems\RenderSystem.cpp" />
     <ClCompile Include="Src\Engine\Systems\Scene.cpp" />
@@ -65,6 +68,8 @@
     <ClInclude Include="NextAPI\App\SimpleController.h" />
     <ClInclude Include="NextAPI\App\SimpleSound.h" />
     <ClInclude Include="NextAPI\App\SimpleSprite.h" />
+    <ClInclude Include="Src\Engine\Components\BoxCollider.h" />
+    <ClInclude Include="Src\Engine\Components\Collider.h" />
     <ClInclude Include="Src\Engine\Components\Component.h" />
     <ClInclude Include="Src\Engine\Components\Entity.h" />
     <ClInclude Include="Src\Engine\Components\MeshRenderer.h" />
@@ -81,6 +86,7 @@
     <ClInclude Include="Src\Engine\Math\Vector3.h" />
     <ClInclude Include="Src\Engine\Pools\EntityPool.h" />
     <ClInclude Include="Src\Engine\Pools\ObjectPool.h" />
+    <ClInclude Include="Src\Engine\Systems\CollisionSystem.h" />
     <ClInclude Include="Src\Engine\Systems\Engine.h" />
     <ClInclude Include="Src\Engine\Systems\RenderSystem.h" />
     <ClInclude Include="Src\Engine\Systems\Scene.h" />
