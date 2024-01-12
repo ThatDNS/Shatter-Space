@@ -22,7 +22,6 @@ public:
 
     void Initialize() override {}
     void Update(float) override {}
-    void Load(json::JSON& node) override;
     void Destroy() override {}
 
     void Translate(const Vector3& delta);

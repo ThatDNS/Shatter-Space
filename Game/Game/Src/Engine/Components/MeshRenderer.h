@@ -25,7 +25,6 @@ protected:
 	MeshRenderer() = default;
 	~MeshRenderer() = default;
 
-	void Load(json::JSON&) override;
 	void Initialize() override;
 	void Update(float) override {}
 	void Render() override;

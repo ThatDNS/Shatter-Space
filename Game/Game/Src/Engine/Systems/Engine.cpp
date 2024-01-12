@@ -18,9 +18,6 @@ void Engine::Initialize()
 {
 	Engine_Register();
 
-	// Load the managers
-	//SceneManager::Get().Load();
-
 	// Initialize the managers
 	SceneManager::Get().Initialize();
 	RenderSystem::Get().Initialize();

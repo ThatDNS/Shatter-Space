@@ -8,11 +8,6 @@
 
 IMPLEMENT_ABSTRACT_CLASS(Component)
 
-void Component::Load(json::JSON& node)
-{
-    Object::Load(node);
-}
-
 void Component::ChangeEntity(Entity* _entity)
 {
     entity = _entity;

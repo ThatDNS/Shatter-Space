@@ -13,27 +13,6 @@
 
 IMPLEMENT_DYNAMIC_CLASS(Sprite)
 
-void Sprite::Load(json::JSON& spriteJSON)
-{
-	if (spriteJSON.hasKey("Header"))
-	{
-		Object::Load(spriteJSON["Header"]);
-	}
-
-	// Load up sprite image data
-	THROW_RUNTIME_ERROR(!spriteJSON.hasKey("Image"), "Sprite data not found.")
-	THROW_RUNTIME_ERROR(!spriteJSON["Image"].hasKey("Filepath"), "Sprite file path missing.")
-	THROW_RUNTIME_ERROR(!spriteJSON["Image"].hasKey("Columns"), "Sprite columns missing.")
-	THROW_RUNTIME_ERROR(!spriteJSON["Image"].hasKey("Rows"), "Sprite rows missing.")
-	
-	json::JSON imgJSON = spriteJSON["Image"];
-	std::string imgLocation = imgJSON["Filepath"].ToString();
-	int imgColumns = imgJSON["Columns"].ToInt();
-	int imgRows = imgJSON["Rows"].ToInt();
-
-	csprite = App::CreateSprite(imgLocation.c_str(), imgColumns, imgRows);
-}
-
 void Sprite::Initialize()
 {
 	// Set initial transform & create animations

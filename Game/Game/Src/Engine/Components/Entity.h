@@ -35,7 +35,6 @@ protected:
 	Entity(std::string _guid);
 
 	void Initialize() override;
-	void Load(json::JSON& _entityJSON) override;
 	void Update(float);
 	void PreUpdate();
 	void PostUpdate();

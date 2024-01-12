@@ -30,7 +30,6 @@ protected:
 
 public:
 	virtual ~Object() = default;
-	virtual void Load(json::JSON&);
 
 	virtual void Initialize() = 0;
 	virtual void Destroy() = 0;

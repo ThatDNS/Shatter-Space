@@ -11,18 +11,6 @@
 
 IMPLEMENT_DYNAMIC_CLASS(MeshRenderer)
 
-void MeshRenderer::Load(json::JSON& mJSON)
-{
-	if (mJSON.hasKey("ObjectFile"))
-	{
-		mesh.LoadFromObjectFile(mJSON["ObjectFile"].ToString());
-	}
-	if (mJSON.hasKey("RenderBackSide"))
-	{
-		renderBackSide = mJSON["RenderBackSide"].ToBool();
-	}
-}
-
 void MeshRenderer::LoadMesh(const std::string& objFileLocation)
 {
 	Logger::Get().Log("Loading mesh from " + objFileLocation);

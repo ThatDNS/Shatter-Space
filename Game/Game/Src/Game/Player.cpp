@@ -19,14 +19,6 @@ void Player::Initialize()
 {
 }
 
-void Player::Load(json::JSON& playerJSON)
-{
-	if (playerJSON.hasKey("MoveSpeed"))
-	{
-		moveSpeed = (float)playerJSON["MoveSpeed"].ToFloat();
-	}
-}
-
 void Player::Update(float deltaTime)
 {
 	Move(deltaTime);

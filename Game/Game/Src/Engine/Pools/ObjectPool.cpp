@@ -9,22 +9,6 @@
 #include "Engine/Systems/SceneManager.h"
 #include "Engine/Systems/Scene.h"
 
-ObjectPool::ObjectPool()
-{
-	std::ifstream inputStream(CONFIG_FILE);
-	std::string str((std::istreambuf_iterator<char>(inputStream)), std::istreambuf_iterator<char>());
-	json::JSON poolJSON = json::JSON::Load(str);
-
-	if (poolJSON.hasKey("PoolSize"))
-	{
-		poolSize = poolJSON["PoolSize"].ToInt();
-	}
-	if (poolJSON.hasKey("PoolSizeIncrement"))
-	{
-		poolIncrementSize = poolJSON["PoolSizeIncrement"].ToInt();
-	}
-}
-
 Object* ObjectPool::GetFreeObject()
 {
 	if (availableIndices.empty())

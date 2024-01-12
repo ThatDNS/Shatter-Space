@@ -33,43 +33,7 @@ void Scene::Initialize()
 	{
 		entity->Initialize();
 	}
-}
-
-void Scene::Load(json::JSON& sceneJSON)
-{
-	THROW_RUNTIME_ERROR(!sceneJSON.hasKey("Scene"), "Scene JSON must contain scene info.");
-
-	json::JSON sceneData = sceneJSON["Scene"];
-	if (sceneData.hasKey("Name"))
-	{
-		name = sceneData["Name"].ToString();
-	}
-	// If GUID exists, it overwrites the guid & uid populated in Scene constructor
-	if (sceneData.hasKey("GUID"))
-	{
-		guid = sceneData["GUID"].ToString();
-		uid = GetHashCode(guid.c_str());
-	}
-
-	// Load the entities
-	if (sceneData.hasKey("Entities"))
-	{
-		json::JSON entitiesJSON = sceneData["Entities"];
-		for (json::JSON& entityJSON : entitiesJSON.ArrayRange())
-		{
-			// Each entity has an archetype that tells which components are part of this entity
-			std::vector<std::string> entityComponents;
-			for (json::JSON& entityArchJSON : entityJSON["Archetype"].ArrayRange())
-			{
-				entityComponents.push_back(entityArchJSON.ToString());
-			}
-
-			Entity* entity = CreateEntity(entityComponents);
-			entity->Load(entityJSON);
-		}
-	}
-	
-	std::string logMsg = "Scene (name=" + name + ", GUID=" + guid + ") loaded with " + std::to_string(entitiesToBeAdded.size()) + " entities.";
+	std::string logMsg = "Scene (name=" + name + ", GUID=" + guid + ") initialized with " + std::to_string(entitiesToBeAdded.size()) + " entities.";
 	Logger::Get().Log(logMsg);
 }
 

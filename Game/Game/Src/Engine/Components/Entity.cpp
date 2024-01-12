@@ -29,38 +29,6 @@ void Entity::Initialize()
 	}
 }
 
-void Entity::Load(json::JSON& entityData)
-{
-	if (entityData.hasKey("Name"))
-	{
-		name = entityData["Name"].ToString();
-	}
-
-	if (entityData.hasKey("GUID"))
-	{
-		guid = entityData["GUID"].ToString();
-		uid = GetHashCode(guid.c_str());
-	}
-
-	// Load the components
-	if (entityData.hasKey("Components"))
-	{
-		for (json::JSON& componentJSON : entityData["Components"].ArrayRange())
-		{
-			std::string componentClassName = componentJSON["ClassName"].ToString();
-			if (componentClassName == "Transform")
-			{
-				transform.Load(componentJSON["ClassData"]);
-			}
-			else
-			{
-				Component* component = GetComponent(componentClassName);
-				component->Load(componentJSON["ClassData"]);
-			}
-		}
-	}
-}
-
 void Entity::PreUpdate()
 {
 	for (Object* component : componentsToAdd)

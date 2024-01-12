@@ -40,18 +40,14 @@ protected:
 	 * @param guid GUID of the scene.
 	 */
 	Scene(std::string& guid);
+
+	// Destructor is protected so that only SceneManager can delete a scene.
 	~Scene() = default;
 
 	/**
 	 * @brief Initialize all the entities of this scene.
 	 */
 	void Initialize();
-	/**
-	 * @brief Load Scene data passed in a JSON.
-	 *
-	 * @param sceneJSON Scene data JSON.
-	 */
-	void Load(json::JSON& sceneJSON);
 
 	/**
 	 * @brief Load the to-be-added entities.

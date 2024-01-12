@@ -19,7 +19,6 @@ protected:
     Entity* entity = nullptr;
 
 public:
-    virtual void Load(json::JSON& node) override;
     virtual void Update(float) = 0;
 
     void ChangeEntity(Entity*);
