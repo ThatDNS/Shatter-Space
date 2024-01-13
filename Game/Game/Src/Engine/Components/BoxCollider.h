@@ -40,7 +40,7 @@ public:
 	void Update(float) override;
 
 	/**
-	 * @brief Function used to render the box collider lines.
+	 * @brief Draw box collider edge lines.
 	 * Useful for debugging.
 	 */
 	void Render();
@@ -48,9 +48,9 @@ public:
 	void Destroy() override { }
 
 	bool DidCollide(Collider* collider) override;
-	bool WillCollide(Collider* collider, Vector3& newPos) override;
-	//bool WillCollide(SphereCollider* collider, Vector3& newPos);
-	//bool WillCollide(float colliderRadius, Vector3& newPos) override;
+	
+	Vector3& GetMinCoords() { return minCoords; }
+	Vector3& GetMaxCoords() { return maxCoords; }
 };
 
 #endif // !_BOX_COLLIDER_H_

@@ -80,24 +80,6 @@ void BoxCollider::Callibrate()
 	}
 }
 
-bool BoxCollider::DidCollide(Collider* collider)
-{
-	// Get position of input collider
-	Vector3 targetPos = collider->GetEntity()->GetTransform().position;
-	return WillCollide(collider, targetPos);
-}
-
-bool BoxCollider::WillCollide(Collider* collider, Vector3& newPos)
-{
-	if (collider->GetColliderType() == BOX)
-	{
-		// Edges of first box
-	}
-
-	// Currently supporting only BOX to BOX collisions
-	return false;
-}
-
 void BoxCollider::Render()
 {
 	if (!shouldRender)
@@ -159,4 +141,38 @@ void BoxCollider::Render()
 	App::DrawLine(points[1].x, points[1].y, points[5].x, points[5].y, 0.5f, 0.0f, 0.0f);
 	App::DrawLine(points[2].x, points[2].y, points[6].x, points[6].y, 0.5f, 0.0f, 0.0f);
 	App::DrawLine(points[3].x, points[3].y, points[7].x, points[7].y, 0.5f, 0.0f, 0.0f);
+}
+
+bool BoxCollider::DidCollide(Collider* collider)
+{
+	// Supporting only BOX-BOX collisions for now
+	if (collider->GetColliderType() != BOX)
+		return false;
+
+	BoxCollider* boxC = static_cast<BoxCollider*>(collider);
+
+	// Shorter names
+	Vector3& a = boxC->GetMinCoords();
+	Vector3& b = boxC->GetMaxCoords();
+	std::vector<Vector3> points{
+		Vector3(a.x, a.y, a.z),
+		Vector3(b.x, a.y, a.z),
+		Vector3(a.x, b.y, a.z),
+		Vector3(b.x, b.y, a.z),
+		Vector3(a.x, a.y, b.z),
+		Vector3(b.x, a.y, b.z),
+		Vector3(a.x, b.y, b.z),
+		Vector3(b.x, b.y, b.z)
+	};
+
+	// Check if any point lies in the min/max range of the collider
+	for (Vector3& point : points)
+	{
+		if ((point.x >= minCoords.x && point.x <= maxCoords.x) &&
+			(point.y >= minCoords.y && point.y <= maxCoords.y) &&
+			(point.z >= minCoords.z && point.z <= maxCoords.z))
+			return true;
+	}
+
+	return false;
 }

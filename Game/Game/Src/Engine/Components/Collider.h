@@ -36,11 +36,10 @@ public:
 
 	virtual ColliderType GetColliderType() const = 0;
 
-	// Check if a collider collided with another collider
+	/**
+	 * @brief Check if a collider collided with this box collider.
+	 */
 	virtual bool DidCollide(Collider*) = 0;
-
-	// Check if a collider will collide with another collider at the given location
-	virtual bool WillCollide(Collider*, Vector3&) = 0;
 
 	void SetColliderTag(ColliderTag tag) { colliderTag = tag; }
 	ColliderTag GetColliderTag() const { return colliderTag; }
