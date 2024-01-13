@@ -19,20 +19,6 @@
 
 extern void SetupLevel1();
 
-Mesh mesh;
-Matrix4x4 matProj;
-Matrix4x4 matView;
-float rotTheta = 0.0f;
-
-Vector3 vCamera;
-Vector3 vLookDir;
-float cameraYaw = 0.0f;  // Y rotation
-
-Vector3 lightDirection{ 0.0f, 0.0f, -1.0f };
-float moveSpeed = 0.05f;
-
-float objZ = 0.0f;
-
 //------------------------------------------------------------------------
 // Called before first update. Do any initial setup here.
 //------------------------------------------------------------------------
@@ -75,27 +61,6 @@ void Render()
 	// Example Text.
 	//------------------------------------------------------------------------
 	App::Print(100, 100, "Sample Text");
-
-	//------------------------------------------------------------------------
-	// Example Line Drawing.
-	//------------------------------------------------------------------------
-	/*static float a = 0.0f;
-	float r = 1.0f;
-	float g = 1.0f;
-	float b = 1.0f;
-	a += 0.1f;
-	for (int i = 0; i < 20; i++)
-	{
-
-		float sx = 200 + sinf(a + i * 0.1f)*60.0f;
-		float sy = 200 + cosf(a + i * 0.1f)*60.0f;
-		float ex = 700 - sinf(a + i * 0.1f)*60.0f;
-		float ey = 700 - cosf(a + i * 0.1f)*60.0f;
-		g = (float)i / 20.0f;
-		b = (float)i / 20.0f;
-		App::DrawLine(sx, sy, ex, ey,r,g,b);
-	}*/
-
 }
 
 //------------------------------------------------------------------------

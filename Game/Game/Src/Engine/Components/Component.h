@@ -17,6 +17,7 @@ enum ComponentType {
     TransformC,
     MeshRendererC,
     SpriteC,
+    BoxColliderC,
     PlayerC
 };
 

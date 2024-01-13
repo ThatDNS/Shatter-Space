@@ -14,9 +14,6 @@ void MeshRenderer::LoadMesh(const std::string& objFileLocation)
 {
 	Logger::Get().Log("Loading mesh from " + objFileLocation);
 	mesh.LoadFromObjectFile(objFileLocation);
-
-	bc = new BoxCollider();
-	bc->AttachMesh(this);
 }
 
 void MeshRenderer::Initialize()
@@ -168,8 +165,4 @@ void MeshRenderer::Render()
 		auto& secondPt = linePoints.second;
 		App::DrawLine(firstPt.first, firstPt.second, secondPt.first, secondPt.second, lightIntensity, lightIntensity, lightIntensity);
 	}
-
-	// TODO: DELETE THIS
-	if (bc != nullptr)
-		bc->Draw();
 }

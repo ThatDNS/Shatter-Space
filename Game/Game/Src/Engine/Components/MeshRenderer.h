@@ -18,19 +18,14 @@ class MeshRenderer : public Renderable
 	Mesh mesh;
 	bool renderBackSide = false;
 
-	BoxCollider* bc;
-
 protected:
 	// Protected destructor so that only Entity can delete it
 	~MeshRenderer() = default;
 
 	void Initialize() override;
-	void Update(float) override {
-		// HACK. TODO: DELETE THIS
-		bc->Callibrate();
-	}
+	void Update(float) override { }
 	void Render() override;
-	void Destroy() override { delete bc; }
+	void Destroy() override { }
 
 public:
 	MeshRenderer() { type = MeshRendererC; }

@@ -7,7 +7,7 @@
 #ifndef _COLLIDER_H_
 #define _COLLIDER_H_
 
-#include "Engine/Components/Component.h"
+#include "Engine/Components/Renderable.h"
 
 enum ColliderTag {
 	GENERIC,  // collides with all
@@ -24,10 +24,11 @@ enum ColliderType {
 
 class Vector3;
 
-class Collider : public Component
+class Collider : public Renderable
 {
-private:
+protected:
 	ColliderTag colliderTag = GENERIC;
+	bool shouldRender = false;
 
 public:
 	Collider();
@@ -43,6 +44,8 @@ public:
 
 	void SetColliderTag(ColliderTag tag) { colliderTag = tag; }
 	ColliderTag GetColliderTag() const { return colliderTag; }
+	void SetShouldRender(bool value) { shouldRender = value; }
+	bool ShouldRender() const { return shouldRender; }
 
 	void Update(float) override { }
 	void Destroy() override { }

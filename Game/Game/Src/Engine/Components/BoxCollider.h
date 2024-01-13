@@ -16,7 +16,7 @@ class MeshRenderer;
  *
  * Box collider has been implemented with the concept of AABB (axis aligned bounding box)
  */
-class BoxCollider// : public Collider
+class BoxCollider : public Collider
 {
 private:
 	// For representing the box collider
@@ -26,26 +26,29 @@ private:
 	// Caching mesh renderer of the entity
 	MeshRenderer* meshR = nullptr;
 
-public:
-	//ColliderType GetColliderType() const override { return BOX; }
-
-	void AttachMesh(MeshRenderer*);
-	//void Initialize() override;
-
 	/**
 	 * @brief Construct the box collider using the mesh renderer of this entity
 	 */
 	void Callibrate();
 
-	//bool DidCollide(Collider* collider) override;
-	//bool WillCollide(Collider* collider, Vector3& newPos) override;
+public:
+	BoxCollider() { type = BoxColliderC; }
+
+	ColliderType GetColliderType() const override { return BOX; }
+
+	void Initialize() override;
+	void Update(float) override;
 
 	/**
-	 * @brief Function used to render the box collider.
+	 * @brief Function used to render the box collider lines.
 	 * Useful for debugging.
 	 */
-	void Draw();
+	void Render();
 
+	void Destroy() override { }
+
+	bool DidCollide(Collider* collider) override;
+	bool WillCollide(Collider* collider, Vector3& newPos) override;
 	//bool WillCollide(SphereCollider* collider, Vector3& newPos);
 	//bool WillCollide(float colliderRadius, Vector3& newPos) override;
 };

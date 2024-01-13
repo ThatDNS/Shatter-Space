@@ -14,23 +14,25 @@
 #include "Engine/Core/Logger.h"
 #include "app/app.h"
 
-//void BoxCollider::Initialize()
-//{
-//	// Find the mesh renderer on this entity
-//	Entity* entity = GetEntity();
-//	if (!entity->HasComponent(MeshRendererC))
-//	{
-//		Logger::Get().Log("Box collider can not be added on an entity without mesh renderer!");
-//	}
-//	else
-//	{
-//		meshR = static_cast<MeshRenderer*>(entity->GetComponent(MeshRendererC));
-//	}
-//}
-
-void BoxCollider::AttachMesh(MeshRenderer* mr)
+void BoxCollider::Initialize()
 {
-	meshR = mr;
+	// Find the mesh renderer on this entity
+	Entity* entity = GetEntity();
+	if (!entity->HasComponent(MeshRendererC))
+	{
+		Logger::Get().Log("Box collider can not be added on an entity without mesh renderer!");
+	}
+	else
+	{
+		meshR = static_cast<MeshRenderer*>(entity->GetComponent(MeshRendererC));
+	}
+}
+
+void BoxCollider::Update(float deltaTime)
+{
+	// Box collider must be reconstructed on every update as it can change if the
+	// transform of this entity changes (as it changes the mesh's position/rotation/scale).
+	Callibrate();
 }
 
 void BoxCollider::Callibrate()
@@ -78,26 +80,29 @@ void BoxCollider::Callibrate()
 	}
 }
 
-//bool BoxCollider::DidCollide(Collider* collider)
-//{
-//	// Get position of input collider
-//	Vector3 targetPos = collider->GetEntity()->GetTransform().position;
-//	return WillCollide(collider, targetPos);
-//}
-//
-//bool BoxCollider::WillCollide(Collider* collider, Vector3& newPos)
-//{
-//	if (collider->GetColliderType() == BOX)
-//	{
-//		// Edges of first box
-//	}
-//
-//	// Currently supporting only BOX to BOX collisions
-//	return false;
-//}
-
-void BoxCollider::Draw()
+bool BoxCollider::DidCollide(Collider* collider)
 {
+	// Get position of input collider
+	Vector3 targetPos = collider->GetEntity()->GetTransform().position;
+	return WillCollide(collider, targetPos);
+}
+
+bool BoxCollider::WillCollide(Collider* collider, Vector3& newPos)
+{
+	if (collider->GetColliderType() == BOX)
+	{
+		// Edges of first box
+	}
+
+	// Currently supporting only BOX to BOX collisions
+	return false;
+}
+
+void BoxCollider::Render()
+{
+	if (!shouldRender)
+		return;
+
 	// Shorter names
 	Vector3& a = minCoords;
 	Vector3& b = maxCoords;

@@ -9,6 +9,7 @@
 // All components used in the game
 #include "Engine/Components/MeshRenderer.h"
 #include "Engine/Components/Sprite.h"
+#include "Engine/Components/BoxCollider.h"
 #include "Game/Player.h"
 
 STRCODE GetHashCode(const char* str)
@@ -64,6 +65,9 @@ Component* CreateComponent(ComponentType componentType)
 	case SpriteC:
 		component = new Sprite();
 		break;
+	case BoxColliderC:
+		component = new BoxCollider();
+		break;
 	case PlayerC:
 		component = new Player();
 		break;
@@ -87,6 +91,9 @@ std::string ComponentTypeToStr(ComponentType componentType)
 		break;
 	case SpriteC:
 		componentName = "Sprite";
+		break;
+	case BoxColliderC:
+		componentName = "BoxCollider";
 		break;
 	case PlayerC:
 		componentName = "Player";
