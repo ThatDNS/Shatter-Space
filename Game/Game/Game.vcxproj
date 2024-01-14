@@ -31,6 +31,7 @@
     <ClCompile Include="NextAPI\App\SimpleController.cpp" />
     <ClCompile Include="NextAPI\App\SimpleSound.cpp" />
     <ClCompile Include="NextAPI\App\SimpleSprite.cpp" />
+    <ClCompile Include="Src\Engine\Algorithms\BVH.cpp" />
     <ClCompile Include="Src\Engine\Components\BoxCollider.cpp" />
     <ClCompile Include="Src\Engine\Components\Collider.cpp" />
     <ClCompile Include="Src\Engine\Components\Component.cpp" />
@@ -68,6 +69,8 @@
     <ClInclude Include="NextAPI\App\SimpleController.h" />
     <ClInclude Include="NextAPI\App\SimpleSound.h" />
     <ClInclude Include="NextAPI\App\SimpleSprite.h" />
+    <ClInclude Include="Src\Engine\Algorithms\AABB.h" />
+    <ClInclude Include="Src\Engine\Algorithms\BVH.h" />
     <ClInclude Include="Src\Engine\Components\BoxCollider.h" />
     <ClInclude Include="Src\Engine\Components\Collider.h" />
     <ClInclude Include="Src\Engine\Components\Component.h" />

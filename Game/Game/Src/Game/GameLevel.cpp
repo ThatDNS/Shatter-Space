@@ -24,12 +24,12 @@ void SetupLevel1()
 	Scene* scene = SceneManager::Get().CreateNewScene();
 	scene->SetName("Level 1");
 
-	// Create a spaceship entity with archetype (mesh renderer, player)
-	std::vector<ComponentType> spaceshipArchetype{ MeshRendererC, BoxColliderC, PlayerC };
-	Entity* entity = scene->CreateEntity(spaceshipArchetype);
-	entity->SetName("PlayerSpaceship");
+	// ---------------------- Player Entity ----------------------
+	// Create a player entity with archetype (mesh renderer, player)
+	Entity* entity = scene->CreateEntity(std::vector<ComponentType>{ MeshRendererC, BoxColliderC, PlayerC });
+	entity->SetName("PlayerGameObject");
 
-	// Load the data to the components of spaceship entity
+	// Load the data to the components of player entity
 	entity->GetTransform().position = Vector3(0.0f, 0.0f, 10.0f);
 
 	// Load player mesh
@@ -48,4 +48,17 @@ void SetupLevel1()
 	Player* player = static_cast<Player*>(component);
 	player->SetMoveSpeed(1.5f);
 
+	// ---------------------- Wall Entity ----------------------
+	entity = scene->CreateEntity(std::vector<ComponentType>{ MeshRendererC, BoxColliderC });
+	entity->SetName("Wall");
+
+	// Load the data to the components of spaceship entity
+	entity->GetTransform().position = Vector3(5.0f, 0.0f, 10.0f);
+	entity->GetTransform().scale = Vector3(1.0f, 4.0f, 5.0f);
+
+	// Load wall mesh
+	component = entity->GetComponent(MeshRendererC);
+	mr = static_cast<MeshRenderer*>(component);
+	mr->LoadMesh("Assets/Objects/cube.obj");
+	mr->SetRenderBackSide(false);
 }

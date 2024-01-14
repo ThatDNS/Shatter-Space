@@ -9,6 +9,7 @@
 class Collider;
 class Vector3;
 class Entity;
+class BVH;
 enum ColliderTag;
 
 class CollisionSystem
@@ -16,6 +17,8 @@ class CollisionSystem
 	DECLARE_SINGLETON(CollisionSystem)
 
 	std::list<Collider*> colliders;
+	// BVH for box colliders
+	BVH* bvhTree = nullptr;
 
 public:
 	void AddCollider(Collider*);
@@ -28,6 +31,12 @@ public:
 
 	// Check if an entity collided with another entity having a specific type of collider
 	Collider* CheckIfCollided(Entity*, ColliderTag);
+
+protected:
+	void Initialize();
+	void Destroy();
+
+	friend class Engine;
 };
 
 #endif // !_COLLISION_SYSTEM_H_

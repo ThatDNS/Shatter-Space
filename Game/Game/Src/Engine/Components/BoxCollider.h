@@ -7,7 +7,7 @@
 #define _BOX_COLLIDER_H_
 
 #include "Engine/Components/Collider.h"
-#include "Engine/Math/Vector3.h"
+#include "Engine/Algorithms/AABB.h"
 
 class MeshRenderer;
 
@@ -19,10 +19,6 @@ class MeshRenderer;
 class BoxCollider : public Collider
 {
 private:
-	// For representing the box collider
-	Vector3 minCoords;
-	Vector3 maxCoords;
-
 	// Caching mesh renderer of the entity
 	MeshRenderer* meshR = nullptr;
 
@@ -32,6 +28,9 @@ private:
 	void Callibrate();
 
 public:
+	// The actual collider is stored as an AABB
+	AABB boundingBox;
+
 	BoxCollider() { type = BoxColliderC; }
 
 	ColliderType GetColliderType() const override { return BOX; }
@@ -48,9 +47,6 @@ public:
 	void Destroy() override { }
 
 	bool DidCollide(Collider* collider) override;
-	
-	Vector3& GetMinCoords() { return minCoords; }
-	Vector3& GetMaxCoords() { return maxCoords; }
 };
 
 #endif // !_BOX_COLLIDER_H_

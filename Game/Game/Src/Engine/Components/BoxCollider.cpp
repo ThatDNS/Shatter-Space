@@ -44,40 +44,33 @@ void BoxCollider::Callibrate()
 	}
 
 	const Mesh mesh = meshR->GetMesh();
+	if (mesh.faces.size() == 0)
+		return;
+
 	Matrix4x4 mWorld = meshR->GetWorldMatrix();
 
+	Vector3 minC(std::numeric_limits<float>::max(), std::numeric_limits<float>::max(), std::numeric_limits<float>::max());
+	Vector3 maxC(-std::numeric_limits<float>::max(), -std::numeric_limits<float>::max(), -std::numeric_limits<float>::max());
+
 	// Iterate through all the vertices of this mesh to get the min & max coords
-	bool initialized = false;
 	for (const Triangle& triangle : mesh.faces)
 	{
 		for (Vector3 triVert : triangle.points)
 		{
 			// The mesh is in local space. Need to transform it to world space
 			triVert = mWorld * triVert;
+			
+			minC.x = std::min(minC.x, triVert.x);
+			minC.y = std::min(minC.y, triVert.y);
+			minC.z = std::min(minC.z, triVert.z);
 
-			if (!initialized)
-			{
-				minCoords.x = triVert.x;
-				minCoords.y = triVert.y;
-				minCoords.z = triVert.z;
-
-				maxCoords.x = triVert.x;
-				maxCoords.y = triVert.y;
-				maxCoords.z = triVert.z;
-				initialized = true;
-			}
-			else
-			{
-				minCoords.x = std::min(minCoords.x, triVert.x);
-				minCoords.y = std::min(minCoords.y, triVert.y);
-				minCoords.z = std::min(minCoords.z, triVert.z);
-
-				maxCoords.x = std::max(maxCoords.x, triVert.x);
-				maxCoords.y = std::max(maxCoords.y, triVert.y);
-				maxCoords.z = std::max(maxCoords.z, triVert.z);
-			}
+			maxC.x = std::max(maxC.x, triVert.x);
+			maxC.y = std::max(maxC.y, triVert.y);
+			maxC.z = std::max(maxC.z, triVert.z);
 		}
 	}
+	boundingBox.minCoords = minC;
+	boundingBox.maxCoords = maxC;
 }
 
 void BoxCollider::Render()
@@ -86,8 +79,8 @@ void BoxCollider::Render()
 		return;
 
 	// Shorter names
-	Vector3& a = minCoords;
-	Vector3& b = maxCoords;
+	Vector3& a = boundingBox.minCoords;
+	Vector3& b = boundingBox.maxCoords;
 
 	std::vector<Vector3> points{
 		Vector3(a.x, a.y, a.z),
@@ -151,28 +144,6 @@ bool BoxCollider::DidCollide(Collider* collider)
 
 	BoxCollider* boxC = static_cast<BoxCollider*>(collider);
 
-	// Shorter names
-	Vector3& a = boxC->GetMinCoords();
-	Vector3& b = boxC->GetMaxCoords();
-	std::vector<Vector3> points{
-		Vector3(a.x, a.y, a.z),
-		Vector3(b.x, a.y, a.z),
-		Vector3(a.x, b.y, a.z),
-		Vector3(b.x, b.y, a.z),
-		Vector3(a.x, a.y, b.z),
-		Vector3(b.x, a.y, b.z),
-		Vector3(a.x, b.y, b.z),
-		Vector3(b.x, b.y, b.z)
-	};
-
-	// Check if any point lies in the min/max range of the collider
-	for (Vector3& point : points)
-	{
-		if ((point.x >= minCoords.x && point.x <= maxCoords.x) &&
-			(point.y >= minCoords.y && point.y <= maxCoords.y) &&
-			(point.z >= minCoords.z && point.z <= maxCoords.z))
-			return true;
-	}
-
-	return false;
+	// Intersection b/w 2 AABBs
+	return boundingBox.Intersects(boxC->boundingBox);
 }

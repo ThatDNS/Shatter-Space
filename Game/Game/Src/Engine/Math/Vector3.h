@@ -113,6 +113,14 @@ public:
 		return *this;
 	}
 
+	// Reading X, Y, Z as 0, 1, 2 indices
+	float operator[](int idx) const
+	{
+		if (idx == 0) return x;
+		if (idx == 1) return y;
+		if (idx == 2) return z;
+		return -1;
+	}
 };
 
 #endif // !_Vector3_H_
