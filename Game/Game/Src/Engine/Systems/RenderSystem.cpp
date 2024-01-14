@@ -11,15 +11,16 @@
 
 void RenderSystem::AddRenderable(Renderable* renderable)
 {
-	// Can not add to uidToRenderable at this point as the renderable's UID might not be
-	// as expected. UID gets set in Load() whereas AddRenderable() gets called by constructor
 	renderables.push_back(renderable);
+	uidToRenderable[renderable->GetUid()] = renderable;
+	Logger::Get().Log("Adding renderable");
 }
 
 void RenderSystem::RemoveRenderable(Renderable* renderable)
 {
 	uidToRenderable.erase(renderable->GetUid());
 	renderables.remove(renderable);
+	Logger::Get().Log("Removing renderable");
 }
 
 Renderable* RenderSystem::GetRenderable(STRCODE id)
@@ -32,17 +33,6 @@ Renderable* RenderSystem::GetRenderable(STRCODE id)
 		return nullptr;
 	}
 	return uidToRenderable[id];
-}
-
-void RenderSystem::TrackRenderable(Renderable* renderable)
-{
-	uidToRenderable[renderable->GetUid()] = renderable;
-}
-
-// Useful in object pooling
-void RenderSystem::UntrackRenderable(Renderable* renderable)
-{
-	renderables.remove(renderable);
 }
 
 void RenderSystem::SetRenderableActive(STRCODE renderableID, bool _active)

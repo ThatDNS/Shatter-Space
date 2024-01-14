@@ -31,8 +31,8 @@ protected:
 	bool shouldRender = false;
 
 public:
-	Collider();
-	~Collider();
+	Collider() = default;
+	~Collider() = default;
 
 	virtual ColliderType GetColliderType() const = 0;
 

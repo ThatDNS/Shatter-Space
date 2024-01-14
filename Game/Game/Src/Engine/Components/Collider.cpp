@@ -5,14 +5,3 @@
 
 #include "stdafx.h"
 #include "Engine/Components/Collider.h"
-#include "Engine/Systems/CollisionSystem.h"
-
-Collider::Collider()
-{
-	CollisionSystem::Get().AddCollider(this);
-}
-
-Collider::~Collider()
-{
-	CollisionSystem::Get().RemoveCollider(this);
-}

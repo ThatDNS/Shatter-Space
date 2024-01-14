@@ -17,8 +17,8 @@
 class Renderable : public Component
 {
 protected:
-	Renderable();
-	~Renderable();
+	Renderable() = default;
+	~Renderable() = default;
 
 private:
 	virtual void Render() = 0;

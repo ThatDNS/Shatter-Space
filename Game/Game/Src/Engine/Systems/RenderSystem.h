@@ -40,17 +40,19 @@ private:
 public:
 	void AddRenderable(Renderable*);
 	void RemoveRenderable(Renderable*);
-	void TrackRenderable(Renderable*);
-	void UntrackRenderable(Renderable*);
+	
+	void SetRenderableActive(STRCODE, bool);
 
+	// ------------------ Camera ------------------
 	Vector3& GetCameraPosition() { return cameraPosition; }
 	Matrix4x4& GetViewMatrix() { return viewMatrix; }
 	Matrix4x4& GetProjectionMatrix() { return projectionMatrix; }
+	
+	// ------------------ Light source ------------------
 	bool HasSun() const { return enableSun; }
 	Vector3& GetSunlightDirection() { return lightDirection; }
 	void SetSun(bool enable) { enableSun = enable; }
 	void SetSunlight(Vector3& direction) { lightDirection = direction; }
-	void SetRenderableActive(STRCODE, bool);
 
 protected:
 	void Initialize();

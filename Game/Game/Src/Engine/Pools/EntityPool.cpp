@@ -9,8 +9,12 @@
 #include "Engine/Core/Logger.h"
 #include "Engine/Components/Transform.h"
 #include "Engine/Components/Entity.h"
+#include "Engine/Components/Renderable.h"
+#include "Engine/Components/Collider.h"
 #include "Engine/Systems/SceneManager.h"
 #include "Engine/Systems/Scene.h"
+#include "Engine/Systems/RenderSystem.h"
+#include "Engine/Systems/CollisionSystem.h"
 
 EntityPool::EntityPool(std::vector<ComponentType>& components)
 {
@@ -41,12 +45,12 @@ EntityPool::~EntityPool()
 Object* EntityPool::CreateObjectForPool()
 {
 	Object* obj = new Entity();
-	// InitializeObjectForUse must be called right after creating the entity for most cache coherence.
-	InitializeObjectForUse(obj);
+	// SetupObject must be called right after creating the entity for most cache coherence.
+	SetupObject(obj);
 	return obj;
 }
 
-void EntityPool::InitializeObjectForUse(Object* object)
+void EntityPool::SetupObject(Object* object)
 {
 	if (!object->IsEntity())
 		return;
@@ -89,6 +93,41 @@ void EntityPool::CleanUpObject(Object* object)
 
 	scene->UntrackEntity(entity);
 
-	// Remove all components
-	entity->Destroy();
+	// Remove renderable components from RenderSystem
+	// - Mesh Renderer
+	Component* component = entity->GetComponent(MeshRendererC);
+	if (component != nullptr)
+		RenderSystem::Get().RemoveRenderable(static_cast<Renderable*>(component));
+	// - Sprite
+	component = entity->GetComponent(SpriteC);
+	if (component != nullptr)
+		RenderSystem::Get().RemoveRenderable(static_cast<Renderable*>(component));
+
+	// Remove collider component from CollisionSystem
+	component = entity->GetComponent(BoxColliderC);
+	if (component != nullptr)
+		CollisionSystem::Get().RemoveCollider(static_cast<Collider*>(component));
+}
+
+void EntityPool::InitializeObject(Object* object)
+{
+	if (!object->IsEntity())
+		return;
+
+	Entity* entity = static_cast<Entity*>(object);
+
+	// Add renderable components to RenderSystem
+	// - Mesh Renderer
+	Component* component = entity->GetComponent(MeshRendererC);
+	if (component != nullptr)
+		RenderSystem::Get().AddRenderable(static_cast<Renderable*>(component));
+	// - Sprite
+	component = entity->GetComponent(SpriteC);
+	if (component != nullptr)
+		RenderSystem::Get().AddRenderable(static_cast<Renderable*>(component));
+
+	// Add collider component to CollisionSystem
+	component = entity->GetComponent(BoxColliderC);
+	if (component != nullptr)
+		CollisionSystem::Get().AddCollider(static_cast<Collider*>(component));
 }

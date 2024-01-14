@@ -32,10 +32,12 @@ private:
 	std::vector<ComponentType> componentTypes;
 
 	void CleanUpObject(Object*) override;
+	void InitializeObject(Object*) override;
+
 	Object* CreateObjectForPool() override;
 
 	// Creates components of the entity passed as Object pointer.
-	void InitializeObjectForUse(Object*) override;
+	void SetupObject(Object*) override;
 
 	inline explicit EntityPool(EntityPool const&) = delete;
 	inline EntityPool& operator=(EntityPool const&) = delete;
