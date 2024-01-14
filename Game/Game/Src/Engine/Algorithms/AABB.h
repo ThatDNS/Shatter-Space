@@ -24,6 +24,11 @@ public:
 				(minCoords.y <= other.maxCoords.y && maxCoords.y >= other.minCoords.y) &&
 				(minCoords.z <= other.maxCoords.z && maxCoords.z >= other.minCoords.z));
 	}
+
+	std::string ToString() const
+	{
+		return "AABB( min=" + minCoords.ToString() + ", max=" + maxCoords.ToString() + " )";
+	}
 };
 
 #endif // !_AABB_H_

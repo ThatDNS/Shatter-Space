@@ -11,10 +11,13 @@
 #include "Engine/Components/Entity.h"
 #include "Engine/Components/Component.h"
 #include "Engine/Components/Transform.h"
+#include "Engine/Components/BoxCollider.h"
 #include "Engine/Math/Vector3.h"
+#include "Engine/Systems/CollisionSystem.h"
 
 void Player::Initialize()
 {
+	collider = static_cast<BoxCollider*>(GetEntity()->GetComponent(BoxColliderC));
 }
 
 void Player::Update(float deltaTime)
@@ -22,8 +25,8 @@ void Player::Update(float deltaTime)
 	Move(deltaTime);
 
 	// Rotate
-	Transform& transform = GetEntity()->GetTransform();
-	transform.Rotate(Vector3(0, 0.01f, 0.015f));
+	/*Transform& transform = GetEntity()->GetTransform();
+	transform.Rotate(Vector3(0, 0.01f, 0.015f));*/
 }
 
 void Player::Move(float deltaTime)
@@ -53,5 +56,6 @@ void Player::Move(float deltaTime)
 	Vector3 newPosition = transform.position + moveVector;
 
 	// Translate the transform
-	transform.Translate(moveVector);
+	if (!CollisionSystem::Get().CheckCollision(collider))
+		transform.Translate(moveVector);
 }

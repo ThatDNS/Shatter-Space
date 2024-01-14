@@ -23,9 +23,25 @@ void CollisionSystem::Initialize()
 		if (collider->GetColliderType() == BOX)
 			boxColliders.push_back(static_cast<BoxCollider*>(collider));
 	}
-	Logger::Get().Log("Got " + std::to_string(boxColliders.size()) + " box colliders");
 	bvhTree->BuildTree(boxColliders);
-	Logger::Get().Log("Built BVH Tree!");
+}
+
+void CollisionSystem::Update()
+{
+	bool updateTree = false;
+	// Check if any box colliders got updated. If yes, we need to update the BVH tree
+	for (Collider* collider : colliders)
+	{
+		if (collider->GetColliderType() == BOX && collider->gotUpdated)
+		{
+			collider->gotUpdated = false;
+			updateTree = true;
+		}
+	}
+
+	// Update BVH Tree
+	if (updateTree)
+		bvhTree->RebuildTree();
 }
 
 void CollisionSystem::Destroy()
@@ -35,35 +51,27 @@ void CollisionSystem::Destroy()
 		bvhTree->Destroy();
 		delete bvhTree;
 	}
-	Logger::Get().Log("Destroyed BVH Tree!");
 }
 
 void CollisionSystem::AddCollider(Collider* collider)
 {
 	colliders.push_back(collider);
-	Logger::Get().Log("Added a collider");
 	// TODO: Update bvh tree here
 }
 
 void CollisionSystem::RemoveCollider(Collider* collider)
 {
 	colliders.remove(collider);
-	Logger::Get().Log("Removed a collider");
 	// TODO: Update bvh tree here
 }
 
-bool CollisionSystem::IsSpaceEmpty(Entity* entity, Vector3& target)
+bool CollisionSystem::CheckCollision(Collider* collider)
 {
-	return true;
+	if (collider->GetColliderType() == BOX)
+	{
+		return bvhTree->CheckCollisions(static_cast<BoxCollider*>(collider));
+	}
+	
+	// Not supporting any other collisions yet
+	return false;
 }
-
-bool CollisionSystem::IsSpaceEmpty(float objRadius, Vector3& target)
-{
-	return true;
-}
-
-Collider* CollisionSystem::CheckIfCollided(Entity* entity, ColliderTag _colliderTag)
-{
-	return nullptr;
-}
-

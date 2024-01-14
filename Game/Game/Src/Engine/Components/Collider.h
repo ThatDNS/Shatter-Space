@@ -30,6 +30,9 @@ protected:
 	ColliderTag colliderTag = GENERIC;
 	bool shouldRender = false;
 
+	// A flag for collision system to check if the collider got updated by any component
+	bool gotUpdated = false;
+
 public:
 	Collider() = default;
 	~Collider() = default;
@@ -48,6 +51,8 @@ public:
 
 	void Update(float) override { }
 	void Destroy() override { }
+
+	friend class CollisionSystem;
 };
 
 #endif // !_COLLIDER_H_

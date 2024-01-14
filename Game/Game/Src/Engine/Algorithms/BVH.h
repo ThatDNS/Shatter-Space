@@ -19,6 +19,7 @@ public:
 	// Colliders part of this BVH node
 	std::vector<BoxCollider*> colliders;
 
+	BVHNode* parent = nullptr;
 	BVHNode* left = nullptr;
 	BVHNode* right = nullptr;
 
@@ -42,9 +43,14 @@ private:
 	BVHNode* root;
 
 	/**
+	 * @brief Recursively build BVH tree via top-down method.
+	 */
+	BVHNode* BuildTreeInternal(std::vector<BoxCollider*>& colliders);
+
+	/**
 	 * @brief Recursively check for collision.
 	 */
-	bool CheckCollisions(BVHNode* node, const BoxCollider* collider) const;
+	bool CheckCollisions(BVHNode* node, BoxCollider* collider) const;
 
 	/**
 	 * @brief Compute the AABB enclosing a number of AABBs.
@@ -58,6 +64,11 @@ private:
 	void SplitColliders(std::vector<BoxCollider*>& colliders, AABB& nodeBB, std::vector<BoxCollider*>& left, std::vector<BoxCollider*>& right);
 
 	/**
+	 * @brief Recursively re-build the tree using existign colliders.
+	 */
+	void BVH::RebuildTree(BVHNode* node);
+
+	/**
 	 * @brief Recursively delete all nodes of the tree.
 	 */
 	void Destroy(BVHNode* node);
@@ -66,7 +77,7 @@ public:
 	/**
 	 * @brief Recursively build BVH tree via top-down method.
 	 */
-	BVHNode* BuildTree(std::vector<BoxCollider*>& colliders);
+	void BuildTree(std::vector<BoxCollider*>& colliders);
 
 	/**
 	 * @brief Empty the tree.
@@ -74,9 +85,15 @@ public:
 	void Destroy();
 
 	/**
-	 * @brief Check for collisions.
+	 * @brief Check if anything collided with the input collider.
 	 */
-	bool CheckCollisions(const BoxCollider* boxCollider) const;
+	bool CheckCollisions(BoxCollider* boxCollider) const;
+
+	/**
+	 * @brief Recursively re-build the tree using existign colliders.
+	 * Useful if the colliders have changed.
+	 */
+	void BVH::RebuildTree();
 };
 
 #endif // !_BVH_H_

@@ -69,8 +69,13 @@ void BoxCollider::Callibrate()
 			maxC.z = std::max(maxC.z, triVert.z);
 		}
 	}
-	boundingBox.minCoords = minC;
-	boundingBox.maxCoords = maxC;
+
+	if (minC != boundingBox.minCoords || maxC != boundingBox.maxCoords)
+	{
+		boundingBox.minCoords = minC;
+		boundingBox.maxCoords = maxC;
+		gotUpdated = true;
+	}
 }
 
 void BoxCollider::Render()

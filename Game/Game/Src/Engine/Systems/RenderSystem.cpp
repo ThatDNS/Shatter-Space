@@ -13,14 +13,12 @@ void RenderSystem::AddRenderable(Renderable* renderable)
 {
 	renderables.push_back(renderable);
 	uidToRenderable[renderable->GetUid()] = renderable;
-	Logger::Get().Log("Adding renderable");
 }
 
 void RenderSystem::RemoveRenderable(Renderable* renderable)
 {
 	uidToRenderable.erase(renderable->GetUid());
 	renderables.remove(renderable);
-	Logger::Get().Log("Removing renderable");
 }
 
 Renderable* RenderSystem::GetRenderable(STRCODE id)

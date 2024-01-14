@@ -12,7 +12,6 @@
 
 void MeshRenderer::LoadMesh(const std::string& objFileLocation)
 {
-	Logger::Get().Log("Loading mesh from " + objFileLocation);
 	mesh.LoadFromObjectFile(objFileLocation);
 }
 

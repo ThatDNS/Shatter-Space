@@ -4,24 +4,59 @@
 // It works only with box colliders as it uses AABBs.
 
 #include "stdafx.h"
-#include "BVH.h"
+#include "Engine/Algorithms/BVH.h"
+#include "Engine/Core/Logger.h"
 
 // --------------------------- Private member functions ---------------------------
 
-bool BVH::CheckCollisions(BVHNode* node, const BoxCollider* collider) const
+BVHNode* BVH::BuildTreeInternal(std::vector<BoxCollider*>& colliders)
+{
+	if (colliders.size() == 0)
+	{
+		return nullptr;
+	}
+
+	// Create a new node that contains all colliders
+	AABB nodeBoundingBox = GetEnclosingBoundingBox(colliders);
+	BVHNode* node = new BVHNode(nodeBoundingBox);
+
+	// If number of colliders is less, make it leaf
+	if (colliders.size() <= 4)
+	{
+		node->colliders = colliders;
+	}
+	else
+	{
+		// Split colliders into two groups along the longest axis
+		std::vector<BoxCollider*> leftColliders, rightColliders;
+		SplitColliders(colliders, nodeBoundingBox, leftColliders, rightColliders);
+
+		// Recursively build left and right child nodes
+		node->left = BuildTreeInternal(leftColliders);
+		node->right = BuildTreeInternal(rightColliders);
+		// Attach the parent
+		if (node->left != nullptr)
+			node->left->parent = node;
+		if (node->right != nullptr)
+			node->right->parent = node;
+	}
+
+	return node;
+}
+
+bool BVH::CheckCollisions(BVHNode* node, BoxCollider* collider) const
 {
 	// If the node does not intersect with box collider then no need of checking its child nodes
 	if (node == nullptr || !node->boundingBox.Intersects(collider->boundingBox))
-	{
 		return false;
-	}
 
 	// For the leaf node, we check individual collisions with all the colliders
 	if (node->IsLeaf())
 	{
 		for (const BoxCollider* leafC : node->colliders)
 		{
-			if (collider->boundingBox.Intersects(leafC->boundingBox))
+			if ((collider->GetUid() != leafC->GetUid()) &&
+				(collider->boundingBox.Intersects(leafC->boundingBox)))
 			{
 				// Collision detected!
 				return true;
@@ -71,6 +106,52 @@ void BVH::SplitColliders(std::vector<BoxCollider*>& colliders, AABB& nodeBB, std
 	right.assign(colliders.begin() + halfSize, colliders.end());
 }
 
+void BVH::RebuildTree(BVHNode* node)
+{
+	if (node == nullptr)
+		return;
+
+	if (node->IsLeaf())
+	{
+		// Recallibrate
+		node->boundingBox = GetEnclosingBoundingBox(node->colliders);
+		return;
+	}
+
+	RebuildTree(node->left);
+	RebuildTree(node->right);
+
+	AABB first, second;
+	// Either left or right nodes can be null. Both can't be null because that'd be a leaf node
+	if (node->left == nullptr)
+	{
+		first = node->right->boundingBox;
+		second.minCoords = Vector3(std::numeric_limits<float>::max(), std::numeric_limits<float>::max(), std::numeric_limits<float>::max());
+		second.maxCoords = Vector3(-std::numeric_limits<float>::max(), -std::numeric_limits<float>::max(), -std::numeric_limits<float>::max());
+	}
+	else if (node->right == nullptr)
+	{
+		first = node->left->boundingBox;
+		second.minCoords = Vector3(std::numeric_limits<float>::max(), std::numeric_limits<float>::max(), std::numeric_limits<float>::max());
+		second.maxCoords = Vector3(-std::numeric_limits<float>::max(), -std::numeric_limits<float>::max(), -std::numeric_limits<float>::max());
+	}
+	else
+	{
+		first = node->left->boundingBox;
+		second = node->right->boundingBox;
+	}
+
+	// Recallibrate the node's bounding box as per the left and right nodes
+	// For non-leaf nodes, the colliders list is empty
+	node->boundingBox.minCoords.x = std::min(first.minCoords.x, second.minCoords.x);
+	node->boundingBox.minCoords.y = std::min(first.minCoords.y, second.minCoords.y);
+	node->boundingBox.minCoords.z = std::min(first.minCoords.z, second.minCoords.z);
+
+	node->boundingBox.maxCoords.x = std::max(first.maxCoords.x, second.maxCoords.x);
+	node->boundingBox.maxCoords.y = std::max(first.maxCoords.y, second.maxCoords.y);
+	node->boundingBox.maxCoords.z = std::max(first.maxCoords.z, second.maxCoords.z);
+}
+
 void BVH::Destroy(BVHNode* node)
 {
 	if (node == nullptr)
@@ -82,41 +163,23 @@ void BVH::Destroy(BVHNode* node)
 
 	// Clean up
 	if (node->left != nullptr)
+	{
 		delete node->left;
+		node->left = nullptr;
+	}
 	if (node->right != nullptr)
+	{
 		delete node->right;
+		node->right = nullptr;
+	}
 }
 
 // --------------------------- Public member functions ---------------------------
 
-BVHNode* BVH::BuildTree(std::vector<BoxCollider*>& colliders)
+void BVH::BuildTree(std::vector<BoxCollider*>& colliders)
 {
-	if (colliders.size() == 0)
-	{
-		return nullptr;
-	}
-
-	// Create a new node that contains all colliders
-	AABB nodeBoundingBox = GetEnclosingBoundingBox(colliders);
-	BVHNode* node = new BVHNode(nodeBoundingBox);
-
-	// If number of colliders is less, make it leaf
-	if (colliders.size() <= 4)
-	{
-		node->colliders = colliders;
-	}
-	else
-	{
-		// Split colliders into two groups along the longest axis
-		std::vector<BoxCollider*> leftColliders, rightColliders;
-		SplitColliders(colliders, nodeBoundingBox, leftColliders, rightColliders);
-
-		// Recursively build left and right child nodes
-		node->left = BuildTree(leftColliders);
-		node->left = BuildTree(rightColliders);
-	}
-
-	return node;
+	root = BuildTreeInternal(colliders);
+	Logger::Get().Log("Created BVH Tree with root: " + root->boundingBox.ToString());
 }
 
 void BVH::Destroy()
@@ -124,7 +187,13 @@ void BVH::Destroy()
 	Destroy(root);
 }
 
-bool BVH::CheckCollisions(const BoxCollider* boxCollider) const
+bool BVH::CheckCollisions(BoxCollider* boxCollider) const
 {
 	return CheckCollisions(root, boxCollider);
+}
+
+void BVH::RebuildTree()
+{
+	RebuildTree(root);
+	Logger::Get().Log("New BVH root: " + root->boundingBox.ToString());
 }

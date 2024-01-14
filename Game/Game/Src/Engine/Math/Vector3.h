@@ -25,7 +25,7 @@ public:
 	static float Dot(const Vector3&, const Vector3&);
 	static Vector3 Cross(const Vector3&, const Vector3&);
 
-	std::string ToString();
+	std::string ToString() const;
 
 	// ---------------------- Operator overloaders ----------------------
 
@@ -120,6 +120,16 @@ public:
 		if (idx == 1) return y;
 		if (idx == 2) return z;
 		return -1;
+	}
+
+	bool operator==(const Vector3& other)
+	{
+		return (x == other.x && y == other.y && z == other.z);
+	}
+
+	bool operator!=(const Vector3& other)
+	{
+		return (x != other.x || y != other.y || z != other.z);
 	}
 };
 

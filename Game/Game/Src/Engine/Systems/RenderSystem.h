@@ -38,9 +38,6 @@ private:
 	Matrix4x4 projectionMatrix;
 
 public:
-	void AddRenderable(Renderable*);
-	void RemoveRenderable(Renderable*);
-	
 	void SetRenderableActive(STRCODE, bool);
 
 	// ------------------ Camera ------------------
@@ -55,10 +52,14 @@ public:
 	void SetSunlight(Vector3& direction) { lightDirection = direction; }
 
 protected:
+	void AddRenderable(Renderable*);
+	void RemoveRenderable(Renderable*);
+
 	void Initialize();
 	void Render();
 
 	friend class Engine;
+	friend class EntityPool;
 };
 
 #endif
