@@ -96,24 +96,21 @@ void EntityPool::CleanUpObject(Object* object)
 	scene->UntrackEntity(entity);
 
 	// Remove renderable components from RenderSystem
-	// - Mesh Renderer
-	Component* component = entity->GetComponent(MeshRendererC);
-	if (component != nullptr)
-		RenderSystem::Get().RemoveRenderable(static_cast<Renderable*>(component));
-	// - Sprite
-	component = entity->GetComponent(SpriteC);
-	if (component != nullptr)
-		RenderSystem::Get().RemoveRenderable(static_cast<Renderable*>(component));
-	// - BoxColliderC
-	component = entity->GetComponent(BoxColliderC);
-	if (component != nullptr)
+	for (ComponentType& componentType : renderables)
 	{
-		RenderSystem::Get().RemoveRenderable(static_cast<Renderable*>(component));
-		// Remove collider component from CollisionSystem
-		CollisionSystem::Get().RemoveCollider(static_cast<Collider*>(component));
+		Component* component = entity->GetComponent(componentType);
+		if (component != nullptr)
+			RenderSystem::Get().RemoveRenderable(static_cast<Renderable*>(component));
+	}
+	// Remove collider components from CollisionSystem
+	for (ComponentType& componentType : colliders)
+	{
+		Component* component = entity->GetComponent(componentType);
+		if (component != nullptr)
+			CollisionSystem::Get().RemoveCollider(static_cast<Collider*>(component));
 	}
 	// Remove rigidbody from PhysicsSystem
-	component = entity->GetComponent(RigidBodyC);
+	Component* component = entity->GetComponent(RigidBodyC);
 	if (component != nullptr)
 	{
 		PhysicsSystem::Get().RemoveRigidBody(static_cast<RigidBody*>(component));
@@ -128,24 +125,21 @@ void EntityPool::InitializeObject(Object* object)
 	Entity* entity = static_cast<Entity*>(object);
 
 	// Add renderable components to RenderSystem
-	// - Mesh Renderer
-	Component* component = entity->GetComponent(MeshRendererC);
-	if (component != nullptr)
-		RenderSystem::Get().AddRenderable(static_cast<Renderable*>(component));
-	// - Sprite
-	component = entity->GetComponent(SpriteC);
-	if (component != nullptr)
-		RenderSystem::Get().AddRenderable(static_cast<Renderable*>(component));
-	// - Box Collider
-	component = entity->GetComponent(BoxColliderC);
-	if (component != nullptr)
+	for (ComponentType& componentType : renderables)
 	{
-		RenderSystem::Get().AddRenderable(static_cast<Renderable*>(component));
-		// Add collider component to CollisionSystem
-		CollisionSystem::Get().AddCollider(static_cast<Collider*>(component));
+		Component* component = entity->GetComponent(componentType);
+		if (component != nullptr)
+			RenderSystem::Get().AddRenderable(static_cast<Renderable*>(component));
+	}
+	// Add collider components to CollisionSystem
+	for (ComponentType& componentType : colliders)
+	{
+		Component* component = entity->GetComponent(componentType);
+		if (component != nullptr)
+			CollisionSystem::Get().AddCollider(static_cast<Collider*>(component));
 	}
 	// Add rigidbody to PhysicsSystem
-	component = entity->GetComponent(RigidBodyC);
+	Component* component = entity->GetComponent(RigidBodyC);
 	if (component != nullptr)
 	{
 		PhysicsSystem::Get().AddRigidBody(static_cast<RigidBody*>(component));

@@ -13,7 +13,7 @@
 
 void CreatePlayer(Scene* scene, Vector3& position, Vector3& scale)
 {
-	Entity* entity = scene->CreateEntity(std::vector<ComponentType>{ MeshRendererC, BoxColliderC, RigidBodyC, PlayerC });
+	Entity* entity = scene->CreateEntity(std::vector<ComponentType>{ MeshRendererC, BoxColliderC, RigidBodyC, ParticlesC, PlayerC });
 	entity->SetName("Player");
 
 	// Load the data to the components of player entity
@@ -24,7 +24,7 @@ void CreatePlayer(Scene* scene, Vector3& position, Vector3& scale)
 	Component* component = entity->GetComponent(MeshRendererC);
 	MeshRenderer* mr = static_cast<MeshRenderer*>(component);
 	mr->LoadMesh("Assets/Objects/cone.obj");
-	mr->SetRenderBackSide(true);
+	mr->SetRenderBackSide(false);
 
 	// Set box collider data
 	component = entity->GetComponent(BoxColliderC);

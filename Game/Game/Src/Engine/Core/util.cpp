@@ -11,6 +11,7 @@
 #include "Engine/Components/Sprite.h"
 #include "Engine/Components/BoxCollider.h"
 #include "Engine/Components/RigidBody.h"
+#include "Engine/Components/Particles.h"
 #include "Game/Player.h"
 
 STRCODE GetHashCode(const char* str)
@@ -57,6 +58,7 @@ Component* CreateComponent(ComponentType componentType)
 
 	switch (componentType)
 	{
+	// Engine Components
 	case TransformC:
 		Logger::Get().Log("Trying to create a Transform on an entity. All entities have transform by default.", ERROR_LOG);
 		break;
@@ -72,6 +74,10 @@ Component* CreateComponent(ComponentType componentType)
 	case RigidBodyC:
 		component = new RigidBody();
 		break;
+	case ParticlesC:
+		component = new Particles();
+		break;
+	// Game Components
 	case PlayerC:
 		component = new Player();
 		break;
@@ -87,6 +93,7 @@ std::string ComponentTypeToStr(ComponentType componentType)
 
 	switch (componentType)
 	{
+	// Engine Components
 	case TransformC:
 		componentName = "Transform";
 		break;
@@ -102,6 +109,10 @@ std::string ComponentTypeToStr(ComponentType componentType)
 	case RigidBodyC:
 		componentName = "RigidBody";
 		break;
+	case ParticlesC:
+		componentName = "Particles";
+		break;
+	// Game Components
 	case PlayerC:
 		componentName = "Player";
 		break;

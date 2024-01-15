@@ -19,6 +19,7 @@ enum ComponentType {
     SpriteC,
     BoxColliderC,
     RigidBodyC,
+    ParticlesC,
     PlayerC
 };
 
