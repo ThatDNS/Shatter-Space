@@ -25,6 +25,9 @@ public:
 	static float Dot(const Vector3&, const Vector3&);
 	static Vector3 Cross(const Vector3&, const Vector3&);
 
+	// Linear Interpolation
+	static void Lerp(Vector3&, const Vector3&, float);
+
 	std::string ToString() const;
 
 	// ---------------------- Operator overloaders ----------------------

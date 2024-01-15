@@ -17,12 +17,7 @@
 #include "Engine/Math/EngineMath.h"
 #include "Engine/Systems/RenderSystem.h"
 
-#include "Engine/Systems/SceneManager.h"
-#include "Engine/Systems/Scene.h"
-#include "Engine/Components/Entity.h"
-
 extern void SetupLevel1();
-Entity* playerE = nullptr;
 
 //------------------------------------------------------------------------
 // Called before first update. Do any initial setup here.
@@ -36,8 +31,6 @@ void Init()
 	SetupLevel1();
 
 	Engine::Get().Initialize();
-
-	playerE = SceneManager::Get().GetActiveScene()->FindEntityByName("Player").front();
 }
 
 //------------------------------------------------------------------------
@@ -67,7 +60,7 @@ void Render()
 	//------------------------------------------------------------------------
 	// Example Text.
 	//------------------------------------------------------------------------
-	App::Print(50, APP_INIT_WINDOW_HEIGHT-50, std::to_string(playerE->GetTransform().rotation.z).c_str());
+	App::Print(50, APP_INIT_WINDOW_HEIGHT-50, "Level 1");
 }
 
 //------------------------------------------------------------------------

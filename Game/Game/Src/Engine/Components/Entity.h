@@ -48,8 +48,8 @@ public:
 
 	// Move an entity after checking collision
 	void Move(Vector3& moveDelta, Collider* collider);
-	// Rotate an entity after checking collision
-	void Rotate(Vector3& rotateDelta, Collider* collider);
+	// Rotate an entity in cartesian system along Z, after checking collision
+	void CartesianRotationZ(Vector3& rotateDir, Collider* collider, float rotationSpeed);
 
 	Transform& GetTransform() { return transform; }
 

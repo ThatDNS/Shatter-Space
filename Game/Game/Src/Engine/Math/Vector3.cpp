@@ -37,6 +37,11 @@ Vector3 Vector3::Cross(const Vector3& v1, const Vector3& v2)
 				   v1.x * v2.y - v1.y * v2.x);
 }
 
+void Vector3::Lerp(Vector3& start, const Vector3& end, float t)
+{
+	start += (end - start) * t;
+}
+
 std::string Vector3::ToString() const
 {
 	return "Vector3(x=" + std::to_string(x) + ", y=" + std::to_string(y) + ", z=" + std::to_string(z) + ")";

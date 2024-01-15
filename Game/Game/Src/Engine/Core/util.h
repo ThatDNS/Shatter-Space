@@ -8,7 +8,7 @@
 
 // Macro for representing hash code
 #define STRCODE unsigned int
-// Macro to declare a class as singleton
+// Macro to declare a class as singleton (its used so often!, so why not)
 #define DECLARE_SINGLETON(className)\
 public:\
 	inline static className& Get() \

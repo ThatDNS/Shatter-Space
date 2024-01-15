@@ -23,10 +23,6 @@ void Player::Initialize()
 void Player::Update(float deltaTime)
 {
 	Move(deltaTime);
-
-	// Rotate
-	/*Transform& transform = GetEntity()->GetTransform();
-	transform.Rotate(Vector3(0, 0.01f, 0.015f));*/
 	Rotate(deltaTime);
 }
 
@@ -59,26 +55,11 @@ void Player::Move(float deltaTime)
 
 void Player::Rotate(float deltaTime)
 {
-	float rotateZ = 0.0f;
-	if (App::GetController().GetRightThumbStickX() > 0.5f)
-	{
-		--rotateZ;
-	}
-	if (App::GetController().GetRightThumbStickX() < -0.5f)
-	{
-		++rotateZ;
-	}
-	if (App::GetController().GetRightThumbStickY() > 0.5f)
-	{
-		--rotateZ;
-	}
-	if (App::GetController().GetRightThumbStickY() < -0.5f)
-	{
-		++rotateZ;
-	}
-
-	Vector3 rotateDelta(0.0f, 0.0f, rotateZ * rotateSpeed * deltaTime / 100.0f);
+	Vector3 rotateDir{ -App::GetController().GetRightThumbStickX(), App::GetController().GetRightThumbStickY(), 0.0f };
+	rotateDir.Normalize();
+	if (rotateDir.Magnitude() == 0)
+		return;
 
 	// Rotate the entity
-	GetEntity()->Rotate(rotateDelta, collider);
+	GetEntity()->CartesianRotationZ(rotateDir, collider, rotateSpeed * deltaTime / 100.0f);
 }
