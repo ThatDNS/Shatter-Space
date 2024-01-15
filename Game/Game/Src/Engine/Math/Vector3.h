@@ -25,7 +25,7 @@ public:
 	static float Dot(const Vector3&, const Vector3&);
 	static Vector3 Cross(const Vector3&, const Vector3&);
 
-	std::string ToString();
+	std::string ToString() const;
 
 	// ---------------------- Operator overloaders ----------------------
 
@@ -113,6 +113,24 @@ public:
 		return *this;
 	}
 
+	// Reading X, Y, Z as 0, 1, 2 indices
+	float operator[](int idx) const
+	{
+		if (idx == 0) return x;
+		if (idx == 1) return y;
+		if (idx == 2) return z;
+		return -1;
+	}
+
+	bool operator==(const Vector3& other)
+	{
+		return (x == other.x && y == other.y && z == other.z);
+	}
+
+	bool operator!=(const Vector3& other)
+	{
+		return (x != other.x || y != other.y || z != other.z);
+	}
 };
 
 #endif // !_Vector3_H_

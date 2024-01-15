@@ -11,6 +11,7 @@
 #include "Engine/Components/Transform.h"
 
 class Component;
+class Collider;
 class EntityPool;
 
 class Entity final : public Object
@@ -44,6 +45,9 @@ public:
 
 	bool RemoveComponent(ComponentType);
 	bool RemoveComponent(Component* _component);
+
+	// Move an entity after checking collision
+	void Move(Vector3& moveDelta, Collider* collider);
 
 	Transform& GetTransform() { return transform; }
 

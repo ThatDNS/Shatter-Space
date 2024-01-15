@@ -61,6 +61,12 @@
     <Filter Include="Src\Engine\Source Files\Pools">
       <UniqueIdentifier>{c886d601-f14d-4351-bd78-f67b6d58d5e4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Src\Engine\Header Files\Algorithms">
+      <UniqueIdentifier>{49b30d70-baef-4466-838f-175f38039ec2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Engine\Source Files\Algorithms">
+      <UniqueIdentifier>{0e9f73ff-3e82-48ed-adf6-1eb39bd2a431}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="NextAPI\App\app.cpp">
@@ -81,13 +87,7 @@
     <ClCompile Include="Include\stb_image\stb_image.cpp">
       <Filter>Include\stb_image</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Engine\Core\Engine_Register.cpp">
-      <Filter>Src\Engine\Source Files\Core</Filter>
-    </ClCompile>
     <ClCompile Include="Src\Engine\Core\Object.cpp">
-      <Filter>Src\Engine\Source Files\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\Engine\Core\TypeClass.cpp">
       <Filter>Src\Engine\Source Files\Core</Filter>
     </ClCompile>
     <ClCompile Include="Src\Engine\Systems\Engine.cpp">
@@ -126,9 +126,6 @@
     <ClCompile Include="Src\Game\Game.cpp">
       <Filter>Src\Game</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Game\Game_Register.cpp">
-      <Filter>Src\Game</Filter>
-    </ClCompile>
     <ClCompile Include="Src\Game\Player.cpp">
       <Filter>Src\Game\Source Files</Filter>
     </ClCompile>
@@ -159,6 +156,21 @@
     <ClCompile Include="Src\Engine\Core\util.cpp">
       <Filter>Src\Engine\Source Files\Core</Filter>
     </ClCompile>
+    <ClCompile Include="Src\Engine\Components\BoxCollider.cpp">
+      <Filter>Src\Engine\Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Components\Collider.cpp">
+      <Filter>Src\Engine\Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Systems\CollisionSystem.cpp">
+      <Filter>Src\Engine\Source Files\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Game\GameLevel.cpp">
+      <Filter>Src\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Algorithms\BVH.cpp">
+      <Filter>Src\Engine\Source Files\Algorithms</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="NextAPI\App\app.h">
@@ -186,12 +198,6 @@
       <Filter>Include\stb_image</Filter>
     </ClInclude>
     <ClInclude Include="Src\Engine\Core\Object.h">
-      <Filter>Src\Engine\Header Files\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\Engine\Core\StandardTypes.h">
-      <Filter>Src\Engine\Header Files\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\Engine\Core\TypeClass.h">
       <Filter>Src\Engine\Header Files\Core</Filter>
     </ClInclude>
     <ClInclude Include="Src\Engine\Systems\Engine.h">
@@ -256,6 +262,21 @@
     </ClInclude>
     <ClInclude Include="Src\Engine\Core\util.h">
       <Filter>Src\Engine\Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Components\BoxCollider.h">
+      <Filter>Src\Engine\Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Components\Collider.h">
+      <Filter>Src\Engine\Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Systems\CollisionSystem.h">
+      <Filter>Src\Engine\Header Files\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Algorithms\BVH.h">
+      <Filter>Src\Engine\Header Files\Algorithms</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Algorithms\AABB.h">
+      <Filter>Src\Engine\Header Files\Algorithms</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

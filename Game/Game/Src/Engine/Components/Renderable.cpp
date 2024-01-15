@@ -6,13 +6,3 @@
 
 #include "Engine/Components/Renderable.h"
 #include "Engine/Systems/RenderSystem.h"
-
-Renderable::Renderable()
-{
-	RenderSystem::Get().AddRenderable(this);
-}
-
-Renderable::~Renderable()
-{
-	RenderSystem::Get().RemoveRenderable(this);
-}

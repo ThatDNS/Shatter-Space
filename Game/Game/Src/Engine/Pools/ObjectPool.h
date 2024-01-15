@@ -33,9 +33,12 @@ protected:
 	// Clean-up involves anything to-be-done before returning an object
 	// to the pool or deleting it (at game quit)
 	virtual void CleanUpObject(Object*) = 0;
+
+	// Any operation required before sending an object from pool to the game (opposite of cleanup)
+	virtual void InitializeObject(Object*) = 0;
 	
-	// Opposite of clean-up
-	virtual void InitializeObjectForUse(Object*) = 0;
+	// Any operation required right after creating an object
+	virtual void SetupObject(Object*) = 0;
 
 	// This method dynamically allocates the object. Dyanmic allocation is slow, hence this
 	// method must be called as less as possible.

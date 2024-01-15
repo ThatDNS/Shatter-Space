@@ -8,6 +8,7 @@
 #define _MESH_RENERER_H_
 
 #include "Engine/Components/Renderable.h"
+#include "Engine/Components/BoxCollider.h"
 #include "Engine/Math/Mesh.h"
 
 class Matrix4x4;
@@ -17,21 +18,21 @@ class MeshRenderer : public Renderable
 	Mesh mesh;
 	bool renderBackSide = false;
 
-	Matrix4x4 GetWorldMatrix();
-
 protected:
 	// Protected destructor so that only Entity can delete it
 	~MeshRenderer() = default;
 
 	void Initialize() override;
-	void Update(float) override {}
+	void Update(float) override { }
 	void Render() override;
-	void Destroy() override {}
+	void Destroy() override { }
 
 public:
 	MeshRenderer() { type = MeshRendererC; }
 
 	void LoadMesh(const std::string&);
+	Matrix4x4 GetWorldMatrix();
+	const Mesh& GetMesh() { return mesh; }
 	void SetRenderBackSide(bool value) { renderBackSide = value; }
 
 	// RenderSystem is going to call Render()

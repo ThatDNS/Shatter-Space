@@ -3,6 +3,7 @@
 #include "Engine/Components/MeshRenderer.h"
 #include "Engine/Components/Entity.h"
 #include "Engine/Components/Transform.h"
+#include "Engine/Components/BoxCollider.h"
 #include "Engine/Math/Mesh.h"
 #include "Engine/Math/Matrix4x4.h"
 #include "Engine/Math/EngineMath.h"
@@ -11,7 +12,6 @@
 
 void MeshRenderer::LoadMesh(const std::string& objFileLocation)
 {
-	Logger::Get().Log("Loading mesh from " + objFileLocation);
 	mesh.LoadFromObjectFile(objFileLocation);
 }
 
@@ -107,7 +107,6 @@ void MeshRenderer::Render()
 	std::set<std::pair<std::pair<float, float>, std::pair<float, float>>> linesToDraw;
 	for (Triangle& tri : triToRaster)
 	{
-
 		// Clip triangles against all four screen edges, this could yield
 		// a bunch of triangles, so create a queue that we traverse to 
 		// ensure we only test new triangles generated against planes

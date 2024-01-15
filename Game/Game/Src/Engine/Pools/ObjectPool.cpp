@@ -34,6 +34,8 @@ Object* ObjectPool::GetFreeObject()
 	Object* object = objects[freeIndex];
 	object->SetActive(true);  // Not really required, but why not
 
+	InitializeObject(object);
+
 	return object;
 }
 

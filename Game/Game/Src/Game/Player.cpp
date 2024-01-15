@@ -11,10 +11,13 @@
 #include "Engine/Components/Entity.h"
 #include "Engine/Components/Component.h"
 #include "Engine/Components/Transform.h"
+#include "Engine/Components/BoxCollider.h"
 #include "Engine/Math/Vector3.h"
+#include "Engine/Systems/CollisionSystem.h"
 
 void Player::Initialize()
 {
+	collider = static_cast<BoxCollider*>(GetEntity()->GetComponent(BoxColliderC));
 }
 
 void Player::Update(float deltaTime)
@@ -49,9 +52,6 @@ void Player::Move(float deltaTime)
 	moveVector.Normalize();
 	moveVector = moveVector * (moveSpeed * deltaTime / 100.0f);
 
-	Transform& transform = GetEntity()->GetTransform();
-	Vector3 newPosition = transform.position + moveVector;
-
-	// Translate the transform
-	transform.Translate(moveVector);
+	// Move the entity
+	GetEntity()->Move(moveVector, collider);
 }

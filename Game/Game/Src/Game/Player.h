@@ -8,9 +8,14 @@
 
 #include "Engine/Components/Component.h"
 
+class BoxCollider;
+
 class Player : public Component
 {
 	float moveSpeed = 1.0f;
+
+	// Cache the collider
+	BoxCollider* collider = nullptr;
 
 	void Move(float);
 
