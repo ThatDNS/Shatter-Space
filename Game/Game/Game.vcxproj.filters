@@ -171,6 +171,15 @@
     <ClCompile Include="Src\Engine\Algorithms\BVH.cpp">
       <Filter>Src\Engine\Source Files\Algorithms</Filter>
     </ClCompile>
+    <ClCompile Include="Src\Engine\Systems\GameHUD.cpp">
+      <Filter>Src\Engine\Source Files\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Components\RigidBody.cpp">
+      <Filter>Src\Engine\Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Systems\PhysicsSystem.cpp">
+      <Filter>Src\Engine\Source Files\Systems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="NextAPI\App\app.h">
@@ -277,6 +286,15 @@
     </ClInclude>
     <ClInclude Include="Src\Engine\Algorithms\AABB.h">
       <Filter>Src\Engine\Header Files\Algorithms</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Systems\GameHUD.h">
+      <Filter>Src\Engine\Header Files\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Components\RigidBody.h">
+      <Filter>Src\Engine\Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Systems\PhysicsSystem.h">
+      <Filter>Src\Engine\Header Files\Systems</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

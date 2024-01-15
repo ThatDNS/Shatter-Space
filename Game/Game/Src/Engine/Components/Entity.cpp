@@ -3,6 +3,7 @@
 // @brief: Cpp file for the Entity class. Entities hold Components.
 
 #include "stdafx.h"
+#include "App/app.h"
 #include "Engine/Systems/SceneManager.h"
 #include "Engine/Systems/CollisionSystem.h"
 #include "Engine/Components/Entity.h"
@@ -161,10 +162,13 @@ bool Entity::RemoveComponent(Component* _component)
 	return false;
 }
 
-void Entity::Move(Vector3& moveDelta, Collider* collider)
+bool Entity::Move(Vector3& moveDelta, Collider* collider)
 {
 	// Move the entity
 	transform.Translate(moveDelta);
+	
+	if (collider == nullptr)
+		return true;
 
 	// Check if this caused collision
 	collider->Callibrate();
@@ -172,6 +176,42 @@ void Entity::Move(Vector3& moveDelta, Collider* collider)
 	{
 		// Move the entity back
 		transform.position -= moveDelta;
+
+		// Recallibrate
+		collider->Callibrate();
+
+		return false;
+	}
+
+	return true;
+}
+
+void Entity::CartesianRotationZ(Vector3& rotateDir, Collider* collider, float rotationSpeed)
+{
+	// Convert to radians
+	float rad = std::atan2f(rotateDir.x, rotateDir.y);
+	if (rad < 0.0f)  // [-PI, PI] -> [0, 2*PI]
+		rad += 2.0f * PI;
+
+	// Cache it to rollback in case of collision
+	Vector3 prevRotation = transform.rotation;
+
+	// Rotate the entity
+	Vector3 newRotation{ transform.rotation.x, transform.rotation.y, rad };
+	if (std::abs(std::abs(transform.rotation.z) - std::abs(newRotation.z)) > 3.0f * PI / 2.0f)
+		transform.rotation.z = newRotation.z;  // Don't lerp if change is too drastic
+	else
+		Vector3::Lerp(transform.rotation, newRotation, rotationSpeed);
+
+	if (collider == nullptr)
+		return;
+
+	// Check if this caused collision
+	collider->Callibrate();
+	if (CollisionSystem::Get().CheckCollision(collider))
+	{
+		// Rotate the entity back
+		transform.rotation = prevRotation;
 
 		// Recallibrate
 		collider->Callibrate();

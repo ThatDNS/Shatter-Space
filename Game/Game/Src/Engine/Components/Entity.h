@@ -46,8 +46,10 @@ public:
 	bool RemoveComponent(ComponentType);
 	bool RemoveComponent(Component* _component);
 
-	// Move an entity after checking collision
-	void Move(Vector3& moveDelta, Collider* collider);
+	// Move an entity after checking collision. Returns if entity actually moved
+	bool Move(Vector3& moveDelta, Collider* collider);
+	// Rotate an entity in cartesian system along Z, after checking collision
+	void CartesianRotationZ(Vector3& rotateDir, Collider* collider, float rotationSpeed);
 
 	Transform& GetTransform() { return transform; }
 

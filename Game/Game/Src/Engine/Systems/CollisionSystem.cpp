@@ -56,13 +56,11 @@ void CollisionSystem::Destroy()
 void CollisionSystem::AddCollider(Collider* collider)
 {
 	colliders.push_back(collider);
-	// TODO: Update bvh tree here
 }
 
 void CollisionSystem::RemoveCollider(Collider* collider)
 {
 	colliders.remove(collider);
-	// TODO: Update bvh tree here
 }
 
 bool CollisionSystem::CheckCollision(Collider* collider)

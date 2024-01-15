@@ -20,6 +20,14 @@ void Vector3::Normalize()
 	z = z / magnitude;
 }
 
+void Vector3::Reset()
+{
+	x = 0.0f;
+	y = 0.0f;
+	z = 0.0f;
+	w = 1.0f;
+}
+
 float Vector3::Distance(const Vector3& other) const
 {
 	return (float) std::sqrt(pow(other.x - x, 2) + pow(other.y - y, 2) + pow(other.z - z, 2));
@@ -35,6 +43,11 @@ Vector3 Vector3::Cross(const Vector3& v1, const Vector3& v2)
 	return Vector3(v1.y * v2.z - v1.z * v2.y,
 				   v1.z * v2.x - v1.x * v2.z,
 				   v1.x * v2.y - v1.y * v2.x);
+}
+
+void Vector3::Lerp(Vector3& start, const Vector3& end, float t)
+{
+	start += (end - start) * t;
 }
 
 std::string Vector3::ToString() const

@@ -19,11 +19,15 @@ public:
 
 	float Magnitude() const;
 	void Normalize();
+	void Reset();
 	
 	float Distance(const Vector3&) const;
 
 	static float Dot(const Vector3&, const Vector3&);
 	static Vector3 Cross(const Vector3&, const Vector3&);
+
+	// Linear Interpolation
+	static void Lerp(Vector3&, const Vector3&, float);
 
 	std::string ToString() const;
 
@@ -111,6 +115,10 @@ public:
 		this->y /= other;
 		this->z /= other;
 		return *this;
+	}
+	
+	Vector3 operator-() const {
+		return { -x, -y, -z };
 	}
 
 	// Reading X, Y, Z as 0, 1, 2 indices
