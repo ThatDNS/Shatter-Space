@@ -4,9 +4,11 @@
 
 #include "stdafx.h"
 #include "Engine/Systems/SceneManager.h"
+#include "Engine/Systems/CollisionSystem.h"
 #include "Engine/Components/Entity.h"
 #include "Engine/Components/Component.h"
 #include "Engine/Components/Transform.h"
+#include "Engine/Components/Collider.h"
 
 Entity::Entity()
 {
@@ -157,4 +159,21 @@ bool Entity::RemoveComponent(Component* _component)
 		}
 	}
 	return false;
+}
+
+void Entity::Move(Vector3& moveDelta, Collider* collider)
+{
+	// Move the entity
+	transform.Translate(moveDelta);
+
+	// Check if this caused collision
+	collider->Callibrate();
+	if (CollisionSystem::Get().CheckCollision(collider))
+	{
+		// Move the entity back
+		transform.position -= moveDelta;
+
+		// Recallibrate
+		collider->Callibrate();
+	}
 }

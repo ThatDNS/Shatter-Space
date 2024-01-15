@@ -25,8 +25,8 @@ void Player::Update(float deltaTime)
 	Move(deltaTime);
 
 	// Rotate
-	/*Transform& transform = GetEntity()->GetTransform();
-	transform.Rotate(Vector3(0, 0.01f, 0.015f));*/
+	Transform& transform = GetEntity()->GetTransform();
+	transform.Rotate(Vector3(0, 0.01f, 0.015f));
 }
 
 void Player::Move(float deltaTime)
@@ -52,10 +52,6 @@ void Player::Move(float deltaTime)
 	moveVector.Normalize();
 	moveVector = moveVector * (moveSpeed * deltaTime / 100.0f);
 
-	Transform& transform = GetEntity()->GetTransform();
-	Vector3 newPosition = transform.position + moveVector;
-
-	// Translate the transform
-	if (!CollisionSystem::Get().CheckCollision(collider))
-		transform.Translate(moveVector);
+	// Move the entity
+	GetEntity()->Move(moveVector, collider);
 }

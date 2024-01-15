@@ -25,7 +25,7 @@ private:
 	/**
 	 * @brief Construct the box collider using the mesh renderer of this entity
 	 */
-	void Callibrate();
+	void Callibrate() override;
 
 public:
 	// The actual collider is stored as an AABB

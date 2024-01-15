@@ -26,6 +26,8 @@ class Vector3;
 
 class Collider : public Renderable
 {
+	virtual void Callibrate() = 0;
+
 protected:
 	ColliderTag colliderTag = GENERIC;
 	bool shouldRender = false;
@@ -53,6 +55,7 @@ public:
 	void Destroy() override { }
 
 	friend class CollisionSystem;
+	friend class Entity;
 };
 
 #endif // !_COLLIDER_H_

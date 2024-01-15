@@ -41,7 +41,7 @@ void SetupLevel1()
 	// Set box collider data
 	component = entity->GetComponent(BoxColliderC);
 	BoxCollider* boxCollider = static_cast<BoxCollider*>(component);
-	boxCollider->SetShouldRender(false);
+	boxCollider->SetShouldRender(true);
 
 	// Set player script data
 	component = entity->GetComponent(PlayerC);
