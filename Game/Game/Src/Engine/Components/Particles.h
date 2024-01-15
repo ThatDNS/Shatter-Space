@@ -20,7 +20,7 @@ class Particles : public Renderable
 {
 private:
 	ParticleType particleType = EXPLOSION;
-	const size_t maxParticles = 100;
+	const size_t maxParticles = 500;
 
 	struct Particle
 	{
@@ -45,9 +45,10 @@ private:
 
 		// Explosion particle specific variables
 		float lineLength = 2.0f;
+		float lineDelta = 0.0f;
 	};
 
-	size_t particleIdx = 0;
+	size_t particleIdx = maxParticles - 1;
 	std::vector<Particle> particlePool;
 
 	// Utility functions

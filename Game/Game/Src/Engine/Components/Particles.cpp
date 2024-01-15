@@ -21,10 +21,6 @@ void Particles::Emit(int num)
 {
 	while (num)
 	{
-		// Can not emit any more particles
-		if (particleIdx == maxParticles - 1)
-			return;
-
 		Particle& particle = particlePool[particleIdx];
 		particle.isActive = true;
 
@@ -35,6 +31,7 @@ void Particles::Emit(int num)
 
 		particle.lifeSpent = 0.0f;
 
+		particle.alpha = 1.0f;
 		particle.color = { 0.0f, 1.0f, 0.0f };
 		particle.alphaDelta = Random::Get().Float() * 0.2f;
 
@@ -47,10 +44,13 @@ void Particles::Emit(int num)
 			if (Random::Get().Float() > 0.5f) particle.velocityDir.x = -particle.velocityDir.x;
 			if (Random::Get().Float() > 0.5f) particle.velocityDir.y = -particle.velocityDir.y;
 			particle.velocityDir.Normalize();
+
+			particle.lineLength = 2.0f;
+			particle.lineDelta = Random::Get().Float() * 0.1f;
 		}
 
 		--num;
-		++particleIdx;
+		particleIdx = --particleIdx % particlePool.size();
 	}
 }
 
@@ -59,17 +59,18 @@ void Particles::Update(float deltaTime)
 	// Update the existing particles
 	if (particleType == EXPLOSION)
 	{
-		for (size_t idx = 0; idx < particleIdx; idx++)
+		for (Particle& particle : particlePool)
 		{
-			Particle& particle = particlePool[idx];
-
 			if (!particle.isActive)
 				continue;
 
 			// Update life
 			particle.lifeSpent += deltaTime;
 			if (particle.lifeSpent > particle.lifeTime)
+			{
 				particle.isActive = false;
+				continue;
+			}
 
 			// Move particle as per the velocity
 			particle.position += particle.velocityDir * particle.speed * (deltaTime / 100.0f);
@@ -82,6 +83,12 @@ void Particles::Update(float deltaTime)
 			if (particle.color.x > 0.0f) particle.color.x = particle.alpha;
 			if (particle.color.y > 0.0f) particle.color.y = particle.alpha;
 			if (particle.color.z > 0.0f) particle.color.z = particle.alpha;
+
+			if (particleType == EXPLOSION)
+			{
+				particle.lineLength -= particle.lineDelta;
+				particle.lineLength = std::max(0.1f, particle.lineLength);
+			}
 		}
 	}
 }
@@ -90,10 +97,8 @@ void Particles::Render()
 {
 	if (particleType == EXPLOSION)
 	{
-		for (size_t idx = 0; idx < particleIdx; idx++)
+		for (Particle& particle : particlePool)
 		{
-			Particle& particle = particlePool[idx];
-
 			if (!particle.isActive)
 				continue;
 
