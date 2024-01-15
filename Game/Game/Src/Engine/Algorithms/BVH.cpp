@@ -179,7 +179,7 @@ void BVH::Destroy(BVHNode* node)
 void BVH::BuildTree(std::vector<BoxCollider*>& colliders)
 {
 	root = BuildTreeInternal(colliders);
-	Logger::Get().Log("Created BVH Tree with root: " + root->boundingBox.ToString());
+	//Logger::Get().Log("Created BVH Tree with root: " + root->boundingBox.ToString());
 }
 
 void BVH::Destroy()
@@ -195,5 +195,5 @@ bool BVH::CheckCollisions(BoxCollider* boxCollider) const
 void BVH::RebuildTree()
 {
 	RebuildTree(root);
-	Logger::Get().Log("New BVH root: " + root->boundingBox.ToString());
+	//Logger::Get().Log("New BVH root: " + root->boundingBox.ToString());
 }

@@ -8,6 +8,8 @@
 #include "Engine/Systems/RenderSystem.h"
 #include "Engine/Core/Logger.h"
 #include "Engine/Components/Renderable.h"
+#include "Engine/Components/Entity.h"
+#include "Engine/Components/Transform.h"
 
 void RenderSystem::AddRenderable(Renderable* renderable)
 {
@@ -53,6 +55,18 @@ void RenderSystem::Initialize()
 	cameraLookDir = { 0.0f, 0.0f, 1.0f };
 
 	projectionMatrix = Matrix4x4::CreatePerspectiveFieldOfView(60.0f, (float)APP_INIT_WINDOW_HEIGHT / (float)APP_INIT_WINDOW_WIDTH, 1.0f, 500.0f);
+}
+
+void RenderSystem::Update(float deltaTime)
+{
+	if (toFollow)
+	{
+		const Vector3& tPos = toFollow->GetTransform().position;
+		Vector3::Lerp(cameraPosition, -tPos, cameraSpeed * deltaTime / 100.0f);
+		
+		// Do not move Z of the camera
+		cameraPosition.z = 0.0f;
+	}
 }
 
 void RenderSystem::Render()

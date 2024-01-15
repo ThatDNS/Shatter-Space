@@ -115,6 +115,10 @@ public:
 		this->z /= other;
 		return *this;
 	}
+	
+	Vector3 operator-() const {
+		return { -x, -y, -z };
+	}
 
 	// Reading X, Y, Z as 0, 1, 2 indices
 	float operator[](int idx) const

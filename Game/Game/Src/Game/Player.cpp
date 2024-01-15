@@ -13,11 +13,14 @@
 #include "Engine/Components/Transform.h"
 #include "Engine/Components/BoxCollider.h"
 #include "Engine/Math/Vector3.h"
+#include "Engine/Systems/RenderSystem.h"
 #include "Engine/Systems/CollisionSystem.h"
 
 void Player::Initialize()
 {
 	collider = static_cast<BoxCollider*>(GetEntity()->GetComponent(BoxColliderC));
+	// Attach camera to the player
+	RenderSystem::Get().AttachCamera(GetEntity());
 }
 
 void Player::Update(float deltaTime)

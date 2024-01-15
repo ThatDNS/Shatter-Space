@@ -39,6 +39,7 @@ void Engine::Update(float deltaTime)
 
 	// --------------------- Update Phase ---------------------
 	SceneManager::Get().Update(deltaTime);
+	RenderSystem::Get().Update(deltaTime);
 
 	// --------------------- Post-update Phase ---------------------
 	SceneManager::Get().PostUpdate();

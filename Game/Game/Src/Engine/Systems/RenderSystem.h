@@ -17,7 +17,7 @@ class RenderSystem
 	DECLARE_SINGLETON(RenderSystem)
 
 private:
-	const std::string DATA_FILE = "Assets/RenderSystem.json";
+	float cameraSpeed = 0.4f;
 
 	std::list<Renderable*> renderables;
 	std::list<Renderable*> renderablesToBeRemoved;
@@ -29,6 +29,7 @@ private:
 	Vector3 cameraPosition;
 	Vector3 cameraLookDir;
 	Vector3 cameraTarget;
+	Entity* toFollow = nullptr;
 
 	// Directional light (sun)
 	Vector3 lightDirection{ 0.0f, 0.0f, -1.0f };
@@ -44,6 +45,9 @@ public:
 	Vector3& GetCameraPosition() { return cameraPosition; }
 	Matrix4x4& GetViewMatrix() { return viewMatrix; }
 	Matrix4x4& GetProjectionMatrix() { return projectionMatrix; }
+	// Make the camera follow an entity
+	void AttachCamera(Entity* entityToFollow) { toFollow = entityToFollow; }
+	void FreeCamera() { toFollow = nullptr; };
 	
 	// ------------------ Light source ------------------
 	bool HasSun() const { return enableSun; }
@@ -56,6 +60,7 @@ protected:
 	void RemoveRenderable(Renderable*);
 
 	void Initialize();
+	void Update(float);
 	void Render();
 
 	friend class Engine;
