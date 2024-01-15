@@ -52,6 +52,7 @@
     <ClCompile Include="Src\Engine\Pools\ObjectPool.cpp" />
     <ClCompile Include="Src\Engine\Systems\CollisionSystem.cpp" />
     <ClCompile Include="Src\Engine\Systems\Engine.cpp" />
+    <ClCompile Include="Src\Engine\Systems\GameHUD.cpp" />
     <ClCompile Include="Src\Engine\Systems\RenderSystem.cpp" />
     <ClCompile Include="Src\Engine\Systems\Scene.cpp" />
     <ClCompile Include="Src\Engine\Systems\SceneManager.cpp" />
@@ -91,6 +92,7 @@
     <ClInclude Include="Src\Engine\Pools\ObjectPool.h" />
     <ClInclude Include="Src\Engine\Systems\CollisionSystem.h" />
     <ClInclude Include="Src\Engine\Systems\Engine.h" />
+    <ClInclude Include="Src\Engine\Systems\GameHUD.h" />
     <ClInclude Include="Src\Engine\Systems\RenderSystem.h" />
     <ClInclude Include="Src\Engine\Systems\Scene.h" />
     <ClInclude Include="Src\Engine\Systems\SceneManager.h" />

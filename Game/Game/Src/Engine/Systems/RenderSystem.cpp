@@ -52,7 +52,7 @@ void RenderSystem::Initialize()
 	cameraPosition = { 0.0f, 0.0f, 0.0f };
 	cameraLookDir = { 0.0f, 0.0f, 1.0f };
 
-	projectionMatrix = Matrix4x4::CreatePerspectiveFieldOfView(90.0f, (float)APP_INIT_WINDOW_HEIGHT / (float)APP_INIT_WINDOW_WIDTH, 0.1f, 1000.0f);
+	projectionMatrix = Matrix4x4::CreatePerspectiveFieldOfView(60.0f, (float)APP_INIT_WINDOW_HEIGHT / (float)APP_INIT_WINDOW_WIDTH, 1.0f, 500.0f);
 }
 
 void RenderSystem::Render()

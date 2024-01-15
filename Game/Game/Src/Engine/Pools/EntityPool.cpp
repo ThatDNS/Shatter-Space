@@ -102,11 +102,14 @@ void EntityPool::CleanUpObject(Object* object)
 	component = entity->GetComponent(SpriteC);
 	if (component != nullptr)
 		RenderSystem::Get().RemoveRenderable(static_cast<Renderable*>(component));
-
-	// Remove collider component from CollisionSystem
+	// - BoxColliderC
 	component = entity->GetComponent(BoxColliderC);
 	if (component != nullptr)
+	{
+		RenderSystem::Get().RemoveRenderable(static_cast<Renderable*>(component));
+		// Remove collider component from CollisionSystem
 		CollisionSystem::Get().RemoveCollider(static_cast<Collider*>(component));
+	}
 }
 
 void EntityPool::InitializeObject(Object* object)
@@ -125,9 +128,12 @@ void EntityPool::InitializeObject(Object* object)
 	component = entity->GetComponent(SpriteC);
 	if (component != nullptr)
 		RenderSystem::Get().AddRenderable(static_cast<Renderable*>(component));
-
-	// Add collider component to CollisionSystem
+	// - Box Collider
 	component = entity->GetComponent(BoxColliderC);
 	if (component != nullptr)
+	{
+		RenderSystem::Get().AddRenderable(static_cast<Renderable*>(component));
+		// Add collider component to CollisionSystem
 		CollisionSystem::Get().AddCollider(static_cast<Collider*>(component));
+	}
 }

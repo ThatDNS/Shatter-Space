@@ -177,3 +177,20 @@ void Entity::Move(Vector3& moveDelta, Collider* collider)
 		collider->Callibrate();
 	}
 }
+
+void Entity::Rotate(Vector3& rotateDelta, Collider* collider)
+{
+	// Rotate the entity
+	transform.Rotate(rotateDelta);
+
+	// Check if this caused collision
+	collider->Callibrate();
+	if (CollisionSystem::Get().CheckCollision(collider))
+	{
+		// Rotate the entity back
+		transform.rotation -= rotateDelta;
+
+		// Recallibrate
+		collider->Callibrate();
+	}
+}

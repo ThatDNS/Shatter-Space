@@ -13,11 +13,13 @@ class BoxCollider;
 class Player : public Component
 {
 	float moveSpeed = 1.0f;
+	float rotateSpeed = 0.5f;
 
 	// Cache the collider
 	BoxCollider* collider = nullptr;
 
 	void Move(float);
+	void Rotate(float);
 
 public:
 	Player() { type = PlayerC; }

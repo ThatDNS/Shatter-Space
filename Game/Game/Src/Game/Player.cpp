@@ -25,8 +25,9 @@ void Player::Update(float deltaTime)
 	Move(deltaTime);
 
 	// Rotate
-	Transform& transform = GetEntity()->GetTransform();
-	transform.Rotate(Vector3(0, 0.01f, 0.015f));
+	/*Transform& transform = GetEntity()->GetTransform();
+	transform.Rotate(Vector3(0, 0.01f, 0.015f));*/
+	Rotate(deltaTime);
 }
 
 void Player::Move(float deltaTime)
@@ -42,11 +43,11 @@ void Player::Move(float deltaTime)
 	}
 	if (App::GetController().GetLeftThumbStickY() > 0.5f)
 	{
-		++moveVector.z;
+		++moveVector.y;
 	}
 	if (App::GetController().GetLeftThumbStickY() < -0.5f)
 	{
-		--moveVector.z;
+		--moveVector.y;
 	}
 
 	moveVector.Normalize();
@@ -54,4 +55,30 @@ void Player::Move(float deltaTime)
 
 	// Move the entity
 	GetEntity()->Move(moveVector, collider);
+}
+
+void Player::Rotate(float deltaTime)
+{
+	float rotateZ = 0.0f;
+	if (App::GetController().GetRightThumbStickX() > 0.5f)
+	{
+		--rotateZ;
+	}
+	if (App::GetController().GetRightThumbStickX() < -0.5f)
+	{
+		++rotateZ;
+	}
+	if (App::GetController().GetRightThumbStickY() > 0.5f)
+	{
+		--rotateZ;
+	}
+	if (App::GetController().GetRightThumbStickY() < -0.5f)
+	{
+		++rotateZ;
+	}
+
+	Vector3 rotateDelta(0.0f, 0.0f, rotateZ * rotateSpeed * deltaTime / 100.0f);
+
+	// Rotate the entity
+	GetEntity()->Rotate(rotateDelta, collider);
 }

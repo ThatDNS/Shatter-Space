@@ -10,6 +10,49 @@
 
 #include "Game/Player.h"
 
+
+void CreatePlayer(Scene* scene, Vector3& position, Vector3& scale)
+{
+	Entity* entity = scene->CreateEntity(std::vector<ComponentType>{ MeshRendererC, BoxColliderC, PlayerC });
+	entity->SetName("Player");
+
+	// Load the data to the components of player entity
+	entity->GetTransform().position = position;
+	entity->GetTransform().scale = scale;
+
+	// Load player mesh
+	Component* component = entity->GetComponent(MeshRendererC);
+	MeshRenderer* mr = static_cast<MeshRenderer*>(component);
+	mr->LoadMesh("Assets/Objects/cone.obj");
+	mr->SetRenderBackSide(false);
+
+	// Set box collider data
+	component = entity->GetComponent(BoxColliderC);
+	BoxCollider* boxCollider = static_cast<BoxCollider*>(component);
+	boxCollider->SetShouldRender(true);
+
+	// Set player script data
+	component = entity->GetComponent(PlayerC);
+	Player* player = static_cast<Player*>(component);
+	player->SetMoveSpeed(1.5f);
+}
+
+void CreateWall(Scene* scene, Vector3& position, Vector3& scale)
+{
+	Entity* entity = scene->CreateEntity(std::vector<ComponentType>{ MeshRendererC, BoxColliderC });
+	entity->SetName("Wall1");
+
+	// Load the transform data
+	entity->GetTransform().position = position;
+	entity->GetTransform().scale = scale;
+
+	// Load wall mesh
+	Component* component = entity->GetComponent(MeshRendererC);
+	MeshRenderer* mr = static_cast<MeshRenderer*>(component);
+	mr->LoadMesh("Assets/Objects/cube.obj");
+	mr->SetRenderBackSide(false);
+}
+
 /**
  * @brief Function used to load up the 1st scene.
  * 
@@ -24,41 +67,14 @@ void SetupLevel1()
 	Scene* scene = SceneManager::Get().CreateNewScene();
 	scene->SetName("Level 1");
 
+	// ---------------------- Walls Entities ----------------------
+	CreateWall(scene, Vector3(-9.0f, 0.0f, 20.0f), Vector3(0.2f, 8.0f, 5.0f));
+	CreateWall(scene, Vector3(-3.0f, -1.0f, 20.0f), Vector3(0.2f, 6.0f, 5.0f));
+	CreateWall(scene, Vector3(3.0f, 1.0f, 20.0f), Vector3(0.2f, 6.0f, 5.0f));
+	CreateWall(scene, Vector3(9.0f, 0.0f, 20.0f), Vector3(0.2f, 8.0f, 5.0f));
+
 	// ---------------------- Player Entity ----------------------
 	// Create a player entity with archetype (mesh renderer, player)
-	Entity* entity = scene->CreateEntity(std::vector<ComponentType>{ MeshRendererC, BoxColliderC, PlayerC });
-	entity->SetName("PlayerGameObject");
+	CreatePlayer(scene, Vector3(0.0f, 0.0f, 15.0f), Vector3(1.0f, 1.0f, 1.0f));
 
-	// Load the data to the components of player entity
-	entity->GetTransform().position = Vector3(0.0f, 0.0f, 10.0f);
-
-	// Load player mesh
-	Component* component = entity->GetComponent(MeshRendererC);
-	MeshRenderer* mr = static_cast<MeshRenderer*>(component);
-	mr->LoadMesh("Assets/Objects/cube.obj");
-	mr->SetRenderBackSide(false);
-
-	// Set box collider data
-	component = entity->GetComponent(BoxColliderC);
-	BoxCollider* boxCollider = static_cast<BoxCollider*>(component);
-	boxCollider->SetShouldRender(true);
-
-	// Set player script data
-	component = entity->GetComponent(PlayerC);
-	Player* player = static_cast<Player*>(component);
-	player->SetMoveSpeed(1.5f);
-
-	// ---------------------- Wall Entity ----------------------
-	entity = scene->CreateEntity(std::vector<ComponentType>{ MeshRendererC, BoxColliderC });
-	entity->SetName("Wall");
-
-	// Load the data to the components of spaceship entity
-	entity->GetTransform().position = Vector3(5.0f, 0.0f, 10.0f);
-	entity->GetTransform().scale = Vector3(1.0f, 4.0f, 5.0f);
-
-	// Load wall mesh
-	component = entity->GetComponent(MeshRendererC);
-	mr = static_cast<MeshRenderer*>(component);
-	mr->LoadMesh("Assets/Objects/cube.obj");
-	mr->SetRenderBackSide(false);
 }
