@@ -13,6 +13,7 @@
 #include "Engine/Components/Transform.h"
 #include "Engine/Components/BoxCollider.h"
 #include "Engine/Components/RigidBody.h"
+#include "Engine/Components/Particles.h"
 #include "Engine/Math/Vector3.h"
 #include "Engine/Systems/RenderSystem.h"
 #include "Engine/Systems/CollisionSystem.h"
@@ -22,6 +23,7 @@ void Player::Initialize()
 	// Cache components
 	collider = static_cast<BoxCollider*>(GetEntity()->GetComponent(BoxColliderC));
 	rigidBody = static_cast<RigidBody*>(GetEntity()->GetComponent(RigidBodyC));
+	particles = static_cast<Particles*>(GetEntity()->GetComponent(ParticlesC));
 
 	// Attach camera to the player
 	RenderSystem::Get().AttachCamera(GetEntity());
@@ -52,12 +54,16 @@ void Player::Move(float deltaTime)
 	{
 		--moveVector.y;
 	}
-
 	moveVector.Normalize();
+	if (moveVector.Magnitude() == 0)
+		return;
+
 	moveVector = moveVector * (moveSpeed * deltaTime / 100.0f);
 
 	// Move the entity
 	rigidBody->ApplyForce(moveVector);
+	// Particles
+	particles->Emit(1, -moveVector);
 }
 
 void Player::Rotate(float deltaTime)

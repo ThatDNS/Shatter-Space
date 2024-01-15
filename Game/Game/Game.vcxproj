@@ -37,6 +37,7 @@
     <ClCompile Include="Src\Engine\Components\Component.cpp" />
     <ClCompile Include="Src\Engine\Components\Entity.cpp" />
     <ClCompile Include="Src\Engine\Components\MeshRenderer.cpp" />
+    <ClCompile Include="Src\Engine\Components\Particles.cpp" />
     <ClCompile Include="Src\Engine\Components\Renderable.cpp" />
     <ClCompile Include="Src\Engine\Components\RigidBody.cpp" />
     <ClCompile Include="Src\Engine\Components\Sprite.cpp" />
@@ -47,6 +48,7 @@
     <ClCompile Include="Src\Engine\Math\EngineMath.cpp" />
     <ClCompile Include="Src\Engine\Math\Matrix4x4.cpp" />
     <ClCompile Include="Src\Engine\Math\Mesh.cpp" />
+    <ClCompile Include="Src\Engine\Math\Random.cpp" />
     <ClCompile Include="Src\Engine\Math\Triangle.cpp" />
     <ClCompile Include="Src\Engine\Math\Vector3.cpp" />
     <ClCompile Include="Src\Engine\Pools\EntityPool.cpp" />
@@ -79,6 +81,7 @@
     <ClInclude Include="Src\Engine\Components\Component.h" />
     <ClInclude Include="Src\Engine\Components\Entity.h" />
     <ClInclude Include="Src\Engine\Components\MeshRenderer.h" />
+    <ClInclude Include="Src\Engine\Components\Particles.h" />
     <ClInclude Include="Src\Engine\Components\Renderable.h" />
     <ClInclude Include="Src\Engine\Components\RigidBody.h" />
     <ClInclude Include="Src\Engine\Components\Sprite.h" />
@@ -89,6 +92,7 @@
     <ClInclude Include="Src\Engine\Math\EngineMath.h" />
     <ClInclude Include="Src\Engine\Math\Matrix4x4.h" />
     <ClInclude Include="Src\Engine\Math\Mesh.h" />
+    <ClInclude Include="Src\Engine\Math\Random.h" />
     <ClInclude Include="Src\Engine\Math\Triangle.h" />
     <ClInclude Include="Src\Engine\Math\Vector3.h" />
     <ClInclude Include="Src\Engine\Pools\EntityPool.h" />

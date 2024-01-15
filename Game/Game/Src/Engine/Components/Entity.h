@@ -22,6 +22,8 @@ private:
 	// Each entity must know about its source pool to return back to it
 	EntityPool* sourcePool = nullptr;
 
+	std::string name = "";
+
 	std::list<Component*> components;
 	std::list<Component*> componentsToAdd;
 	std::list<Component*> componentsToRemove;
@@ -52,6 +54,8 @@ public:
 	void CartesianRotationZ(Vector3& rotateDir, Collider* collider, float rotationSpeed);
 
 	Transform& GetTransform() { return transform; }
+	const std::string& GetName() const { return name; }
+	void SetName(const std::string& n) { name = n; }
 
 	friend class Scene;
 	friend class EntityPool;

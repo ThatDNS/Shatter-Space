@@ -10,6 +10,7 @@
 
 class BoxCollider;
 class RigidBody;
+class Particles;
 
 class Player : public Component
 {
@@ -19,6 +20,7 @@ class Player : public Component
 	// Cache components
 	BoxCollider* collider = nullptr;
 	RigidBody* rigidBody = nullptr;
+	Particles* particles = nullptr;
 
 	void Move(float);
 	void Rotate(float);

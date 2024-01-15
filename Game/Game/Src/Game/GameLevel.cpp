@@ -7,13 +7,14 @@
 #include "Engine/Math/Vector3.h"
 #include "Engine/Components/MeshRenderer.h"
 #include "Engine/Components/BoxCollider.h"
+#include "Engine/Components/Particles.h"
 
 #include "Game/Player.h"
 
 
 void CreatePlayer(Scene* scene, Vector3& position, Vector3& scale)
 {
-	Entity* entity = scene->CreateEntity(std::vector<ComponentType>{ MeshRendererC, BoxColliderC, RigidBodyC, PlayerC });
+	Entity* entity = scene->CreateEntity(std::vector<ComponentType>{ MeshRendererC, BoxColliderC, RigidBodyC, ParticlesC, PlayerC });
 	entity->SetName("Player");
 
 	// Load the data to the components of player entity
@@ -24,12 +25,17 @@ void CreatePlayer(Scene* scene, Vector3& position, Vector3& scale)
 	Component* component = entity->GetComponent(MeshRendererC);
 	MeshRenderer* mr = static_cast<MeshRenderer*>(component);
 	mr->LoadMesh("Assets/Objects/cone.obj");
-	mr->SetRenderBackSide(true);
+	mr->SetRenderBackSide(false);
 
 	// Set box collider data
 	component = entity->GetComponent(BoxColliderC);
 	BoxCollider* boxCollider = static_cast<BoxCollider*>(component);
 	boxCollider->SetShouldRender(true);
+
+	// Particles settings
+	component = entity->GetComponent(ParticlesC);
+	Particles* particles = static_cast<Particles*>(component);
+	particles->SetParticleType(PROPULSION);
 
 	// Set player script data
 	component = entity->GetComponent(PlayerC);

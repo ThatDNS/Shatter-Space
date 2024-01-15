@@ -180,6 +180,12 @@
     <ClCompile Include="Src\Engine\Systems\PhysicsSystem.cpp">
       <Filter>Src\Engine\Source Files\Systems</Filter>
     </ClCompile>
+    <ClCompile Include="Src\Engine\Components\Particles.cpp">
+      <Filter>Src\Engine\Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Math\Random.cpp">
+      <Filter>Src\Engine\Source Files\Math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="NextAPI\App\app.h">
@@ -295,6 +301,12 @@
     </ClInclude>
     <ClInclude Include="Src\Engine\Systems\PhysicsSystem.h">
       <Filter>Src\Engine\Header Files\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Components\Particles.h">
+      <Filter>Src\Engine\Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Math\Random.h">
+      <Filter>Src\Engine\Header Files\Math</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
