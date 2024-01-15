@@ -7,6 +7,7 @@
 #include "Engine/Math/Vector3.h"
 #include "Engine/Components/MeshRenderer.h"
 #include "Engine/Components/BoxCollider.h"
+#include "Engine/Components/Particles.h"
 
 #include "Game/Player.h"
 
@@ -30,6 +31,11 @@ void CreatePlayer(Scene* scene, Vector3& position, Vector3& scale)
 	component = entity->GetComponent(BoxColliderC);
 	BoxCollider* boxCollider = static_cast<BoxCollider*>(component);
 	boxCollider->SetShouldRender(true);
+
+	// Particles settings
+	component = entity->GetComponent(ParticlesC);
+	Particles* particles = static_cast<Particles*>(component);
+	particles->SetParticleType(PROPULSION);
 
 	// Set player script data
 	component = entity->GetComponent(PlayerC);

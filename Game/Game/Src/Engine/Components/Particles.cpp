@@ -17,7 +17,7 @@ Particles::Particles()
 	particlePool.resize(maxParticles);
 }
 
-void Particles::Emit(int num)
+void Particles::Emit(int num, Vector3 direction)
 {
 	while (num)
 	{
@@ -32,12 +32,13 @@ void Particles::Emit(int num)
 		particle.lifeSpent = 0.0f;
 
 		particle.alpha = 1.0f;
-		particle.color = { 0.0f, 1.0f, 0.0f };
+		particle.color = particleStartColor;
 		particle.alphaDelta = Random::Get().Float() * 0.2f;
+
+		particle.speed = Random::Get().Float();
 
 		if (particleType == EXPLOSION)
 		{
-			particle.speed = Random::Get().Float();
 			// Explosion particles go away from center
 			particle.velocityDir.x = Random::Get().Float();
 			particle.velocityDir.y = Random::Get().Float();
@@ -48,97 +49,118 @@ void Particles::Emit(int num)
 			particle.lineLength = 2.0f;
 			particle.lineDelta = Random::Get().Float() * 0.1f;
 		}
+		else if (particleType == PROPULSION)
+		{
+			// Propulsion particles go opposite to the direction of motion
+			// Relying on the programmer to provide correct direcition.
+			particle.velocityDir = direction;
+			particle.velocityDir.Normalize();
+
+			particle.lineLength = 0.5f;
+			particle.lineDelta = Random::Get().Float() * 0.05f;
+		}
 
 		--num;
-		particleIdx = --particleIdx % particlePool.size();
+		particleIdx = (++particleIdx) % particlePool.size();
 	}
 }
 
 void Particles::Update(float deltaTime)
 {
 	// Update the existing particles
-	if (particleType == EXPLOSION)
+	for (Particle& particle : particlePool)
 	{
-		for (Particle& particle : particlePool)
+		if (!particle.isActive)
+			continue;
+
+		// Update life
+		particle.lifeSpent += deltaTime;
+		if (particle.lifeSpent > particle.lifeTime)
 		{
-			if (!particle.isActive)
-				continue;
-
-			// Update life
-			particle.lifeSpent += deltaTime;
-			if (particle.lifeSpent > particle.lifeTime)
-			{
-				particle.isActive = false;
-				continue;
-			}
-
-			// Move particle as per the velocity
-			particle.position += particle.velocityDir * particle.speed * (deltaTime / 100.0f);
-
-			// Rotate particle
-			particle.rotation += particle.rotationDelta * (deltaTime / 100.0f);
-
-			// Update color
-			particle.alpha -= particle.alphaDelta * (deltaTime / 100.0f);
-			if (particle.color.x > 0.0f) particle.color.x = particle.alpha;
-			if (particle.color.y > 0.0f) particle.color.y = particle.alpha;
-			if (particle.color.z > 0.0f) particle.color.z = particle.alpha;
-
-			if (particleType == EXPLOSION)
-			{
-				particle.lineLength -= particle.lineDelta;
-				particle.lineLength = std::max(0.1f, particle.lineLength);
-			}
+			particle.isActive = false;
+			continue;
 		}
+
+		// Move particle as per the velocity
+		particle.position += particle.velocityDir * particle.speed * (deltaTime / 100.0f);
+
+		// Rotate particle
+		particle.rotation += particle.rotationDelta * (deltaTime / 100.0f);
+
+		// Update color
+		particle.alpha -= particle.alphaDelta * (deltaTime / 100.0f);
+		Vector3::Lerp(particle.color, particleEndColor, (deltaTime / 500.0f));
+
+		particle.lineLength -= particle.lineDelta;
+		if (particleType == EXPLOSION)
+			particle.lineLength = std::max(0.5f, particle.lineLength);
+		else if (particleType == PROPULSION)
+			particle.lineLength = std::max(0.2f, particle.lineLength);
 	}
 }
 
 void Particles::Render()
 {
-	if (particleType == EXPLOSION)
+	for (Particle& particle : particlePool)
 	{
-		for (Particle& particle : particlePool)
+		if (!particle.isActive)
+			continue;
+
+		// View matrix
+		Matrix4x4 mView = RenderSystem::Get().GetViewMatrix();
+
+		// Projection matrix
+		Matrix4x4 mProj = RenderSystem::Get().GetProjectionMatrix();
+
+		std::vector<Vector3> points;
+		if (particleType == EXPLOSION)
 		{
-			if (!particle.isActive)
-				continue;
-
 			Vector3 lineStart, lineEnd;
-			ComputeLineEdges(particle.position, particle.lineLength, particle.rotation, lineStart, lineEnd);
+			ComputeLineVertices(particle.position, particle.lineLength, particle.rotation, lineStart, lineEnd);
+			points.push_back(lineStart);
+			points.push_back(lineEnd);
+		}
+		else if (particleType == PROPULSION)
+		{
+			Triangle tri;
+			ComputeTriangleVertices(particle.position, particle.lineLength, particle.rotation, tri);
 
-			// ---------- Render the line ----------
+			for (Vector3& vec : tri.points)
+				points.push_back(vec);
+		}
 
-			// View matrix
-			Matrix4x4 mView = RenderSystem::Get().GetViewMatrix();
-
-			// Projection matrix
-			Matrix4x4 mProj = RenderSystem::Get().GetProjectionMatrix();
-
+		// Transform the points
+		for (Vector3& point : points)
+		{
 			// Transform to view space
-			lineStart = mView * lineStart;
-			lineEnd = mView * lineEnd;
+			point = mView * point;
 			// Projection
-			lineStart = mProj * lineStart;
-			lineEnd = mProj * lineEnd;
+			point = mProj * point;
 			// Normalize
-			lineStart /= lineStart.w;
-			lineEnd /= lineEnd.w;
-
+			point /= point.w;
 			// Scale
-			lineStart += 1.0f;
-			lineStart.x *= 0.5f * (float)APP_INIT_WINDOW_WIDTH;
-			lineStart.y *= 0.5f * (float)APP_INIT_WINDOW_HEIGHT;
-			lineEnd += 1.0f;
-			lineEnd.x *= 0.5f * (float)APP_INIT_WINDOW_WIDTH;
-			lineEnd.y *= 0.5f * (float)APP_INIT_WINDOW_HEIGHT;
+			point += 1.0f;
+			point.x *= 0.5f * (float)APP_INIT_WINDOW_WIDTH;
+			point.y *= 0.5f * (float)APP_INIT_WINDOW_HEIGHT;
+		}
 
-			// Draw the line
-			App::DrawLine(lineStart.x, lineStart.y, lineEnd.x, lineEnd.y, particle.color.x, particle.color.y, particle.color.z);
+		// Render the line / triangle
+		if (particleType == EXPLOSION)
+		{
+			App::DrawLine(points[0].x, points[0].y, points[1].x, points[1].y, particle.color.x * particle.alpha, particle.color.y * particle.alpha, particle.color.z * particle.alpha);
+		}
+		else if (particleType == PROPULSION)
+		{
+			App::DrawLine(points[0].x, points[0].y, points[1].x, points[1].y, particle.color.x * particle.alpha, particle.color.y * particle.alpha, particle.color.z * particle.alpha);
+			App::DrawLine(points[0].x, points[0].y, points[2].x, points[2].y, particle.color.x * particle.alpha, particle.color.y * particle.alpha, particle.color.z * particle.alpha);
+			App::DrawLine(points[1].x, points[1].y, points[2].x, points[2].y, particle.color.x * particle.alpha, particle.color.y * particle.alpha, particle.color.z * particle.alpha);
 		}
 	}
 }
 
-void Particles::ComputeLineEdges(const Vector3& center, float length, float rotation, Vector3& edge1, Vector3& edge2)
+void Particles::ComputeLineVertices(const Vector3& center, float length, float rotation, Vector3& edge1, Vector3& edge2)
 {
+	// Half-lengths in x and y
 	float halfLengthX = 0.5f * length * std::cos(rotation);
 	float halfLengthY = 0.5f * length * std::sin(rotation);
 
@@ -150,4 +172,29 @@ void Particles::ComputeLineEdges(const Vector3& center, float length, float rota
 	edge2.x = center.x + halfLengthX;
 	edge2.y = center.y + halfLengthY;
 	edge2.z = center.z;
+}
+
+void Particles::ComputeTriangleVertices(const Vector3& center, float length, float rotation, Triangle& tri)
+{
+	// Angles for each vertex of the equilateral triangle
+	float angle1 = rotation;
+	float angle2 = angle1 + (2.0f * PI) / 3.0f;
+	float angle3 = angle2 + (2.0f * PI) / 3.0f;
+
+	// Half-lengths in x and y
+	float halfLengthX = 0.5f * length;
+	float halfLengthY = 0.5f * length * std::sqrt(3.0f);
+
+	// Calculate the coordinates of the triangle
+	tri.points[0].x = center.x + halfLengthX * std::cos(angle1);
+	tri.points[0].y = center.y + halfLengthY * std::sin(angle1);
+	tri.points[0].z = center.z;
+
+	tri.points[1].x = center.x + halfLengthX * std::cos(angle2);
+	tri.points[1].y = center.y + halfLengthY * std::sin(angle2);
+	tri.points[1].z = center.z;
+
+	tri.points[2].x = center.x + halfLengthX * std::cos(angle3);
+	tri.points[2].y = center.y + halfLengthY * std::sin(angle3);
+	tri.points[2].z = center.z;
 }

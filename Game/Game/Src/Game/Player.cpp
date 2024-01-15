@@ -58,11 +58,12 @@ void Player::Move(float deltaTime)
 	if (moveVector.Magnitude() == 0)
 		return;
 
-	particles->Emit(50);
 	moveVector = moveVector * (moveSpeed * deltaTime / 100.0f);
 
 	// Move the entity
 	rigidBody->ApplyForce(moveVector);
+	// Particles
+	particles->Emit(1, -moveVector);
 }
 
 void Player::Rotate(float deltaTime)

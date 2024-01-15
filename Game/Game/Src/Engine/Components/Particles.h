@@ -9,6 +9,7 @@
 
 #include "Engine/Components/Renderable.h"
 #include "Engine/Math/Vector3.h"
+#include "Engine/Math/Triangle.h"
 
 enum ParticleType
 {
@@ -21,6 +22,10 @@ class Particles : public Renderable
 private:
 	ParticleType particleType = EXPLOSION;
 	const size_t maxParticles = 500;
+
+	// Configurable props
+	Vector3 particleStartColor{ 1.0f, 0.0f, 0.0f };
+	Vector3 particleEndColor{ 0.0f, 0.0f, 1.0f };
 
 	struct Particle
 	{
@@ -43,16 +48,18 @@ private:
 		float alpha = 1.0f;
 		float alphaDelta = 0.0f;
 
-		// Explosion particle specific variables
+		// For explosion, this is line length
+		// For propulsion, this is triangle length
 		float lineLength = 2.0f;
 		float lineDelta = 0.0f;
 	};
 
-	size_t particleIdx = maxParticles - 1;
+	size_t particleIdx = 0;
 	std::vector<Particle> particlePool;
 
 	// Utility functions
-	void ComputeLineEdges(const Vector3& center, float length, float rotation, Vector3& edge1, Vector3& edge2);
+	void ComputeLineVertices(const Vector3& center, float length, float rotation, Vector3& edge1, Vector3& edge2);
+	void ComputeTriangleVertices(const Vector3& center, float length, float rotation, Triangle& tri);
 
 protected:
 	// Protected destructor so that only Entity can delete it
@@ -66,8 +73,13 @@ protected:
 public:
 	Particles();
 
+	void SetParticleColors(Vector3& startColor, Vector3& endColor) { particleStartColor = startColor; particleEndColor = endColor; }
+	
+	// Must be done before initialization.
+	void SetParticleType(ParticleType p) { particleType = p; }
+
 	// Emit n particles
-	void Emit(int);
+	void Emit(int num, Vector3 direction = {0.0f, 0.0f, 0.0f});
 };
 
 #endif // !_PARTICLES_H_
