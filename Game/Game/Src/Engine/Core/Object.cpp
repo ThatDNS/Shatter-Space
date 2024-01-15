@@ -18,9 +18,3 @@ Object::Object(std::string& guid) : guid(guid)
 {
     uid = GetHashCode(guid.c_str());
 }
-
-Object::Object(std::string& guid, std::string& name) : guid(guid), name(name)
-{
-    uid = GetHashCode(this->guid.c_str());
-}
-

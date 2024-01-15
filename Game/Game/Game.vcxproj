@@ -37,6 +37,7 @@
     <ClCompile Include="Src\Engine\Components\Component.cpp" />
     <ClCompile Include="Src\Engine\Components\Entity.cpp" />
     <ClCompile Include="Src\Engine\Components\MeshRenderer.cpp" />
+    <ClCompile Include="Src\Engine\Components\Particles.cpp" />
     <ClCompile Include="Src\Engine\Components\Renderable.cpp" />
     <ClCompile Include="Src\Engine\Components\RigidBody.cpp" />
     <ClCompile Include="Src\Engine\Components\Sprite.cpp" />
@@ -79,6 +80,7 @@
     <ClInclude Include="Src\Engine\Components\Component.h" />
     <ClInclude Include="Src\Engine\Components\Entity.h" />
     <ClInclude Include="Src\Engine\Components\MeshRenderer.h" />
+    <ClInclude Include="Src\Engine\Components\Particles.h" />
     <ClInclude Include="Src\Engine\Components\Renderable.h" />
     <ClInclude Include="Src\Engine\Components\RigidBody.h" />
     <ClInclude Include="Src\Engine\Components\Sprite.h" />

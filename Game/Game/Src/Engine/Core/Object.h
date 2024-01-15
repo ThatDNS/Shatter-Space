@@ -11,16 +11,13 @@ class Object
 {
 protected:
 	bool isActive = true;
-
 	bool isEntity = false;  // useful in derived class Entity
 
-	std::string name = "";
 	std::string guid = "";
 	STRCODE uid = 0;
 
 	Object();
 	Object(std::string& guid);
-	Object(std::string& guid, std::string& name);
 
 public:
 	virtual ~Object() = default;
@@ -30,8 +27,6 @@ public:
 
 	void SetActive(bool value) { isActive = value; }
 	bool IsActive() const { return isActive; }
-	const std::string& GetName() const { return name; }
-	void SetName(const std::string& n) { name = n; }
 	const std::string& GetGUID() const { return guid; }
 	const STRCODE GetUid() const { return uid; }
 
