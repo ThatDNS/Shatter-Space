@@ -162,10 +162,13 @@ bool Entity::RemoveComponent(Component* _component)
 	return false;
 }
 
-void Entity::Move(Vector3& moveDelta, Collider* collider)
+bool Entity::Move(Vector3& moveDelta, Collider* collider)
 {
 	// Move the entity
 	transform.Translate(moveDelta);
+	
+	if (collider == nullptr)
+		return true;
 
 	// Check if this caused collision
 	collider->Callibrate();
@@ -176,7 +179,11 @@ void Entity::Move(Vector3& moveDelta, Collider* collider)
 
 		// Recallibrate
 		collider->Callibrate();
+
+		return false;
 	}
+
+	return true;
 }
 
 void Entity::CartesianRotationZ(Vector3& rotateDir, Collider* collider, float rotationSpeed)
@@ -195,6 +202,9 @@ void Entity::CartesianRotationZ(Vector3& rotateDir, Collider* collider, float ro
 		transform.rotation.z = newRotation.z;  // Don't lerp if change is too drastic
 	else
 		Vector3::Lerp(transform.rotation, newRotation, rotationSpeed);
+
+	if (collider == nullptr)
+		return;
 
 	// Check if this caused collision
 	collider->Callibrate();

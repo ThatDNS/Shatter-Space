@@ -5,6 +5,7 @@
 #include "Engine/Systems/SceneManager.h"
 #include "Engine/Systems/RenderSystem.h"
 #include "Engine/Systems/CollisionSystem.h"
+#include "Engine/Systems/PhysicsSystem.h"
 #include "Engine/Systems/GameHUD.h"
 #include "Engine/Pools/EntityPool.h"
 
@@ -40,6 +41,7 @@ void Engine::Update(float deltaTime)
 	// --------------------- Update Phase ---------------------
 	SceneManager::Get().Update(deltaTime);
 	RenderSystem::Get().Update(deltaTime);
+	PhysicsSystem::Get().Update(deltaTime);
 
 	// --------------------- Post-update Phase ---------------------
 	SceneManager::Get().PostUpdate();

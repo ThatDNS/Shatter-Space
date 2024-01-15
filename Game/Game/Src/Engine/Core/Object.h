@@ -10,9 +10,6 @@
 class Object
 {
 protected:
-	// Variables used for object pooling
-	bool isFreeInObjectPool = true;
-
 	bool isActive = true;
 
 	bool isEntity = false;  // useful in derived class Entity
@@ -24,7 +21,6 @@ protected:
 	Object();
 	Object(std::string& guid);
 	Object(std::string& guid, std::string& name);
-
 
 public:
 	virtual ~Object() = default;
@@ -38,10 +34,6 @@ public:
 	void SetName(const std::string& n) { name = n; }
 	const std::string& GetGUID() const { return guid; }
 	const STRCODE GetUid() const { return uid; }
-
-	/*bool IsFreeInObjectPool() const { return isFreeInObjectPool; }
-	void MarkOccupiedInObjectPool() { isFreeInObjectPool = false; }
-	void MarkFreeInObjectPool() { isFreeInObjectPool = true; }*/
 
 	bool IsEntity() const { return isEntity; }
 };

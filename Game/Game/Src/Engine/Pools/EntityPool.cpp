@@ -11,10 +11,12 @@
 #include "Engine/Components/Entity.h"
 #include "Engine/Components/Renderable.h"
 #include "Engine/Components/Collider.h"
+#include "Engine/Components/RigidBody.h"
 #include "Engine/Systems/SceneManager.h"
 #include "Engine/Systems/Scene.h"
 #include "Engine/Systems/RenderSystem.h"
 #include "Engine/Systems/CollisionSystem.h"
+#include "Engine/Systems/PhysicsSystem.h"
 
 EntityPool::EntityPool(std::vector<ComponentType>& components)
 {
@@ -110,6 +112,12 @@ void EntityPool::CleanUpObject(Object* object)
 		// Remove collider component from CollisionSystem
 		CollisionSystem::Get().RemoveCollider(static_cast<Collider*>(component));
 	}
+	// Remove rigidbody from PhysicsSystem
+	component = entity->GetComponent(RigidBodyC);
+	if (component != nullptr)
+	{
+		PhysicsSystem::Get().RemoveRigidBody(static_cast<RigidBody*>(component));
+	}
 }
 
 void EntityPool::InitializeObject(Object* object)
@@ -135,5 +143,11 @@ void EntityPool::InitializeObject(Object* object)
 		RenderSystem::Get().AddRenderable(static_cast<Renderable*>(component));
 		// Add collider component to CollisionSystem
 		CollisionSystem::Get().AddCollider(static_cast<Collider*>(component));
+	}
+	// Add rigidbody to PhysicsSystem
+	component = entity->GetComponent(RigidBodyC);
+	if (component != nullptr)
+	{
+		PhysicsSystem::Get().AddRigidBody(static_cast<RigidBody*>(component));
 	}
 }

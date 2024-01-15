@@ -20,6 +20,14 @@ void Vector3::Normalize()
 	z = z / magnitude;
 }
 
+void Vector3::Reset()
+{
+	x = 0.0f;
+	y = 0.0f;
+	z = 0.0f;
+	w = 1.0f;
+}
+
 float Vector3::Distance(const Vector3& other) const
 {
 	return (float) std::sqrt(pow(other.x - x, 2) + pow(other.y - y, 2) + pow(other.z - z, 2));

@@ -12,13 +12,17 @@
 #include "Engine/Components/Component.h"
 #include "Engine/Components/Transform.h"
 #include "Engine/Components/BoxCollider.h"
+#include "Engine/Components/RigidBody.h"
 #include "Engine/Math/Vector3.h"
 #include "Engine/Systems/RenderSystem.h"
 #include "Engine/Systems/CollisionSystem.h"
 
 void Player::Initialize()
 {
+	// Cache components
 	collider = static_cast<BoxCollider*>(GetEntity()->GetComponent(BoxColliderC));
+	rigidBody = static_cast<RigidBody*>(GetEntity()->GetComponent(RigidBodyC));
+
 	// Attach camera to the player
 	RenderSystem::Get().AttachCamera(GetEntity());
 }
@@ -53,7 +57,7 @@ void Player::Move(float deltaTime)
 	moveVector = moveVector * (moveSpeed * deltaTime / 100.0f);
 
 	// Move the entity
-	GetEntity()->Move(moveVector, collider);
+	rigidBody->ApplyForce(moveVector);
 }
 
 void Player::Rotate(float deltaTime)

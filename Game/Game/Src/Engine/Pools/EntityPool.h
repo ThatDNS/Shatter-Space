@@ -7,6 +7,7 @@
 #define _ENTITY_POOL_H_
 
 #include "Engine/Pools/ObjectPool.h"
+#include "Engine/Components/Component.h"
 
 class Entity;
 

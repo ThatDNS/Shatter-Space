@@ -10,8 +10,8 @@
 #include "Engine/Components/Component.h"
 #include "Engine/Math/Vector3.h"
 
-class Transform : public Component {
-
+class Transform : public Component
+{
 public:
     Vector3 position{ 0.0f, 0.0f, 0.0f };
     Vector3 rotation{ 0.0f, 0.0f, 0.0f };  // degrees

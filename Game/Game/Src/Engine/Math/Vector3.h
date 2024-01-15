@@ -19,6 +19,7 @@ public:
 
 	float Magnitude() const;
 	void Normalize();
+	void Reset();
 	
 	float Distance(const Vector3&) const;
 

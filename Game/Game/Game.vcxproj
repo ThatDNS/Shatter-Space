@@ -38,6 +38,7 @@
     <ClCompile Include="Src\Engine\Components\Entity.cpp" />
     <ClCompile Include="Src\Engine\Components\MeshRenderer.cpp" />
     <ClCompile Include="Src\Engine\Components\Renderable.cpp" />
+    <ClCompile Include="Src\Engine\Components\RigidBody.cpp" />
     <ClCompile Include="Src\Engine\Components\Sprite.cpp" />
     <ClCompile Include="Src\Engine\Components\Transform.cpp" />
     <ClCompile Include="Src\Engine\Core\Logger.cpp" />
@@ -53,6 +54,7 @@
     <ClCompile Include="Src\Engine\Systems\CollisionSystem.cpp" />
     <ClCompile Include="Src\Engine\Systems\Engine.cpp" />
     <ClCompile Include="Src\Engine\Systems\GameHUD.cpp" />
+    <ClCompile Include="Src\Engine\Systems\PhysicsSystem.cpp" />
     <ClCompile Include="Src\Engine\Systems\RenderSystem.cpp" />
     <ClCompile Include="Src\Engine\Systems\Scene.cpp" />
     <ClCompile Include="Src\Engine\Systems\SceneManager.cpp" />
@@ -78,6 +80,7 @@
     <ClInclude Include="Src\Engine\Components\Entity.h" />
     <ClInclude Include="Src\Engine\Components\MeshRenderer.h" />
     <ClInclude Include="Src\Engine\Components\Renderable.h" />
+    <ClInclude Include="Src\Engine\Components\RigidBody.h" />
     <ClInclude Include="Src\Engine\Components\Sprite.h" />
     <ClInclude Include="Src\Engine\Components\Transform.h" />
     <ClInclude Include="Src\Engine\Core\Logger.h" />
@@ -93,6 +96,7 @@
     <ClInclude Include="Src\Engine\Systems\CollisionSystem.h" />
     <ClInclude Include="Src\Engine\Systems\Engine.h" />
     <ClInclude Include="Src\Engine\Systems\GameHUD.h" />
+    <ClInclude Include="Src\Engine\Systems\PhysicsSystem.h" />
     <ClInclude Include="Src\Engine\Systems\RenderSystem.h" />
     <ClInclude Include="Src\Engine\Systems\Scene.h" />
     <ClInclude Include="Src\Engine\Systems\SceneManager.h" />
