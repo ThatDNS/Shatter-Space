@@ -17,13 +17,7 @@ void CollisionSystem::Initialize()
 
 	// CollisionSystem gets initialized after the SceneManager
 	// So we can safely assume that initial colliders are present in the list
-	std::vector<BoxCollider*> boxColliders;
-	for (Collider* collider : colliders)
-	{
-		if (collider->GetColliderType() == BOX)
-			boxColliders.push_back(static_cast<BoxCollider*>(collider));
-	}
-	bvhTree->BuildTree(boxColliders);
+	BuildNewBVHTree();
 }
 
 void CollisionSystem::Update()
@@ -41,7 +35,24 @@ void CollisionSystem::Update()
 
 	// Update BVH Tree
 	if (updateTree)
-		bvhTree->RebuildTree();
+	{
+		if (treeUpdateCount >= MAX_TREE_UPDATE_ITERS)
+		{
+			// BVH tree has been rebuilt a lot of times. In each rebuilt, its AABBs are adjusted. These
+			// adjustments could easily lead to inefficiencies over time. Hence, its important to recreate
+			// a fully-efficient BVH tree every once a while.
+			bvhTree->Destroy();
+			BuildNewBVHTree();
+
+			treeUpdateCount = 0;
+		}
+		else
+		{
+			bvhTree->RebuildTree();
+
+			++treeUpdateCount;
+		}
+	}
 }
 
 void CollisionSystem::Destroy()
@@ -61,6 +72,17 @@ void CollisionSystem::AddCollider(Collider* collider)
 void CollisionSystem::RemoveCollider(Collider* collider)
 {
 	colliders.remove(collider);
+}
+
+void CollisionSystem::BuildNewBVHTree()
+{
+	std::vector<BoxCollider*> boxColliders;
+	for (Collider* collider : colliders)
+	{
+		if (collider->GetColliderType() == BOX)
+			boxColliders.push_back(static_cast<BoxCollider*>(collider));
+	}
+	bvhTree->BuildTree(boxColliders);
 }
 
 bool CollisionSystem::CheckCollision(Collider* collider)
