@@ -32,8 +32,8 @@ private:
 	Entity* toFollow = nullptr;
 
 	// Directional light (sun)
-	Vector3 lightDirection{ 0.0f, 0.0f, -1.0f };
-	bool enableSun = false;
+	Vector3 lightDirection{ -0.5f, 0.0f, -1.0f };
+	bool enableSun = true;
 
 	Matrix4x4 viewMatrix;
 	Matrix4x4 projectionMatrix;

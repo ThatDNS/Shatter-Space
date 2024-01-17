@@ -29,7 +29,7 @@ void CreatePlayer(Scene* scene, Vector3& position, Vector3& scale)
 	MeshRenderer* mr = static_cast<MeshRenderer*>(component);
 	mr->LoadMesh("Assets/Objects/cone.obj");
 	mr->SetRenderBackSide(true);
-	mr->SetMeshColor(Vector3(0.0f, 0.0f, 1.0f));
+	mr->SetMeshColor(Vector3(0.0f, 1.0f, 0.0f));
 
 	// Set box collider data
 	component = entity->GetComponent(BoxColliderC);
@@ -61,6 +61,7 @@ void CreateWall(Scene* scene, Vector3& position, Vector3& scale)
 	MeshRenderer* mr = static_cast<MeshRenderer*>(component);
 	mr->LoadMesh("Assets/Objects/cube.obj");
 	mr->SetRenderBackSide(true);
+	mr->SetMeshColor(Vector3(0.0f, 0.0f, 1.0f));
 }
 
 /**

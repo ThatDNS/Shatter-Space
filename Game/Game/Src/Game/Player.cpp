@@ -32,7 +32,6 @@ void Player::Initialize()
 void Player::Update(float deltaTime)
 {
 	Move(deltaTime);
-	Rotate(deltaTime);
 }
 
 void Player::Move(float deltaTime)
@@ -62,17 +61,8 @@ void Player::Move(float deltaTime)
 
 	// Move the entity
 	rigidBody->ApplyForce(moveVector);
+	// Rotate the entity in direction of motion
+	GetEntity()->CartesianRotationZ(moveVector, collider, rotateSpeed * deltaTime / 100.0f);
 	// Particles
 	particles->Emit(1, -moveVector);
-}
-
-void Player::Rotate(float deltaTime)
-{
-	Vector3 rotateDir{ -App::GetController().GetRightThumbStickX(), App::GetController().GetRightThumbStickY(), 0.0f };
-	rotateDir.Normalize();
-	if (rotateDir.Magnitude() == 0)
-		return;
-
-	// Rotate the entity
-	GetEntity()->CartesianRotationZ(rotateDir, collider, rotateSpeed * deltaTime / 100.0f);
 }

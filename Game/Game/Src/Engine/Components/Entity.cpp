@@ -10,6 +10,7 @@
 #include "Engine/Components/Component.h"
 #include "Engine/Components/Transform.h"
 #include "Engine/Components/Collider.h"
+#include "Engine/Core/Logger.h"
 
 Entity::Entity()
 {
@@ -189,19 +190,27 @@ bool Entity::Move(Vector3& moveDelta, Collider* collider)
 void Entity::CartesianRotationZ(Vector3& rotateDir, Collider* collider, float rotationSpeed)
 {
 	// Convert to radians
-	float rad = std::atan2f(rotateDir.x, rotateDir.y);
+	float rad = std::atan2f(-rotateDir.x, rotateDir.y);
 	if (rad < 0.0f)  // [-PI, PI] -> [0, 2*PI]
 		rad += 2.0f * PI;
 
 	// Cache it to rollback in case of collision
 	Vector3 prevRotation = transform.rotation;
 
-	// Rotate the entity
-	Vector3 newRotation{ transform.rotation.x, transform.rotation.y, rad };
-	if (std::abs(std::abs(transform.rotation.z) - std::abs(newRotation.z)) > 3.0f * PI / 2.0f)
-		transform.rotation.z = newRotation.z;  // Don't lerp if change is too drastic
-	else
-		Vector3::Lerp(transform.rotation, newRotation, rotationSpeed);
+	// A custom lerp functionality because the angle range goes from [0, 2PI]
+	// and some transition values won't take shortest path in normal lerp
+	// For example, PI/4 to 3PI/2 transition should be [PI/4 -> 0 -> 2PI -> 3PI/2]
+	// instead of [PI/4 -> PI/2 -> 3PI/2].
+	float diff = std::fabs(transform.rotation.z - rad);
+	if (diff > PI)
+	{
+		if (rad > transform.rotation.z)
+			transform.rotation.z += 2.0f * PI;
+		else
+			transform.rotation.z -= 2.0f * PI;
+	}
+	rotationSpeed = std::fmax(0.0f, std::fmin(1.0f, rotationSpeed));
+	transform.rotation.z = std::fmod(transform.rotation.z + rotationSpeed * (rad - transform.rotation.z), 2.0f * PI);
 
 	if (collider == nullptr)
 		return;
