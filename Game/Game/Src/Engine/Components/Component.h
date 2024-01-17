@@ -20,6 +20,7 @@ enum ComponentType {
     BoxColliderC,
     RigidBodyC,
     ParticlesC,
+    CanvasC,
     PlayerC
 };
 

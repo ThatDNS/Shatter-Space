@@ -80,17 +80,26 @@ void SceneManager::SetActiveScene(Scene* scene)
 
 Entity* SceneManager::GetNewEntity(std::vector<ComponentType>& components)
 {
+	// Generally, there's just 1 canvas entity in a scene. So its pool size can be 1.
+	bool hasCanvas = false;
 	// Create the string whose hash is used as key for the Entity pool
 	std::string compStr = "";
 	for (ComponentType componentType : components)
+	{
+		if (componentType == CanvasC)
+			hasCanvas = true;
 		compStr += ComponentTypeToStr(componentType);
+	}
 
 	EntityPool* relevantPool = nullptr;
 	STRCODE compHash = GetHashCode(compStr.c_str());
 	if (entityPools.find(compHash) == entityPools.end())
 	{
 		// Create new entity pool
-		relevantPool = new EntityPool(components);
+		if (hasCanvas)
+			relevantPool = new EntityPool(components, 1);
+		else
+			relevantPool = new EntityPool(components);
 		// Track it
 		entityPools[compHash] = relevantPool;
 	}

@@ -18,9 +18,10 @@
 #include "Engine/Systems/CollisionSystem.h"
 #include "Engine/Systems/PhysicsSystem.h"
 
-EntityPool::EntityPool(std::vector<ComponentType>& components)
+EntityPool::EntityPool(std::vector<ComponentType>& components, int _poolSize)
 {
 	componentTypes = components;
+	poolSize = _poolSize;
 	for (size_t i = 0; i < poolSize; i++)
 	{
 		Object* object = CreateObjectForPool();

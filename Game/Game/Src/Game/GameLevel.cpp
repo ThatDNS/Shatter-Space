@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "App/app.h"
 
 #include "Engine/Systems/SceneManager.h"
 #include "Engine/Systems/Scene.h"
@@ -7,6 +8,7 @@
 #include "Engine/Math/Vector3.h"
 #include "Engine/Components/MeshRenderer.h"
 #include "Engine/Components/BoxCollider.h"
+#include "Engine/Components/Canvas.h"
 #include "Engine/Components/Particles.h"
 
 #include "Game/Player.h"
@@ -14,6 +16,7 @@
 
 void CreatePlayer(Scene* scene, Vector3& position, Vector3& scale)
 {
+	// Create a player entity with archetype (mesh renderer, player)
 	Entity* entity = scene->CreateEntity(std::vector<ComponentType>{ MeshRendererC, BoxColliderC, RigidBodyC, ParticlesC, PlayerC });
 	entity->SetName("Player");
 
@@ -25,7 +28,8 @@ void CreatePlayer(Scene* scene, Vector3& position, Vector3& scale)
 	Component* component = entity->GetComponent(MeshRendererC);
 	MeshRenderer* mr = static_cast<MeshRenderer*>(component);
 	mr->LoadMesh("Assets/Objects/cone.obj");
-	mr->SetRenderBackSide(false);
+	mr->SetRenderBackSide(true);
+	mr->SetMeshColor(Vector3(0.0f, 0.0f, 1.0f));
 
 	// Set box collider data
 	component = entity->GetComponent(BoxColliderC);
@@ -46,7 +50,7 @@ void CreatePlayer(Scene* scene, Vector3& position, Vector3& scale)
 void CreateWall(Scene* scene, Vector3& position, Vector3& scale)
 {
 	Entity* entity = scene->CreateEntity(std::vector<ComponentType>{ MeshRendererC, BoxColliderC });
-	entity->SetName("Wall1");
+	entity->SetName("Wall");
 
 	// Load the transform data
 	entity->GetTransform().position = position;
@@ -80,7 +84,14 @@ void SetupLevel1()
 	CreateWall(scene, Vector3(9.0f, 0.0f, 20.0f), Vector3(0.2f, 8.0f, 5.0f));
 
 	// ---------------------- Player Entity ----------------------
-	// Create a player entity with archetype (mesh renderer, player)
 	CreatePlayer(scene, Vector3(0.0f, 0.0f, 15.0f), Vector3(1.0f, 1.0f, 1.0f));
+
+	// ---------------------- Canvas Entity ----------------------
+	Entity* entity = scene->CreateEntity(std::vector<ComponentType>{ CanvasC });
+
+	// Add canvas data
+	Component* component = entity->GetComponent(CanvasC);
+	Canvas* canvas = static_cast<Canvas*>(component);
+	canvas->AddText(CanvasText(20, APP_VIRTUAL_HEIGHT - 30, "Level 1"));
 
 }

@@ -33,6 +33,7 @@
     <ClCompile Include="NextAPI\App\SimpleSprite.cpp" />
     <ClCompile Include="Src\Engine\Algorithms\BVH.cpp" />
     <ClCompile Include="Src\Engine\Components\BoxCollider.cpp" />
+    <ClCompile Include="Src\Engine\Components\Canvas.cpp" />
     <ClCompile Include="Src\Engine\Components\Collider.cpp" />
     <ClCompile Include="Src\Engine\Components\Component.cpp" />
     <ClCompile Include="Src\Engine\Components\Entity.cpp" />
@@ -55,7 +56,6 @@
     <ClCompile Include="Src\Engine\Pools\ObjectPool.cpp" />
     <ClCompile Include="Src\Engine\Systems\CollisionSystem.cpp" />
     <ClCompile Include="Src\Engine\Systems\Engine.cpp" />
-    <ClCompile Include="Src\Engine\Systems\GameHUD.cpp" />
     <ClCompile Include="Src\Engine\Systems\PhysicsSystem.cpp" />
     <ClCompile Include="Src\Engine\Systems\RenderSystem.cpp" />
     <ClCompile Include="Src\Engine\Systems\Scene.cpp" />
@@ -77,6 +77,7 @@
     <ClInclude Include="Src\Engine\Algorithms\AABB.h" />
     <ClInclude Include="Src\Engine\Algorithms\BVH.h" />
     <ClInclude Include="Src\Engine\Components\BoxCollider.h" />
+    <ClInclude Include="Src\Engine\Components\Canvas.h" />
     <ClInclude Include="Src\Engine\Components\Collider.h" />
     <ClInclude Include="Src\Engine\Components\Component.h" />
     <ClInclude Include="Src\Engine\Components\Entity.h" />
@@ -99,7 +100,6 @@
     <ClInclude Include="Src\Engine\Pools\ObjectPool.h" />
     <ClInclude Include="Src\Engine\Systems\CollisionSystem.h" />
     <ClInclude Include="Src\Engine\Systems\Engine.h" />
-    <ClInclude Include="Src\Engine\Systems\GameHUD.h" />
     <ClInclude Include="Src\Engine\Systems\PhysicsSystem.h" />
     <ClInclude Include="Src\Engine\Systems\RenderSystem.h" />
     <ClInclude Include="Src\Engine\Systems\Scene.h" />
