@@ -171,9 +171,6 @@
     <ClCompile Include="Src\Engine\Algorithms\BVH.cpp">
       <Filter>Src\Engine\Source Files\Algorithms</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Engine\Systems\GameHUD.cpp">
-      <Filter>Src\Engine\Source Files\Systems</Filter>
-    </ClCompile>
     <ClCompile Include="Src\Engine\Components\RigidBody.cpp">
       <Filter>Src\Engine\Source Files\Components</Filter>
     </ClCompile>
@@ -185,6 +182,9 @@
     </ClCompile>
     <ClCompile Include="Src\Engine\Math\Random.cpp">
       <Filter>Src\Engine\Source Files\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Components\Canvas.cpp">
+      <Filter>Src\Engine\Source Files\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -293,9 +293,6 @@
     <ClInclude Include="Src\Engine\Algorithms\AABB.h">
       <Filter>Src\Engine\Header Files\Algorithms</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Engine\Systems\GameHUD.h">
-      <Filter>Src\Engine\Header Files\Systems</Filter>
-    </ClInclude>
     <ClInclude Include="Src\Engine\Components\RigidBody.h">
       <Filter>Src\Engine\Header Files\Components</Filter>
     </ClInclude>
@@ -307,6 +304,9 @@
     </ClInclude>
     <ClInclude Include="Src\Engine\Math\Random.h">
       <Filter>Src\Engine\Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Components\Canvas.h">
+      <Filter>Src\Engine\Header Files\Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

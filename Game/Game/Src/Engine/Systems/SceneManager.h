@@ -107,6 +107,8 @@ public:
 	 * @return Pointer to the entity.
 	 */
 	Entity* GetNewEntity(std::vector<ComponentType>& components);
+
+
 };
 
 #endif // !_SCENE_MANAGER_H_

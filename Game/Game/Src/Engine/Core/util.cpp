@@ -12,6 +12,7 @@
 #include "Engine/Components/BoxCollider.h"
 #include "Engine/Components/RigidBody.h"
 #include "Engine/Components/Particles.h"
+#include "Engine/Components/Canvas.h"
 #include "Game/Player.h"
 
 STRCODE GetHashCode(const char* str)
@@ -77,6 +78,9 @@ Component* CreateComponent(ComponentType componentType)
 	case ParticlesC:
 		component = new Particles();
 		break;
+	case CanvasC:
+		component = new Canvas();
+		break;
 	// Game Components
 	case PlayerC:
 		component = new Player();
@@ -111,6 +115,9 @@ std::string ComponentTypeToStr(ComponentType componentType)
 		break;
 	case ParticlesC:
 		componentName = "Particles";
+		break;
+	case CanvasC:
+		componentName = "Canvas";
 		break;
 	// Game Components
 	case PlayerC:

@@ -32,7 +32,7 @@ private:
 	// Component creation happens with new entity creation. Improves cache coherence.
 	std::vector<ComponentType> componentTypes;
 
-	std::vector<ComponentType> renderables{ MeshRendererC, SpriteC, BoxColliderC, ParticlesC };
+	std::vector<ComponentType> renderables{ MeshRendererC, SpriteC, BoxColliderC, ParticlesC, CanvasC };
 	std::vector<ComponentType> colliders{ BoxColliderC };
 
 	void CleanUpObject(Object*) override;
@@ -47,7 +47,7 @@ private:
 	inline EntityPool& operator=(EntityPool const&) = delete;
 
 public:
-	EntityPool(std::vector<ComponentType>&);
+	EntityPool(std::vector<ComponentType>&, int _poolSize = 10);
 	~EntityPool();
 
 	friend class Engine;

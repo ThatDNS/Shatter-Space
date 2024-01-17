@@ -6,7 +6,6 @@
 #include "Engine/Systems/RenderSystem.h"
 #include "Engine/Systems/CollisionSystem.h"
 #include "Engine/Systems/PhysicsSystem.h"
-#include "Engine/Systems/GameHUD.h"
 #include "Engine/Pools/EntityPool.h"
 
 void Engine::Wakeup()
@@ -59,7 +58,4 @@ void Engine::Render()
 {
 	// Render the game
 	RenderSystem::Get().Render();
-
-	// Render the HUD
-	GameHUD::Get().Render();
 }
