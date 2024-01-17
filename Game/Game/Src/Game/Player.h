@@ -23,7 +23,6 @@ class Player : public Component
 	Particles* particles = nullptr;
 
 	void Move(float);
-	void Rotate(float);
 
 public:
 	Player() { type = PlayerC; }

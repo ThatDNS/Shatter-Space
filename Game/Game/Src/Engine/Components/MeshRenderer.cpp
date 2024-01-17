@@ -62,7 +62,7 @@ void MeshRenderer::Render()
 		// Directional light
 		if (RenderSystem::Get().HasSun())
 		{
-			lightIntensity = std::max(0.1f, Vector3::Dot(RenderSystem::Get().GetSunlightDirection(), normal));
+			lightIntensity = std::max(0.2f, Vector3::Dot(RenderSystem::Get().GetSunlightDirection(), normal));
 		}
 
 		// 2.) Transform to view space
@@ -163,6 +163,6 @@ void MeshRenderer::Render()
 
 		auto& firstPt = linePoints.first;
 		auto& secondPt = linePoints.second;
-		App::DrawLine(firstPt.first, firstPt.second, secondPt.first, secondPt.second, intensity, intensity, intensity);
+		App::DrawLine(firstPt.first, firstPt.second, secondPt.first, secondPt.second, meshColor.x * intensity, meshColor.y * intensity, meshColor.z * intensity);
 	}
 }
