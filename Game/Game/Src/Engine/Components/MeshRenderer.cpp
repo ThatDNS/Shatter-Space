@@ -35,12 +35,12 @@ void MeshRenderer::Render()
 	// Projection matrix
 	Matrix4x4 mProj = RenderSystem::Get().GetProjectionMatrix();
 
-	float lightIntensity = 1.0f;
 	// Draw the mesh (Does world, view, projection transformation)
 	// Triangle gets transformed so creating a copy in loop
-	std::vector<Triangle> triToRaster;  // Not all triangles get rendered, filtering here
+	std::vector<std::pair<Triangle, float>> triToRaster;  // Not all triangles get rendered, filtering here
 	for (Triangle tri : mesh.faces)
 	{
+		float lightIntensity = 1.0f;
 		// 1.) Transform to world space
 		tri.points[0] = mWorld * tri.points[0];
 		tri.points[1] = mWorld * tri.points[1];
@@ -51,6 +51,7 @@ void MeshRenderer::Render()
 		Vector3 line2 = tri.points[2] - tri.points[0];
 		Vector3 normal = Vector3::Cross(line1, line2);
 		normal.Normalize();
+
 		if (!renderBackSide)
 		{
 			// Ray casted from triangle to camera
@@ -61,7 +62,7 @@ void MeshRenderer::Render()
 		// Directional light
 		if (RenderSystem::Get().HasSun())
 		{
-			lightIntensity = std::max(1.0f, Vector3::Dot(normal, RenderSystem::Get().GetSunlightDirection()));
+			lightIntensity = std::max(0.1f, Vector3::Dot(RenderSystem::Get().GetSunlightDirection(), normal));
 		}
 
 		// 2.) Transform to view space
@@ -95,14 +96,15 @@ void MeshRenderer::Render()
 			clipped[i].points[2].x *= 0.5f * (float)APP_INIT_WINDOW_WIDTH;
 			clipped[i].points[2].y *= 0.5f * (float)APP_INIT_WINDOW_HEIGHT;
 
-			triToRaster.push_back(clipped[i]);
+			triToRaster.push_back({clipped[i], lightIntensity});
 		}
 	}
 
 	// Add line points to set to avoid redrawing any line
-	std::set<std::pair<std::pair<float, float>, std::pair<float, float>>> linesToDraw;
-	for (Triangle& tri : triToRaster)
+	std::set<std::pair<std::pair<std::pair<float, float>, std::pair<float, float>>, float>> linesToDraw;
+	for (auto& triIntensityPair : triToRaster)
 	{
+		Triangle& tri = triIntensityPair.first;
 		// Clip triangles against all four screen edges, this could yield
 		// a bunch of triangles, so create a queue that we traverse to 
 		// ensure we only test new triangles generated against planes
@@ -147,17 +149,20 @@ void MeshRenderer::Render()
 		// Draw the transformed, viewed, clipped, projected, sorted, clipped triangles
 		for (Triangle& t : listTriangles)
 		{
-			linesToDraw.insert({ {t.points[0].x, t.points[0].y}, {t.points[1].x, t.points[1].y} });
-			linesToDraw.insert({ {t.points[0].x, t.points[0].y}, {t.points[2].x, t.points[2].y} });
-			linesToDraw.insert({ {t.points[1].x, t.points[1].y}, {t.points[2].x, t.points[2].y} });
+			linesToDraw.insert({ { {t.points[0].x, t.points[0].y}, {t.points[1].x, t.points[1].y} }, triIntensityPair.second });
+			linesToDraw.insert({ { {t.points[0].x, t.points[0].y}, {t.points[2].x, t.points[2].y} }, triIntensityPair.second });
+			linesToDraw.insert({ { {t.points[1].x, t.points[1].y}, {t.points[2].x, t.points[2].y} }, triIntensityPair.second });
 		}
 	}
 
 	// Draw the lines
-	for (auto& linePoints : linesToDraw)
+	for (auto& lineIntensityPair : linesToDraw)
 	{
+		auto& linePoints = lineIntensityPair.first;
+		float intensity = lineIntensityPair.second;
+
 		auto& firstPt = linePoints.first;
 		auto& secondPt = linePoints.second;
-		App::DrawLine(firstPt.first, firstPt.second, secondPt.first, secondPt.second, lightIntensity, lightIntensity, lightIntensity);
+		App::DrawLine(firstPt.first, firstPt.second, secondPt.first, secondPt.second, intensity, intensity, intensity);
 	}
 }
