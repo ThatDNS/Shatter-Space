@@ -97,6 +97,7 @@
     <ClInclude Include="Src\Engine\Components\Transform.h" />
     <ClInclude Include="Src\Engine\Core\Logger.h" />
     <ClInclude Include="Src\Engine\Core\Object.h" />
+    <ClInclude Include="Src\Engine\Core\Tests\TestUtil.h" />
     <ClInclude Include="Src\Engine\Core\util.h" />
     <ClInclude Include="Src\Engine\Math\EngineMath.h" />
     <ClInclude Include="Src\Engine\Math\Matrix4x4.h" />

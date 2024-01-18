@@ -359,5 +359,8 @@
     <ClInclude Include="Src\Engine\Algorithms\Tests\TestBVH.h">
       <Filter>Src\Engine\Header Files\Algorithms\Tests</Filter>
     </ClInclude>
+    <ClInclude Include="Src\Engine\Core\Tests\TestUtil.h">
+      <Filter>Src\Engine\Header Files\Core</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -25,6 +25,7 @@
 #include "Engine/Math/Tests/TestMesh.h"
 #include "Engine/Algorithms/Tests/TestAABB.h"
 #include "Engine/Algorithms/Tests/TestBVH.h"
+#include "Engine/Core/Tests/TestUtil.h"
 
 extern void SetupLevel1();
 
@@ -46,6 +47,7 @@ void Init()
 	TestMesh::RunTests();
 	TestAABB::RunTests();
 	TestBVH::RunTests();
+	TestGetHashCode();
 #endif
 
 	// Setup level 1
