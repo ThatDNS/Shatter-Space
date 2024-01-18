@@ -22,6 +22,7 @@
 #include "Engine/Math/Tests/TestMatrix4x4.h"
 #include "Engine/Math/Tests/TestRandom.h"
 #include "Engine/Math/Tests/TestEngineMath.h"
+#include "Engine/Math/Tests/TestMesh.h"
 
 extern void SetupLevel1();
 
@@ -40,6 +41,7 @@ void Init()
 	TestRandom::RunTests();
 	TestGetPlaneLineIntersection();
 	TestClipTriangleByPlane();
+	TestMesh::RunTests();
 #endif
 
 	// Setup level 1
