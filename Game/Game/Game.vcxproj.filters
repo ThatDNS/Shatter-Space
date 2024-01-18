@@ -67,6 +67,12 @@
     <Filter Include="Src\Engine\Source Files\Algorithms">
       <UniqueIdentifier>{0e9f73ff-3e82-48ed-adf6-1eb39bd2a431}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Src\Engine\Source Files\Math\Tests">
+      <UniqueIdentifier>{0fa816ca-074b-4e91-bf4a-fd2aba4cb2c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Engine\Header Files\Math\Tests">
+      <UniqueIdentifier>{25eca2d2-ef00-4d52-abf8-58b868d085a5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="NextAPI\App\app.cpp">
@@ -185,6 +191,15 @@
     </ClCompile>
     <ClCompile Include="Src\Engine\Components\Canvas.cpp">
       <Filter>Src\Engine\Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Math\Tests\TestMatrix4x4.cpp">
+      <Filter>Src\Engine\Source Files\Math\Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Math\Tests\TestRandom.cpp">
+      <Filter>Src\Engine\Source Files\Math\Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Math\Tests\TestVector3.cpp">
+      <Filter>Src\Engine\Source Files\Math\Tests</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -307,6 +322,15 @@
     </ClInclude>
     <ClInclude Include="Src\Engine\Components\Canvas.h">
       <Filter>Src\Engine\Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Math\Tests\TestMatrix4x4.h">
+      <Filter>Src\Engine\Header Files\Math\Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Math\Tests\TestRandom.h">
+      <Filter>Src\Engine\Header Files\Math\Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Math\Tests\TestVector3.h">
+      <Filter>Src\Engine\Header Files\Math\Tests</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

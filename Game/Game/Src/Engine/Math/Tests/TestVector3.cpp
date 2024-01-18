@@ -5,6 +5,7 @@
 #include "stdafx.h"
 #include "TestVector3.h"
 #include "Engine/Math/Vector3.h"
+#include "Engine/Core/Logger.h"
 
 void TestVector3::RunTests()
 {
@@ -18,6 +19,7 @@ void TestVector3::RunTests()
 	TestLerp();
 	TestToString();
 	TestOperatorOverloads();
+	Logger::Get().Log("[UNITTEST] Vector3 - All tests passed!");
 }
 
 void TestVector3::TestConstructor()

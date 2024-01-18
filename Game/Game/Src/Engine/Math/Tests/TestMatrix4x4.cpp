@@ -21,6 +21,7 @@ void TestMatrix4x4::RunTests()
 	TestIdentity();
 	TestToString();
 	TestOperatorOverloads();
+	Logger::Get().Log("[UNITTEST] Matrix4x4 - All tests passed!");
 }
 
 void TestMatrix4x4::TestCreateLookAt()

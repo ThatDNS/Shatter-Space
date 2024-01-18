@@ -20,6 +20,7 @@
 // Unit tests
 #include "Engine/Math/Tests/TestVector3.h"
 #include "Engine/Math/Tests/TestMatrix4x4.h"
+#include "Engine/Math/Tests/TestRandom.h"
 
 extern void SetupLevel1();
 
@@ -28,14 +29,15 @@ extern void SetupLevel1();
 //------------------------------------------------------------------------
 void Init()
 {
+	// Wake up the engine
+	Engine::Get().Wakeup();
+
 	// Run tests in Debug
 #ifdef _DEBUG
 	TestVector3::RunTests();
 	TestMatrix4x4::RunTests();
+	TestRandom::RunTests();
 #endif
-
-	// Wake up the engine
-	Engine::Get().Wakeup();
 
 	// Setup level 1
 	SetupLevel1();
