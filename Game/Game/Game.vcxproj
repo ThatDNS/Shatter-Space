@@ -97,6 +97,7 @@
     <ClInclude Include="Src\Engine\Math\Matrix4x4.h" />
     <ClInclude Include="Src\Engine\Math\Mesh.h" />
     <ClInclude Include="Src\Engine\Math\Random.h" />
+    <ClInclude Include="Src\Engine\Math\Tests\TestEngineMath.h" />
     <ClInclude Include="Src\Engine\Math\Tests\TestMatrix4x4.h" />
     <ClInclude Include="Src\Engine\Math\Tests\TestRandom.h" />
     <ClInclude Include="Src\Engine\Math\Tests\TestVector3.h" />

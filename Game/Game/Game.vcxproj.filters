@@ -332,5 +332,8 @@
     <ClInclude Include="Src\Engine\Math\Tests\TestVector3.h">
       <Filter>Src\Engine\Header Files\Math\Tests</Filter>
     </ClInclude>
+    <ClInclude Include="Src\Engine\Math\Tests\TestEngineMath.h">
+      <Filter>Src\Engine\Header Files\Math\Tests</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
