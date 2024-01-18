@@ -33,6 +33,7 @@
     <ClCompile Include="NextAPI\App\SimpleSprite.cpp" />
     <ClCompile Include="Src\Engine\Algorithms\BVH.cpp" />
     <ClCompile Include="Src\Engine\Algorithms\Tests\TestAABB.cpp" />
+    <ClCompile Include="Src\Engine\Algorithms\Tests\TestBVH.cpp" />
     <ClCompile Include="Src\Engine\Components\BoxCollider.cpp" />
     <ClCompile Include="Src\Engine\Components\Canvas.cpp" />
     <ClCompile Include="Src\Engine\Components\Collider.cpp" />
@@ -82,6 +83,7 @@
     <ClInclude Include="Src\Engine\Algorithms\AABB.h" />
     <ClInclude Include="Src\Engine\Algorithms\BVH.h" />
     <ClInclude Include="Src\Engine\Algorithms\Tests\TestAABB.h" />
+    <ClInclude Include="Src\Engine\Algorithms\Tests\TestBVH.h" />
     <ClInclude Include="Src\Engine\Components\BoxCollider.h" />
     <ClInclude Include="Src\Engine\Components\Canvas.h" />
     <ClInclude Include="Src\Engine\Components\Collider.h" />

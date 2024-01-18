@@ -34,11 +34,13 @@ public:
 /**
  * @class BVH
  *
- * BVH (Bounding Volume Hierarchy) has been used as a scalable solution for collison detection.
+ * BVH (Bounding Volume Hierarchy) has been used as an efficient solution for collison detection.
  * Refer: https://en.wikipedia.org/wiki/Bounding_volume_hierarchy
  */
 class BVH
 {
+	friend class TestBVH;
+
 private:
 	BVHNode* root;
 

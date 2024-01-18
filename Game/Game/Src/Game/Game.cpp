@@ -24,6 +24,7 @@
 #include "Engine/Math/Tests/TestEngineMath.h"
 #include "Engine/Math/Tests/TestMesh.h"
 #include "Engine/Algorithms/Tests/TestAABB.h"
+#include "Engine/Algorithms/Tests/TestBVH.h"
 
 extern void SetupLevel1();
 
@@ -44,6 +45,7 @@ void Init()
 	TestClipTriangleByPlane();
 	TestMesh::RunTests();
 	TestAABB::RunTests();
+	TestBVH::RunTests();
 #endif
 
 	// Setup level 1
