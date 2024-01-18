@@ -32,6 +32,8 @@
     <ClCompile Include="NextAPI\App\SimpleSound.cpp" />
     <ClCompile Include="NextAPI\App\SimpleSprite.cpp" />
     <ClCompile Include="Src\Engine\Algorithms\BVH.cpp" />
+    <ClCompile Include="Src\Engine\Algorithms\Tests\TestAABB.cpp" />
+    <ClCompile Include="Src\Engine\Algorithms\Tests\TestBVH.cpp" />
     <ClCompile Include="Src\Engine\Components\BoxCollider.cpp" />
     <ClCompile Include="Src\Engine\Components\Canvas.cpp" />
     <ClCompile Include="Src\Engine\Components\Collider.cpp" />
@@ -50,6 +52,10 @@
     <ClCompile Include="Src\Engine\Math\Matrix4x4.cpp" />
     <ClCompile Include="Src\Engine\Math\Mesh.cpp" />
     <ClCompile Include="Src\Engine\Math\Random.cpp" />
+    <ClCompile Include="Src\Engine\Math\Tests\TestMatrix4x4.cpp" />
+    <ClCompile Include="Src\Engine\Math\Tests\TestMesh.cpp" />
+    <ClCompile Include="Src\Engine\Math\Tests\TestRandom.cpp" />
+    <ClCompile Include="Src\Engine\Math\Tests\TestVector3.cpp" />
     <ClCompile Include="Src\Engine\Math\Triangle.cpp" />
     <ClCompile Include="Src\Engine\Math\Vector3.cpp" />
     <ClCompile Include="Src\Engine\Pools\EntityPool.cpp" />
@@ -76,6 +82,8 @@
     <ClInclude Include="NextAPI\App\SimpleSprite.h" />
     <ClInclude Include="Src\Engine\Algorithms\AABB.h" />
     <ClInclude Include="Src\Engine\Algorithms\BVH.h" />
+    <ClInclude Include="Src\Engine\Algorithms\Tests\TestAABB.h" />
+    <ClInclude Include="Src\Engine\Algorithms\Tests\TestBVH.h" />
     <ClInclude Include="Src\Engine\Components\BoxCollider.h" />
     <ClInclude Include="Src\Engine\Components\Canvas.h" />
     <ClInclude Include="Src\Engine\Components\Collider.h" />
@@ -89,11 +97,17 @@
     <ClInclude Include="Src\Engine\Components\Transform.h" />
     <ClInclude Include="Src\Engine\Core\Logger.h" />
     <ClInclude Include="Src\Engine\Core\Object.h" />
+    <ClInclude Include="Src\Engine\Core\Tests\TestUtil.h" />
     <ClInclude Include="Src\Engine\Core\util.h" />
     <ClInclude Include="Src\Engine\Math\EngineMath.h" />
     <ClInclude Include="Src\Engine\Math\Matrix4x4.h" />
     <ClInclude Include="Src\Engine\Math\Mesh.h" />
     <ClInclude Include="Src\Engine\Math\Random.h" />
+    <ClInclude Include="Src\Engine\Math\Tests\TestEngineMath.h" />
+    <ClInclude Include="Src\Engine\Math\Tests\TestMatrix4x4.h" />
+    <ClInclude Include="Src\Engine\Math\Tests\TestMesh.h" />
+    <ClInclude Include="Src\Engine\Math\Tests\TestRandom.h" />
+    <ClInclude Include="Src\Engine\Math\Tests\TestVector3.h" />
     <ClInclude Include="Src\Engine\Math\Triangle.h" />
     <ClInclude Include="Src\Engine\Math\Vector3.h" />
     <ClInclude Include="Src\Engine\Pools\EntityPool.h" />

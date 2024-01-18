@@ -185,6 +185,7 @@ void BVH::BuildTree(std::vector<BoxCollider*>& colliders)
 void BVH::Destroy()
 {
 	Destroy(root);
+	root = nullptr;
 }
 
 bool BVH::CheckCollisions(BoxCollider* boxCollider) const

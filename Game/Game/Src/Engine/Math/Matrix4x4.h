@@ -70,6 +70,14 @@ public:
 	// Last column of 4x4 matrix is used for weighted division
 	Vector3 operator*(const Vector3& other) const;
 
+	bool operator==(const Matrix4x4& other)
+	{
+		bool value = true;
+		for (size_t i = 0; i < 4; i++)
+			for (size_t j = 0; j < 4; j++)
+				value = value && (data[i][j] == other[i][j]);
+		return value;
+	}
 };
 
 #endif // !_MATRIX4X4_H_

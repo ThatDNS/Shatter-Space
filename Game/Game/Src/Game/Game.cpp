@@ -17,6 +17,16 @@
 #include "Engine/Math/EngineMath.h"
 #include "Engine/Systems/RenderSystem.h"
 
+// Unit tests
+#include "Engine/Math/Tests/TestVector3.h"
+#include "Engine/Math/Tests/TestMatrix4x4.h"
+#include "Engine/Math/Tests/TestRandom.h"
+#include "Engine/Math/Tests/TestEngineMath.h"
+#include "Engine/Math/Tests/TestMesh.h"
+#include "Engine/Algorithms/Tests/TestAABB.h"
+#include "Engine/Algorithms/Tests/TestBVH.h"
+#include "Engine/Core/Tests/TestUtil.h"
+
 extern void SetupLevel1();
 
 //------------------------------------------------------------------------
@@ -26,6 +36,19 @@ void Init()
 {
 	// Wake up the engine
 	Engine::Get().Wakeup();
+
+	// Run tests in Debug
+#ifdef _DEBUG
+	TestVector3::RunTests();
+	TestMatrix4x4::RunTests();
+	TestRandom::RunTests();
+	TestGetPlaneLineIntersection();
+	TestClipTriangleByPlane();
+	TestMesh::RunTests();
+	TestAABB::RunTests();
+	TestBVH::RunTests();
+	TestGetHashCode();
+#endif
 
 	// Setup level 1
 	SetupLevel1();
