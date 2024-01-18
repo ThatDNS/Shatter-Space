@@ -39,7 +39,7 @@ void CreatePlayer(Scene* scene, Vector3& position, Vector3& scale)
 	// Particles settings
 	component = entity->GetComponent(ParticlesC);
 	Particles* particles = static_cast<Particles*>(component);
-	particles->SetParticleType(PROPULSION);
+	particles->SetParticleType(EXPLOSION);
 
 	// Set player script data
 	component = entity->GetComponent(PlayerC);

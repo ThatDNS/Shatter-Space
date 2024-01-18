@@ -33,7 +33,7 @@ private:
 
 	// Directional light (sun)
 	Vector3 lightDirection{ -0.5f, 0.0f, -1.0f };
-	bool enableSun = true;
+	bool enableSun = false;
 
 	Matrix4x4 viewMatrix;
 	Matrix4x4 projectionMatrix;

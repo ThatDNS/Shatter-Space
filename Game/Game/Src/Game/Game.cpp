@@ -17,6 +17,10 @@
 #include "Engine/Math/EngineMath.h"
 #include "Engine/Systems/RenderSystem.h"
 
+// Unit tests
+#include "Engine/Math/Tests/TestVector3.h"
+#include "Engine/Math/Tests/TestMatrix4x4.h"
+
 extern void SetupLevel1();
 
 //------------------------------------------------------------------------
@@ -24,6 +28,12 @@ extern void SetupLevel1();
 //------------------------------------------------------------------------
 void Init()
 {
+	// Run tests in Debug
+#ifdef _DEBUG
+	TestVector3::RunTests();
+	TestMatrix4x4::RunTests();
+#endif
+
 	// Wake up the engine
 	Engine::Get().Wakeup();
 
