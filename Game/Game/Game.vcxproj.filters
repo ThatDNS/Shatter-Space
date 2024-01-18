@@ -73,6 +73,12 @@
     <Filter Include="Src\Engine\Header Files\Math\Tests">
       <UniqueIdentifier>{25eca2d2-ef00-4d52-abf8-58b868d085a5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Src\Engine\Header Files\Algorithms\Tests">
+      <UniqueIdentifier>{7e7c6667-02e4-4d30-9e76-d4e41e0f2224}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Engine\Source Files\Algorithms\Tests">
+      <UniqueIdentifier>{681947b7-e78c-4332-b284-88dedd924af9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="NextAPI\App\app.cpp">
@@ -203,6 +209,9 @@
     </ClCompile>
     <ClCompile Include="Src\Engine\Math\Tests\TestMesh.cpp">
       <Filter>Src\Engine\Source Files\Math\Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Algorithms\Tests\TestAABB.cpp">
+      <Filter>Src\Engine\Source Files\Algorithms\Tests</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -340,6 +349,9 @@
     </ClInclude>
     <ClInclude Include="Src\Engine\Math\Tests\TestMesh.h">
       <Filter>Src\Engine\Header Files\Math\Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Algorithms\Tests\TestAABB.h">
+      <Filter>Src\Engine\Header Files\Algorithms\Tests</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

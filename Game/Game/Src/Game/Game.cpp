@@ -23,6 +23,7 @@
 #include "Engine/Math/Tests/TestRandom.h"
 #include "Engine/Math/Tests/TestEngineMath.h"
 #include "Engine/Math/Tests/TestMesh.h"
+#include "Engine/Algorithms/Tests/TestAABB.h"
 
 extern void SetupLevel1();
 
@@ -42,6 +43,7 @@ void Init()
 	TestGetPlaneLineIntersection();
 	TestClipTriangleByPlane();
 	TestMesh::RunTests();
+	TestAABB::RunTests();
 #endif
 
 	// Setup level 1
