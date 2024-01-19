@@ -27,7 +27,7 @@ void CreatePlayer(Scene* scene, Vector3& position, Vector3& scale)
 	// Load player mesh
 	Component* component = entity->GetComponent(MeshRendererC);
 	MeshRenderer* mr = static_cast<MeshRenderer*>(component);
-	mr->LoadMesh("Assets/Objects/cone.obj");
+	mr->LoadMesh("Assets/Objects/sphere.obj");
 	mr->SetRenderBackSide(true);
 	mr->SetMeshColor(Vector3(0.0f, 1.0f, 0.0f));
 
