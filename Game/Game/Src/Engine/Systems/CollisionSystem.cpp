@@ -95,3 +95,14 @@ bool CollisionSystem::CheckCollision(Collider* collider)
 	// Not supporting any other collisions yet
 	return false;
 }
+
+Vector3 CollisionSystem::GetCollisionNormal(Collider* collider)
+{
+	if (collider->GetColliderType() == BOX)
+	{
+		return bvhTree->GetCollisionNormal(static_cast<BoxCollider*>(collider));
+	}
+
+	// Not supporting any other collisions yet
+	return Vector3(0.0f, 0.0f, 0.0f);
+}

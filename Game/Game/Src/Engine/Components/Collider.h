@@ -19,7 +19,7 @@ enum ColliderTag {
 
 enum ColliderType {
 	BOX,
-	SPHERE
+	SPHERE  // NOT IMPLEMENTED
 };
 
 class Vector3;
@@ -55,6 +55,7 @@ public:
 	void Destroy() override { }
 
 	friend class CollisionSystem;
+	friend class PhysicsSystem;
 	friend class Entity;
 };
 

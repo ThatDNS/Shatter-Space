@@ -30,6 +30,7 @@ class CollisionSystem
 
 public:
 	bool CheckCollision(Collider*);
+	Vector3 GetCollisionNormal(Collider*);
 
 protected:
 	void AddCollider(Collider*);

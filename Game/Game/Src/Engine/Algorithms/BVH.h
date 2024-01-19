@@ -9,6 +9,7 @@
 
 #include "Engine/Algorithms/AABB.h"
 #include "Engine/Components/BoxCollider.h"
+#include "Engine/Math/Vector3.h"
 
 // Node of a BVH tree
 class BVHNode {
@@ -52,7 +53,7 @@ private:
 	/**
 	 * @brief Recursively check for collision.
 	 */
-	bool CheckCollisions(BVHNode* node, BoxCollider* collider) const;
+	bool CheckCollisions(BVHNode* node, BoxCollider* collider, Vector3& normal) const;
 
 	/**
 	 * @brief Compute the AABB enclosing a number of AABBs.
@@ -90,6 +91,11 @@ public:
 	 * @brief Check if anything collided with the input collider.
 	 */
 	bool CheckCollisions(BoxCollider* boxCollider) const;
+
+	/**
+	 * @brief Get normal vector to the collision plane.
+	 */
+	Vector3 GetCollisionNormal(BoxCollider* boxCollider) const;
 
 	/**
 	 * @brief Recursively re-build the tree using existign colliders.

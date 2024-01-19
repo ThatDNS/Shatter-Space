@@ -7,6 +7,8 @@
 #include "Engine/Components/RigidBody.h"
 #include "Engine/Components/Entity.h"
 #include "Engine/Components/Transform.h"
+#include "Engine/Components/BoxCollider.h"
+#include "Engine/Systems/CollisionSystem.h"
 
 void PhysicsSystem::AddRigidBody(RigidBody* rb)
 {
@@ -26,34 +28,63 @@ void PhysicsSystem::Update(float deltaTime)
 		rb->velocity += rb->instAcceleration * (deltaTime / 100.0f);
 		// Instantaneous acceleration must be set to zero after it has been applied to the velocity
 		rb->instAcceleration.Reset();
-		
+
 		// Apply gravity
 		rb->velocity.y += gravity * (deltaTime / 100.0f);
 
+		// If the object is not moving, there's nothing else to be done
+		if (rb->velocity.Magnitude() == 0)
+			continue;
+
 		// Update position as per velocity
-		bool didUpdate = rb->GetEntity()->Move(rb->velocity * (deltaTime / 100.0f), rb->collider);
-		if (!didUpdate)
+		bool didMove = rb->GetEntity()->Move(rb->velocity * (deltaTime / 100.0f), rb->collider);
+		if (didMove)
 		{
-			// There was collision. So velocity can be set to zero
-			rb->velocity.Reset();
-		}
+			// Apply drag / friction
+			if (rb->drag != 0)
+			{
+				float normalRxn = std::abs(rb->mass * gravity);
+				float frictionForce = normalRxn * rb->drag;
 
-		// Apply drag / friction if there's velocity
-		if (rb->velocity.Magnitude() > 0.0f && rb->drag != 0)
+				// Friction gets applied as acceleration, opposite to velocity
+				Vector3 direction = -rb->velocity;
+				direction.Normalize();
+				rb->instAcceleration = direction * (frictionForce / rb->mass);
+
+				// Upper bound acceleration such that the best it can do is stop object in single frame
+				float actualAccMag = std::min(rb->instAcceleration.Magnitude(), rb->velocity.Magnitude() / (deltaTime / 100.0f));
+				rb->instAcceleration.Normalize();
+				rb->instAcceleration *= actualAccMag;
+			}
+		}
+		// Object didn't move, so there was a collision
+		else
 		{
-			float normalRxn = std::abs(rb->mass * gravity);
-			float frictionForce = normalRxn * rb->drag;
+			// Collision happens on object movement, so we have to move it first
+			Vector3 moveDelta = rb->velocity * (deltaTime / 100.0f);
+			rb->GetEntity()->GetTransform().Translate(moveDelta);
+			rb->collider->Callibrate();  // Adjust collider after transform change
 
-			// Friction gets applied as acceleration, opposite to velocity
-			Vector3 direction = -rb->velocity;
-			direction.Normalize();
-			rb->instAcceleration = direction * (frictionForce / rb->mass);
+			// Get collision normal
+			Vector3 normal = CollisionSystem::Get().GetCollisionNormal(rb->collider);
 
-			// Upper bound acceleration such that the best it can do is stop object in single frame
-			float actualAccMag = std::min(rb->instAcceleration.Magnitude(), rb->velocity.Magnitude() / (deltaTime / 100.0f));
-			rb->instAcceleration.Normalize();
-			rb->instAcceleration *= actualAccMag;
+			if (normal.Magnitude() != 0)
+			{
+				// Change velocity in the direction of collision's normal vector
+				if (normal.x != 0.0f)
+					rb->velocity.x = -rb->velocity.x;
+				if (normal.y != 0.0f)
+					rb->velocity.y = -rb->velocity.y;
+				if (normal.z != 0.0f)
+					rb->velocity.z = -rb->velocity.z;
+
+				// Some loss of energy on collision
+				rb->velocity = rb->velocity * 0.8f;
+			}
+
+			// Move the entity back & re-adjust the collider
+			rb->GetEntity()->GetTransform().position -= moveDelta;
+			rb->collider->Callibrate();
 		}
-
 	}
 }

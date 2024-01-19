@@ -12,10 +12,12 @@ class PhysicsSystem
 {
 	DECLARE_SINGLETON(PhysicsSystem)
 	
-	float gravity = 0; // -9.8f;
+	float gravity = 0;
 	std::list<RigidBody*> rigidBodies;
 
 public:
+	void SetGravity(float g) { gravity = g; }
+
 	void AddRigidBody(RigidBody*);
 	void RemoveRigidBody(RigidBody*);
 

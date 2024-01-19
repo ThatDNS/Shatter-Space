@@ -44,7 +44,7 @@ BVHNode* BVH::BuildTreeInternal(std::vector<BoxCollider*>& colliders)
 	return node;
 }
 
-bool BVH::CheckCollisions(BVHNode* node, BoxCollider* collider) const
+bool BVH::CheckCollisions(BVHNode* node, BoxCollider* collider, Vector3& normal) const
 {
 	// If the node does not intersect with box collider then no need of checking its child nodes
 	if (node == nullptr || !node->boundingBox.Intersects(collider->boundingBox))
@@ -59,6 +59,7 @@ bool BVH::CheckCollisions(BVHNode* node, BoxCollider* collider) const
 				(collider->boundingBox.Intersects(leafC->boundingBox)))
 			{
 				// Collision detected!
+				normal = collider->boundingBox.GetIntersectionNormal(leafC->boundingBox);
 				return true;
 			}
 		}
@@ -66,7 +67,7 @@ bool BVH::CheckCollisions(BVHNode* node, BoxCollider* collider) const
 	}
 
 	// Collision happened with this BVH node so check child nodes
-	return CheckCollisions(node->left, collider) || CheckCollisions(node->right, collider);
+	return CheckCollisions(node->left, collider, normal) || CheckCollisions(node->right, collider, normal);
 }
 
 AABB BVH::GetEnclosingBoundingBox(const std::vector<BoxCollider*>& colliders) const
@@ -190,7 +191,15 @@ void BVH::Destroy()
 
 bool BVH::CheckCollisions(BoxCollider* boxCollider) const
 {
-	return CheckCollisions(root, boxCollider);
+	Vector3 _;  // Normal isn't required here
+	return CheckCollisions(root, boxCollider, _);
+}
+
+Vector3 BVH::GetCollisionNormal(BoxCollider* boxCollider) const
+{
+	Vector3 collisionNormal;
+	CheckCollisions(root, boxCollider, collisionNormal);
+	return collisionNormal;
 }
 
 void BVH::RebuildTree()
