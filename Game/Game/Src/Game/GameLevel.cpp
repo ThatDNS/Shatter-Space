@@ -3,9 +3,10 @@
 
 #include "Engine/Systems/SceneManager.h"
 #include "Engine/Systems/Scene.h"
+#include "Engine/Systems/PhysicsSystem.h"
+#include "Engine/Math/Vector3.h"
 #include "Engine/Components/Entity.h"
 #include "Engine/Components/Component.h"
-#include "Engine/Math/Vector3.h"
 #include "Engine/Components/MeshRenderer.h"
 #include "Engine/Components/BoxCollider.h"
 #include "Engine/Components/Canvas.h"
@@ -77,6 +78,9 @@ void SetupLevel1()
 	// Create a new scene
 	Scene* scene = SceneManager::Get().CreateNewScene();
 	scene->SetName("Level 1");
+
+	// Outer space scene
+	PhysicsSystem::Get().SetGravity(0.0f);
 
 	// ---------------------- Walls Entities ----------------------
 	CreateWall(scene, Vector3(-9.0f, 0.0f, 20.0f), Vector3(0.2f, 8.0f, 5.0f));
