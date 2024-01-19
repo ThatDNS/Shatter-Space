@@ -96,10 +96,10 @@ void SetupLevel1()
 	PhysicsSystem::Get().SetGravity(-9.8f);
 
 	// ---------------------- Walls Entities ----------------------
-	CreateWall(scene, Vector3(-9.0f, 0.0f, 20.0f), Vector3(0.2f, 8.0f, 5.0f));
-	CreateWall(scene, Vector3(-3.0f, -1.0f, 20.0f), Vector3(0.2f, 6.0f, 5.0f));
-	CreateWall(scene, Vector3(3.0f, 1.0f, 20.0f), Vector3(0.2f, 6.0f, 5.0f));
-	CreateWall(scene, Vector3(9.0f, 0.0f, 20.0f), Vector3(0.2f, 8.0f, 5.0f));
+	CreateWall(scene, Vector3(-9.0f, 0.0f, 20.0f), Vector3(2.0f, 8.0f, 0.2f));
+	CreateWall(scene, Vector3(-3.0f, -1.0f, 20.0f), Vector3(2.0f, 8.0f, 0.2f));
+	CreateWall(scene, Vector3(3.0f, 1.0f, 20.0f), Vector3(2.0f, 8.0f, 0.2f));
+	CreateWall(scene, Vector3(9.0f, 0.0f, 20.0f), Vector3(2.0f, 8.0f, 0.2f));
 
 	// ---------------------- Player Entity ----------------------
 	//CreatePlayer(scene, Vector3(0.0f, 0.0f, 15.0f), Vector3(1.0f, 1.0f, 1.0f));

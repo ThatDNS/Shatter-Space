@@ -39,7 +39,7 @@ void BallSpawner::SpawnBall()
 	Entity* entity = scene->CreateEntity(ballComponents);
 	entity->SetName("Ball_" + std::to_string(ballCounter));
 
-	entity->GetTransform().position = Vector3(0.0f, 0.0f, 15.0f);
+	entity->GetTransform().position = Vector3(0.0f, 0.0f, 5.0f);
 
 	// Load the mesh
 	MeshRenderer* mr = static_cast<MeshRenderer*>(entity->GetComponent(MeshRendererC));
@@ -49,7 +49,7 @@ void BallSpawner::SpawnBall()
 
 	// Apply forward force
 	RigidBody* rb = static_cast<RigidBody*>(entity->GetComponent(RigidBodyC));
-	rb->ApplyForce(Vector3(0.0f, 500.0f, 10.0f));
+	rb->SetVelocity(Vector3(0.0f, 0.0f, 50.0f));
 
 	// Initialize the ball entity
 	entity->Initialize();

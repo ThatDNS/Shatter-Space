@@ -36,28 +36,14 @@ void PhysicsSystem::Update(float deltaTime)
 		// If the object is not moving, there's nothing else to be done
 		if (rb->velocity.Magnitude() == 0)
 			continue;
-		Logger::Get().Log(rb->velocity.ToString());
-
+		
 		// Update position as per velocity
 		bool didMove = rb->GetEntity()->Move(rb->velocity * (deltaTime / 1000.0f), rb->collider);
 		if (didMove)
 		{
 			// Apply drag / friction
-			if (rb->drag != 0)
-			{
-				float normalRxn = std::abs(rb->mass * gravity);
-				float frictionForce = normalRxn * rb->drag;
-
-				// Friction gets applied as acceleration, opposite to velocity
-				Vector3 direction = -rb->velocity;
-				direction.Normalize();
-				rb->instAcceleration = direction * (frictionForce / rb->mass);
-
-				// Upper bound acceleration such that the best it can do is stop object in single frame
-				float actualAccMag = std::min(rb->instAcceleration.Magnitude(), rb->velocity.Magnitude() / (deltaTime / 100.0f));
-				rb->instAcceleration.Normalize();
-				rb->instAcceleration *= actualAccMag;
-			}
+			// (This formula decreases velocity by drag percentage every second)
+			rb->velocity -= (rb->velocity * rb->drag) / (1000.0f / deltaTime);
 		}
 		// Object didn't move, so there was a collision
 		else
@@ -70,6 +56,8 @@ void PhysicsSystem::Update(float deltaTime)
 			// Get collision normal
 			Vector3 normal = CollisionSystem::Get().GetCollisionNormal(rb->collider);
 
+			Logger::Get().Log("Not moving, collision normal: " + normal.ToString());
+
 			if (normal.Magnitude() != 0)
 			{
 				// Change velocity in the direction of collision's normal vector
@@ -81,7 +69,7 @@ void PhysicsSystem::Update(float deltaTime)
 					rb->velocity.z = -rb->velocity.z;
 
 				// Some loss of energy on collision
-				rb->velocity = rb->velocity * 0.8f;
+				//rb->velocity = rb->velocity * 0.8f;
 			}
 
 			// Move the entity back & re-adjust the collider

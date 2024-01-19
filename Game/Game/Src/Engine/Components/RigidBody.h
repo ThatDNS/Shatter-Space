@@ -26,6 +26,7 @@ public:
 	RigidBody() { type = RigidBodyC; }
 
 	void ApplyForce(const Vector3&);
+	void SetVelocity(const Vector3&);
 
 	void Initialize() override;
 	void Update(float) override {}

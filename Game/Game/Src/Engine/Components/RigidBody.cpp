@@ -7,6 +7,7 @@
 #include "Engine/Components/Entity.h"
 #include "Engine/Components/Collider.h"
 #include "Engine/Components/BoxCollider.h"
+#include "Engine/Core/Logger.h"
 
 void RigidBody::Initialize()
 {
@@ -20,4 +21,9 @@ void RigidBody::ApplyForce(const Vector3& force)
 {
 	// Force causes acceleration
 	instAcceleration += force / mass;
+}
+
+void RigidBody::SetVelocity(const Vector3& v)
+{
+	velocity = v;
 }

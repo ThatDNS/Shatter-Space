@@ -49,8 +49,19 @@ public:
 	bool RemoveComponent(ComponentType);
 	bool RemoveComponent(Component* _component);
 
-	// Move an entity after checking collision. Returns if entity actually moved
-	bool Move(Vector3& moveDelta, Collider* collider);
+	/**
+	 * @brief Move an entity after checking for collision.
+	 *
+	 * @param moveDelta Vector containing movement change.
+	 * @param collider Collider attached to the entity being moved. Collision detection is not performed
+	 * if collider is not passed.
+	 * @param freeMove If movement is not possible in all degrees of freedom, should we check if movement
+	 * is possible after excluding 1 or more degrees of freedoms?
+	 * 
+	 * @return Did the entity move?
+	 */
+	bool Move(Vector3& moveDelta, Collider* collider, bool freeMove = true);
+
 	// Rotate an entity in cartesian system along Z, after checking collision
 	void CartesianRotationZ(Vector3& rotateDir, Collider* collider, float rotationSpeed);
 

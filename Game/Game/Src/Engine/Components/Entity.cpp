@@ -163,28 +163,51 @@ bool Entity::RemoveComponent(Component* _component)
 	return false;
 }
 
-bool Entity::Move(Vector3& moveDelta, Collider* collider)
+bool Entity::Move(Vector3& moveDelta, Collider* collider, bool freeMove)
 {
-	// Move the entity
-	transform.Translate(moveDelta);
-	
-	if (collider == nullptr)
-		return true;
-
-	// Check if this caused collision
-	collider->Callibrate();
-	if (CollisionSystem::Get().CheckCollision(collider))
+	// Movement might be restricted in 1 or more degrees of freedoms due to collision,
+	// so move in all degrees of freedoms separately.
+	if ((collider != nullptr) && freeMove)
 	{
-		// Move the entity back
-		transform.position -= moveDelta;
+		bool didMove = false;
 
-		// Recallibrate
-		collider->Callibrate();
+		// Move in only X axis
+		if (moveDelta.x != 0.0f)
+			didMove = Move(Vector3(moveDelta.x, 0.0f, 0.0f), collider, false) || didMove;
 
-		return false;
+		// Move in only Y axis
+		if (moveDelta.y != 0.0f)
+			didMove = Move(Vector3(0.0f, moveDelta.y, 0.0f), collider, false) || didMove;
+
+		// Move in only Z axis
+		if (moveDelta.z != 0.0f)
+			didMove = Move(Vector3(0.0f, 0.0f, moveDelta.z), collider, false) || didMove;
+	
+		return didMove;
 	}
+	else
+	{
+		// Move the entity
+		transform.Translate(moveDelta);
 
-	return true;
+		if (collider == nullptr)
+			return true;
+
+		// Check if this caused collision
+		collider->Callibrate();
+		if (CollisionSystem::Get().CheckCollision(collider))
+		{
+			// Move the entity back
+			transform.position -= moveDelta;
+
+			// Recallibrate
+			collider->Callibrate();
+
+			return false;
+		}
+
+		return true;
+	}
 }
 
 void Entity::CartesianRotationZ(Vector3& rotateDir, Collider* collider, float rotationSpeed)
