@@ -14,6 +14,7 @@
 #include "Engine/Components/Particles.h"
 #include "Engine/Components/Canvas.h"
 #include "Game/Player.h"
+#include "Game/BallSpawner.h"
 
 STRCODE GetHashCode(const char* str)
 {
@@ -85,6 +86,9 @@ Component* CreateComponent(ComponentType componentType)
 	case PlayerC:
 		component = new Player();
 		break;
+	case BallSpawnerC:
+		component = new BallSpawner();
+		break;
 	default:
 		Logger::Get().Log("Trying to create an invalid component on an entity.", ERROR_LOG);
 	}
@@ -122,6 +126,9 @@ std::string ComponentTypeToStr(ComponentType componentType)
 	// Game Components
 	case PlayerC:
 		componentName = "Player";
+		break;
+	case BallSpawnerC:
+		componentName = "BallSpawner";
 		break;
 	default:
 		Logger::Get().Log("Trying to get string representation of invalid component.", ERROR_LOG);

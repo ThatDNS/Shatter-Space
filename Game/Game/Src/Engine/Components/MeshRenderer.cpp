@@ -15,6 +15,11 @@ void MeshRenderer::LoadMesh(const std::string& objFileLocation)
 	mesh.LoadFromObjectFile(objFileLocation);
 }
 
+void MeshRenderer::LoadMesh(Mesh& _mesh)
+{
+	mesh = _mesh;
+}
+
 Matrix4x4 MeshRenderer::GetWorldMatrix()
 {
 	// Scale, Rotate, Translate

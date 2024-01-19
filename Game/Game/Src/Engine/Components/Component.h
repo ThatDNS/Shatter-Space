@@ -21,7 +21,8 @@ enum ComponentType {
     RigidBodyC,
     ParticlesC,
     CanvasC,
-    PlayerC
+    PlayerC,
+    BallSpawnerC
 };
 
 class Component : public Object

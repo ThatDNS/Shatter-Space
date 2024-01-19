@@ -32,7 +32,6 @@ protected:
 	Entity();
 	Entity(std::string _guid);
 
-	void Initialize() override;
 	void Update(float);
 	void PreUpdate();
 	void PostUpdate();
@@ -40,6 +39,8 @@ protected:
 	void Destroy() override;
 
 public:
+	void Initialize() override;
+
 	bool HasComponent(ComponentType);
 	bool HasRenderable();
 	Component* const GetComponent(STRCODE componentUId);

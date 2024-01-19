@@ -9,6 +9,7 @@
 #include "Engine/Components/Transform.h"
 #include "Engine/Components/BoxCollider.h"
 #include "Engine/Systems/CollisionSystem.h"
+#include "Engine/Core/Logger.h"
 
 void PhysicsSystem::AddRigidBody(RigidBody* rb)
 {
@@ -25,19 +26,20 @@ void PhysicsSystem::Update(float deltaTime)
 	for (RigidBody* rb : rigidBodies)
 	{
 		// Update velocity as per acceleration (v = u + at)
-		rb->velocity += rb->instAcceleration * (deltaTime / 100.0f);
+		rb->velocity += rb->instAcceleration * (deltaTime / 1000.0f);
 		// Instantaneous acceleration must be set to zero after it has been applied to the velocity
 		rb->instAcceleration.Reset();
 
 		// Apply gravity
-		rb->velocity.y += gravity * (deltaTime / 100.0f);
+		rb->velocity.y += gravity * (deltaTime / 1000.0f);
 
 		// If the object is not moving, there's nothing else to be done
 		if (rb->velocity.Magnitude() == 0)
 			continue;
+		Logger::Get().Log(rb->velocity.ToString());
 
 		// Update position as per velocity
-		bool didMove = rb->GetEntity()->Move(rb->velocity * (deltaTime / 100.0f), rb->collider);
+		bool didMove = rb->GetEntity()->Move(rb->velocity * (deltaTime / 1000.0f), rb->collider);
 		if (didMove)
 		{
 			// Apply drag / friction
@@ -61,7 +63,7 @@ void PhysicsSystem::Update(float deltaTime)
 		else
 		{
 			// Collision happens on object movement, so we have to move it first
-			Vector3 moveDelta = rb->velocity * (deltaTime / 100.0f);
+			Vector3 moveDelta = rb->velocity * (deltaTime / 1000.0f);
 			rb->GetEntity()->GetTransform().Translate(moveDelta);
 			rb->collider->Callibrate();  // Adjust collider after transform change
 

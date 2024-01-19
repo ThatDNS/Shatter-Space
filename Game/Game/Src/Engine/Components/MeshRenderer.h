@@ -33,6 +33,7 @@ public:
 	MeshRenderer() { type = MeshRendererC; }
 
 	void LoadMesh(const std::string&);
+	void LoadMesh(Mesh&);
 	Matrix4x4 GetWorldMatrix();
 	const Mesh& GetMesh() { return mesh; }
 	void SetRenderBackSide(bool value) { renderBackSide = value; }

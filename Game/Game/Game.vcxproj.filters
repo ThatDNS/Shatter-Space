@@ -216,6 +216,9 @@
     <ClCompile Include="Src\Engine\Algorithms\Tests\TestBVH.cpp">
       <Filter>Src\Engine\Source Files\Algorithms\Tests</Filter>
     </ClCompile>
+    <ClCompile Include="Src\Game\BallSpawner.cpp">
+      <Filter>Src\Game\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="NextAPI\App\app.h">
@@ -361,6 +364,9 @@
     </ClInclude>
     <ClInclude Include="Src\Engine\Core\Tests\TestUtil.h">
       <Filter>Src\Engine\Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Game\BallSpawner.h">
+      <Filter>Src\Game\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
