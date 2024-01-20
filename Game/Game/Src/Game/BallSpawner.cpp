@@ -12,6 +12,7 @@
 #include "Engine/Components/Component.h"
 #include "Engine/Components/MeshRenderer.h"
 #include "Engine/Components/RigidBody.h"
+#include "Game/Ball.h"
 
 void BallSpawner::Initialize()
 {
@@ -50,6 +51,10 @@ void BallSpawner::SpawnBall()
 	// Apply forward force
 	RigidBody* rb = static_cast<RigidBody*>(entity->GetComponent(RigidBodyC));
 	rb->SetVelocity(Vector3(0.0f, 0.0f, 50.0f));
+
+	// Ball script data
+	Ball* ball = static_cast<Ball*>(entity->GetComponent(BallC));
+	ball->minYPos = -10.0f;
 
 	// Initialize the ball entity
 	entity->Initialize();

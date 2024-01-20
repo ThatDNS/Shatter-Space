@@ -79,14 +79,6 @@ void Scene::PostUpdate()
 		}
 	}
 
-	for (Entity* entity : entitiesToDestroy)
-	{
-		entity->Destroy();
-		delete entity;
-		entities.remove(entity);
-	}
-	entitiesToDestroy.clear();
-
 	for (Entity* entity : entitiesToUntrack)
 	{
 		entities.remove(entity);
@@ -184,22 +176,25 @@ std::list<Entity*> Scene::FindEntityWithComponent(ComponentType componentType) c
 	return foundEntities;
 }
 
-bool Scene::RemoveEntity(std::string& entityGUID)
+void Scene::RemoveEntity(Entity* entity)
 {
-	return RemoveEntity(GetHashCode(entityGUID.c_str()));
+	entity->sourcePool->MarkObjectAsFree(entity);
 }
 
-bool Scene::RemoveEntity(STRCODE entityId)
+void Scene::RemoveEntity(std::string& entityGUID)
+{
+	RemoveEntity(GetHashCode(entityGUID.c_str()));
+}
+
+void Scene::RemoveEntity(STRCODE entityId)
 {
 	for (Entity* entity : entities)
 	{
 		if (entity->GetUid() == entityId)
 		{
-			entitiesToDestroy.push_back(entity);
-			return true;
+			RemoveEntity(entity);
 		}
 	}
-	return false;
 }
 
 void Scene::UntrackEntity(Entity* entity)

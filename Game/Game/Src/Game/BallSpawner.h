@@ -16,7 +16,7 @@ class BallSpawner : public Component
 	// Ball component data
 	std::string meshObjFile = "";
 	Mesh mesh;
-	std::vector<ComponentType> ballComponents{ MeshRendererC, BoxColliderC, RigidBodyC };
+	std::vector<ComponentType> ballComponents{ MeshRendererC, BoxColliderC, RigidBodyC, BallC };
 
 	// To avoid multiple clicks
 	bool isClickPressed = false;

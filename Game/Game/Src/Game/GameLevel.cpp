@@ -107,6 +107,7 @@ void SetupLevel1()
 
 	// ---------------------- Canvas Entity ----------------------
 	Entity* entity = scene->CreateEntity(std::vector<ComponentType>{ CanvasC });
+	entity->SetName("Canvas");
 
 	// Add canvas data
 	Component* component = entity->GetComponent(CanvasC);
