@@ -91,6 +91,7 @@ void MeshRenderer::Render()
 			clipped[i].points[2] /= clipped[i].points[2].w;
 
 			// Scale the object
+			// Projection matrix result is in [-1, 1]. Shift it to [0, 2] & scale to the screen.
 			clipped[i].points[0] += 1.0f;
 			clipped[i].points[1] += 1.0f;
 			clipped[i].points[2] += 1.0f;

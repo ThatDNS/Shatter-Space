@@ -48,9 +48,16 @@ void BallSpawner::SpawnBall()
 	mr->SetRenderBackSide(false);
 	mr->SetMeshColor(Vector3(0.0f, 1.0f, 0.0f));
 
-	// Apply forward force
+	// Apply velocity
 	RigidBody* rb = static_cast<RigidBody*>(entity->GetComponent(RigidBodyC));
-	rb->SetVelocity(Vector3(0.0f, 0.0f, 50.0f));
+	Vector3 ballDir;
+	App::GetMousePos(ballDir.x, ballDir.y);
+	// Convert screen coords to the coords used by the engine
+	ballDir.x = ((ballDir.x - 0.5f * (float)APP_INIT_WINDOW_WIDTH) / (float)APP_INIT_WINDOW_WIDTH) * 10.0f;
+	ballDir.y = ((ballDir.y - 0.5f * (float)APP_INIT_WINDOW_HEIGHT) / (float)APP_INIT_WINDOW_HEIGHT) * 6.0f;
+	ballDir.z = 5.0f;
+	ballDir.Normalize();
+	rb->SetVelocity(ballDir * ballSpeed);
 
 	// Ball script data
 	Ball* ball = static_cast<Ball*>(entity->GetComponent(BallC));

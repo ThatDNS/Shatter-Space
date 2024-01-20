@@ -26,12 +26,13 @@ void Player::Initialize()
 	particles = static_cast<Particles*>(GetEntity()->GetComponent(ParticlesC));
 
 	// Attach camera to the player
-	RenderSystem::Get().AttachCamera(GetEntity());
+	//RenderSystem::Get().AttachCamera(GetEntity());
 }
 
 void Player::Update(float deltaTime)
 {
 	Move(deltaTime);
+	//Logger::Get().Log("Player is at: " + GetEntity()->GetTransform().position.ToString());
 }
 
 void Player::Move(float deltaTime)

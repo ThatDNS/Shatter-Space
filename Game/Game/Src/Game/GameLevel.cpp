@@ -9,6 +9,7 @@
 #include "Engine/Components/Component.h"
 #include "Engine/Components/MeshRenderer.h"
 #include "Engine/Components/BoxCollider.h"
+#include "Engine/Components/RigidBody.h"
 #include "Engine/Components/Canvas.h"
 #include "Engine/Components/Particles.h"
 
@@ -33,6 +34,9 @@ void CreatePlayer(Scene* scene, Vector3& position, Vector3& scale)
 	mr->SetRenderBackSide(true);
 	mr->SetMeshColor(Vector3(0.0f, 1.0f, 0.0f));
 
+	RigidBody* rb = static_cast<RigidBody*>(entity->GetComponent(RigidBodyC));
+	rb->applyGravity = false;
+
 	// Set box collider data
 	component = entity->GetComponent(BoxColliderC);
 	BoxCollider* boxCollider = static_cast<BoxCollider*>(component);
@@ -46,7 +50,7 @@ void CreatePlayer(Scene* scene, Vector3& position, Vector3& scale)
 	// Set player script data
 	component = entity->GetComponent(PlayerC);
 	Player* player = static_cast<Player*>(component);
-	player->SetMoveSpeed(1.5f);
+	player->SetMoveSpeed(15.0f);
 }
 
 void CreateBallSpawner(Scene* scene)
@@ -102,7 +106,7 @@ void SetupLevel1()
 	CreateWall(scene, Vector3(9.0f, 0.0f, 20.0f), Vector3(2.0f, 8.0f, 0.2f));
 
 	// ---------------------- Player Entity ----------------------
-	//CreatePlayer(scene, Vector3(0.0f, 0.0f, 15.0f), Vector3(1.0f, 1.0f, 1.0f));
+	//CreatePlayer(scene, Vector3(00.0f, 6.0f, 12.0f), Vector3(1.0f, 1.0f, 1.0f));
 	CreateBallSpawner(scene);
 
 	// ---------------------- Canvas Entity ----------------------

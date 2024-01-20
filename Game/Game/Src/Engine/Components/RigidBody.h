@@ -16,6 +16,7 @@ class RigidBody : public Component
 public:
 	float mass = 1.0f;
 	float drag = 0.01f;  // or friction
+	bool applyGravity = true;
 
 	Collider* collider = nullptr;
 

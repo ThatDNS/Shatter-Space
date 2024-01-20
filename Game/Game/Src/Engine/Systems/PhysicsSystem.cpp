@@ -31,7 +31,8 @@ void PhysicsSystem::Update(float deltaTime)
 		rb->instAcceleration.Reset();
 
 		// Apply gravity
-		rb->velocity.y += gravity * (deltaTime / 1000.0f);
+		if (rb->applyGravity)
+			rb->velocity.y += gravity * (deltaTime / 1000.0f);
 
 		// If the object is not moving, there's nothing else to be done
 		if (rb->velocity.Magnitude() == 0)
