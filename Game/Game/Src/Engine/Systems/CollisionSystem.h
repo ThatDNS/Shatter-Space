@@ -6,11 +6,11 @@
 #ifndef _COLLISION_SYSTEM_H_
 #define _COLLISION_SYSTEM_H_
 
-class Collider;
+#include "Engine/Components/Collider.h"
+
 class Vector3;
 class Entity;
 class BVH;
-enum ColliderTag;
 
 class CollisionSystem
 {
@@ -29,8 +29,26 @@ class CollisionSystem
 	void BuildNewBVHTree();
 
 public:
-	bool CheckCollision(Collider*);
-	Vector3 GetCollisionNormal(Collider*);
+	/**
+	 * @brief Check if any object collided with the input collider.
+	 * 
+	 * @param collider Collider of the entity
+	 * @param colliderTag Check collision with objects having this tag. If GENERIC, all collisions are checked.
+	 * 
+	 * @return Collider pointer if there was a collision. Else, nullptr.
+	 */
+	Collider* CheckCollision(Collider* collider, ColliderTag colliderTag = GENERIC);
+
+	/**
+	 * @brief Get normal vector to the collision plane.
+	 *
+	 * @param collider Collider of the entity
+	 * @param checkTag Check collider tag
+	 * @param colliderTag Check collision with objects having this tag.If GENERIC, all collisions are checked.
+	 *
+	 * @return Normal vector
+	 */
+	Vector3 GetCollisionNormal(Collider* collider, ColliderTag colliderTag = GENERIC);
 
 protected:
 	void AddCollider(Collider*);

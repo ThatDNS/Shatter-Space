@@ -5,3 +5,11 @@
 
 #include "stdafx.h"
 #include "Engine/Components/Collider.h"
+
+void Collider::OnCollisionEnter(Collider* other)
+{
+	if (OnCollisionEnterFunc != nullptr)
+	{
+		OnCollisionEnterFunc(other);
+	}
+}

@@ -195,8 +195,13 @@ bool Entity::Move(Vector3& moveDelta, Collider* collider, bool freeMove)
 
 		// Check if this caused collision
 		collider->Callibrate();
-		if (CollisionSystem::Get().CheckCollision(collider))
+		Collider* collidedWith = CollisionSystem::Get().CheckCollision(collider);
+		if (collidedWith != nullptr)
 		{
+			// Collision callbacks
+			collider->OnCollisionEnter(collidedWith);
+			collidedWith->OnCollisionEnter(collider);
+
 			// Move the entity back
 			transform.position -= moveDelta;
 

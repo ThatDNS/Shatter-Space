@@ -12,7 +12,7 @@
 class BallSpawner : public Component
 {
 	int ballCounter = 0;
-	float ballSpeed = 50.0f;
+	float ballSpeed = 100.0f;
 
 	// Ball component data
 	std::string meshObjFile = "";

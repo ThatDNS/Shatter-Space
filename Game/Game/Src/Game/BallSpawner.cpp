@@ -61,7 +61,7 @@ void BallSpawner::SpawnBall()
 
 	// Ball script data
 	Ball* ball = static_cast<Ball*>(entity->GetComponent(BallC));
-	ball->minYPos = -10.0f;
+	ball->minYPos = -20.0f;
 
 	// Initialize the ball entity
 	entity->Initialize();

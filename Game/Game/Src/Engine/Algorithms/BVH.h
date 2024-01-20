@@ -53,7 +53,7 @@ private:
 	/**
 	 * @brief Recursively check for collision.
 	 */
-	bool CheckCollisions(BVHNode* node, BoxCollider* collider, Vector3& normal) const;
+	BoxCollider* CheckCollisions(BVHNode* node, BoxCollider* collider, Vector3& normal, ColliderTag colliderTag) const;
 
 	/**
 	 * @brief Compute the AABB enclosing a number of AABBs.
@@ -90,12 +90,12 @@ public:
 	/**
 	 * @brief Check if anything collided with the input collider.
 	 */
-	bool CheckCollisions(BoxCollider* boxCollider) const;
+	BoxCollider* CheckCollisions(BoxCollider* boxCollider, ColliderTag colliderTag = GENERIC) const;
 
 	/**
 	 * @brief Get normal vector to the collision plane.
 	 */
-	Vector3 GetCollisionNormal(BoxCollider* boxCollider) const;
+	Vector3 GetCollisionNormal(BoxCollider* boxCollider, ColliderTag colliderTag = GENERIC) const;
 
 	/**
 	 * @brief Recursively re-build the tree using existign colliders.
