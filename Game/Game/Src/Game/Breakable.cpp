@@ -32,11 +32,13 @@ void Breakable::Initialize()
 	{
 		meshObjFile += "Pyramid";
 		numPieces = 4;
+		_score = PYRAMID_SCORE;
 	}
 	else if (breakableType == BreakableType::Plane)
 	{
 		meshObjFile += "Plane";
 		numPieces = 8;
+		_score = PLANE_SCORE;
 	}
 
 	// Load the mesh & its settings
@@ -115,9 +117,9 @@ void Breakable::Break()
 	score.z = position.z;
 	score.project = true;
 	score.timeRemaining = 1.0f;
-	score.text = "+2";
+	score.text = "+" + std::to_string(_score);
 	uiManager->ScheduleRender(score);
-	uiManager->IncreaseBalls(2);
+	uiManager->IncreaseBalls(_score);
 
 	timeToDie = true;
 }
@@ -128,8 +130,11 @@ void Breakable::SpawnBrokenPieces(Mesh& mesh)
 	Entity* entity = scene->CreateEntity(std::vector<ComponentType>{ MeshRendererC, RigidBodyC, SelfDestructC });
 	entity->SetName("BrokenPiece");
 
+	Transform& transform = GetEntity()->GetTransform();
 	Vector3 randomFactor{ Random::Get().Float() * 2.0f - 1.0f, Random::Get().Float() * 2.0f - 1.0f, 0.0f };
-	entity->GetTransform().position = GetEntity()->GetTransform().position + randomFactor;
+	entity->GetTransform().position = transform.position + randomFactor;
+	entity->GetTransform().rotation = transform.rotation;
+	entity->GetTransform().scale = transform.scale;
 
 	// Load the mesh
 	MeshRenderer* mr = static_cast<MeshRenderer*>(entity->GetComponent(MeshRendererC));

@@ -22,6 +22,8 @@ class LevelGenerator : public Component
 	float maxSightDistance = 150.0f;
 	float lastSpawnDistance = 0.0f;
 
+	int _pyramidCounter = 0;
+
 	void CreateWallEntity(Vector3& position, Vector3& scale);
 	void CreateBreakableEntity(Vector3& position, Vector3& scale, Vector3& rotation, BreakableType breakableType);
 

@@ -3,6 +3,7 @@
 // @brief: Cpp file for LevelGenerator class responsible for generating level as per the position of player.
 
 #include "stdafx.h"
+#include "App/app.h"
 #include "Game/LevelGenerator.h"
 #include "Engine/Systems/SceneManager.h"
 #include "Engine/Systems/Scene.h"
@@ -11,6 +12,7 @@
 #include "Engine/Components/Component.h"
 #include "Engine/Components/Transform.h"
 #include "Engine/Components/MeshRenderer.h"
+#include "Engine/Components/RigidBody.h"
 #include "Engine/Math/Vector3.h"
 #include "Game/SelfDestruct.h"
 #include "Game/Breakable.h"
@@ -69,21 +71,45 @@ void LevelGenerator::CreateBreakableEntity(Vector3& position, Vector3& scale, Ve
 	entity->GetTransform().scale = scale;
 	entity->GetTransform().rotation = rotation;
 
+	// Set breakable type
+	Breakable* breakable = static_cast<Breakable*>(entity->GetComponent(BreakableC));
+	breakable->SetBreakableType(breakableType);
+
+	if (breakableType == BreakableType::Plane)
+	{
+		// Plane shouldn't be affected by gravity
+		RigidBody* rb = static_cast<RigidBody*>(entity->GetComponent(RigidBodyC));
+		rb->applyGravity = false;
+	}
+
 	// Initialize
 	entity->Initialize();
 }
 
 void LevelGenerator::SpawnLevel(float zPos)
 {
-	Vector3 wallScale{ 6.0f, 8.0f, 5.0f };
-	Vector3 breakableScale{ 2.0f, 2.0f, 2.0f };
-	Vector3 breakableRotation{ 0.0f, 0.0f, 0.0f };
+	if (_pyramidCounter < 3)
+	{
+		// Spawn breakable pyramid
+		Vector3 wallScale{ 6.0f, 8.0f, 5.0f };
+		Vector3 breakableScale{ 2.0f, 2.0f, 2.0f };
+		Vector3 breakableRotation{ 0.0f, 0.0f, 0.0f };
 
-	CreateWallEntity     (Vector3(-15.0f, -12.0f, zPos), wallScale);
-	CreateBreakableEntity(Vector3(-15.0f, 0.0f, zPos),   breakableScale, breakableRotation, BreakableType::Pyramid);
-	CreateWallEntity     (Vector3(0.0f, -12.0f, zPos),   wallScale);
-	CreateBreakableEntity(Vector3(0.0f, 0.0f, zPos),     breakableScale, breakableRotation, BreakableType::Pyramid);
-	CreateWallEntity     (Vector3(15.0f, -12.0f, zPos),  wallScale);
-	CreateBreakableEntity(Vector3(15.0f, 0.0f, zPos),    breakableScale, breakableRotation, BreakableType::Pyramid);
+		CreateWallEntity(Vector3(-15.0f, -12.0f, zPos), wallScale);
+		CreateWallEntity(Vector3(0.0f, -12.0f, zPos), wallScale);
+		CreateWallEntity(Vector3(15.0f, -12.0f, zPos), wallScale);
+		CreateBreakableEntity(Vector3(-15.0f, 0.0f, zPos), breakableScale, breakableRotation, BreakableType::Pyramid);
+		CreateBreakableEntity(Vector3(0.0f, 0.0f, zPos), breakableScale, breakableRotation, BreakableType::Pyramid);
+		CreateBreakableEntity(Vector3(15.0f, 0.0f, zPos), breakableScale, breakableRotation, BreakableType::Pyramid);
+		++_pyramidCounter;
+	}
+	else
+	{
+		// Spawn breakable plane
+		Vector3 breakableScale{ 5.0f, 5.0f, 5.0f };
+		Vector3 breakableRotation{ 0.0f, (float)PI / 2.0f, 0.0f };
+		CreateBreakableEntity(Vector3(0.0f, -6.0f, zPos), breakableScale, breakableRotation, BreakableType::Plane);
+		_pyramidCounter = 0;
+	}
 }
 
