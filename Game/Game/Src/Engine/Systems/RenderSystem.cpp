@@ -62,10 +62,8 @@ void RenderSystem::Update(float deltaTime)
 	if (toFollow)
 	{
 		const Vector3& tPos = toFollow->GetTransform().position;
-		Vector3::Lerp(cameraPosition, -tPos, cameraSpeed * deltaTime / 100.0f);
-		
-		// Do not move Z of the camera
-		cameraPosition.z = 0.0f;
+		cameraPosition = -tPos;
+		//Vector3::Lerp(cameraPosition, -tPos, cameraSpeed * deltaTime / 100.0f);
 	}
 }
 

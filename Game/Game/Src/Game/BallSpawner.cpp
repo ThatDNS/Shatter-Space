@@ -8,6 +8,7 @@
 #include "Engine/Core/Logger.h"
 #include "Engine/Systems/SceneManager.h"
 #include "Engine/Systems/Scene.h"
+#include "Engine/Systems/RenderSystem.h"
 #include "Engine/Components/Entity.h"
 #include "Engine/Components/Component.h"
 #include "Engine/Components/MeshRenderer.h"
@@ -18,6 +19,7 @@ void BallSpawner::Initialize()
 {
 	// Load the mesh
 	mesh.LoadFromObjectFile(meshObjFile);
+	RenderSystem::Get().AttachCamera(GetEntity());
 }
 
 void BallSpawner::Update(float deltaTime)
@@ -32,6 +34,9 @@ void BallSpawner::Update(float deltaTime)
 	{
 		isClickPressed = false;
 	}
+
+	// Move the ball spawner. Camera moves with it
+	GetEntity()->GetTransform().Translate(Vector3(0.0f, 0.0f, spawnerMoveSpeed * (deltaTime / 1000.0f)));
 }
 
 void BallSpawner::SpawnBall()
@@ -40,7 +45,9 @@ void BallSpawner::SpawnBall()
 	Entity* entity = scene->CreateEntity(ballComponents);
 	entity->SetName("Ball_" + std::to_string(ballCounter));
 
-	entity->GetTransform().position = Vector3(0.0f, 0.0f, 5.0f);
+	entity->GetTransform().position = GetEntity()->GetTransform().position;
+	// Spawn balls a little in front
+	entity->GetTransform().position.z += 5.0f;
 
 	// Load the mesh
 	MeshRenderer* mr = static_cast<MeshRenderer*>(entity->GetComponent(MeshRendererC));

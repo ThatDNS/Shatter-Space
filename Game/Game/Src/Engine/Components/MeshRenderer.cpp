@@ -31,6 +31,9 @@ Matrix4x4 MeshRenderer::GetWorldMatrix()
 
 void MeshRenderer::Render()
 {
+	if (hideMesh)
+		return;
+
 	// World matrix
 	Matrix4x4 mWorld = GetWorldMatrix();
 
