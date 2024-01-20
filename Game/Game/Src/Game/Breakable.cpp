@@ -88,6 +88,7 @@ void Breakable::SpawnBrokenPieces(Mesh& mesh)
 {
 	Scene* scene = SceneManager::Get().GetActiveScene();
 	Entity* entity = scene->CreateEntity(std::vector<ComponentType>{ MeshRendererC, RigidBodyC, SelfDestructC });
+	entity->SetName("BrokenPiece");
 
 	Vector3 randomFactor{ Random::Get().Float() * 2.0f - 1.0f, Random::Get().Float() * 2.0f - 1.0f, 0.0f };
 	entity->GetTransform().position = GetEntity()->GetTransform().position + randomFactor;
@@ -111,6 +112,4 @@ void Breakable::SpawnBrokenPieces(Mesh& mesh)
 
 	// Initialize
 	entity->Initialize();
-
-	Logger::Get().Log("Generated broken piece with mesh size = " + std::to_string(mesh.faces.size()));
 }

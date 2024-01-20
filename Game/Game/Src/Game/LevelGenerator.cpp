@@ -12,6 +12,7 @@
 #include "Engine/Components/Transform.h"
 #include "Engine/Components/MeshRenderer.h"
 #include "Engine/Math/Vector3.h"
+#include "Game/SelfDestruct.h"
 
 void LevelGenerator::Initialize()
 {
@@ -41,7 +42,7 @@ void LevelGenerator::Update(float deltaTime)
 
 void LevelGenerator::CreateWallEntity(Vector3& position, Vector3& scale)
 {
-	Entity* entity = SceneManager::Get().GetActiveScene()->CreateEntity(std::vector<ComponentType>{ MeshRendererC, BoxColliderC });
+	Entity* entity = SceneManager::Get().GetActiveScene()->CreateEntity(std::vector<ComponentType>{ MeshRendererC, BoxColliderC, SelfDestructC });
 	entity->SetName("Wall");
 
 	// Load the transform data
@@ -61,7 +62,7 @@ void LevelGenerator::CreateWallEntity(Vector3& position, Vector3& scale)
 
 void LevelGenerator::CreateBreakableEntity(Vector3& position, Vector3& scale)
 {
-	Entity* entity = SceneManager::Get().GetActiveScene()->CreateEntity(std::vector<ComponentType>{ MeshRendererC, BoxColliderC, RigidBodyC, ParticlesC, BreakableC });
+	Entity* entity = SceneManager::Get().GetActiveScene()->CreateEntity(std::vector<ComponentType>{ MeshRendererC, BoxColliderC, RigidBodyC, ParticlesC, BreakableC, SelfDestructC });
 	entity->SetName("Breakable");
 	entity->GetTransform().position = position;
 	entity->GetTransform().scale = scale;

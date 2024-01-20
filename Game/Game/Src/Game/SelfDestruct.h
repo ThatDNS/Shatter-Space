@@ -9,17 +9,21 @@
 #include "Engine/Components/Component.h"
 #include "Engine/Math/Vector3.h"
 
+class Entity;
+
 class SelfDestruct : public Component
 {
 	// Self destructs if it goes below this position
-	Vector3 bound;
+	Vector3 bound{ 0.0f, -20.0f, 0.0f };
+
+	Entity* playerEntity = nullptr;
 
 public:
 	SelfDestruct() { type = SelfDestructC; }
 
 	void SetBound(Vector3& b) { bound = b; }
 
-	void Initialize() override {};
+	void Initialize() override;
 	void Update(float) override;
 	void Destroy() override {}
 };
