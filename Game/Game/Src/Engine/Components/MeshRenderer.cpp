@@ -10,6 +10,12 @@
 #include "Engine/Systems/RenderSystem.h"
 #include "Engine/Core/Logger.h"
 
+void MeshRenderer::Initialize()
+{
+	// Ensure that the mesh is not hidden
+	SetHideMesh(false);
+}
+
 void MeshRenderer::LoadMesh(const std::string& objFileLocation)
 {
 	mesh.LoadFromObjectFile(objFileLocation);

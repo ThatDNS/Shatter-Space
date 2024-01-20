@@ -25,7 +25,7 @@ protected:
 	// Protected destructor so that only Entity can delete it
 	~MeshRenderer() = default;
 
-	void Initialize() override { }
+	void Initialize() override;
 	void Update(float) override { }
 	void Render() override;
 	void Destroy() override { }
