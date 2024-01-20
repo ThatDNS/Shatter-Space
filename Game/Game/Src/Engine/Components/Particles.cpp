@@ -101,16 +101,16 @@ void Particles::Update(float deltaTime)
 
 void Particles::Render()
 {
+	// View matrix
+	Matrix4x4 mView = RenderSystem::Get().GetViewMatrix();
+
+	// Projection matrix
+	Matrix4x4 mProj = RenderSystem::Get().GetProjectionMatrix();
+
 	for (Particle& particle : particlePool)
 	{
 		if (!particle.isActive)
 			continue;
-
-		// View matrix
-		Matrix4x4 mView = RenderSystem::Get().GetViewMatrix();
-
-		// Projection matrix
-		Matrix4x4 mProj = RenderSystem::Get().GetProjectionMatrix();
 
 		std::vector<Vector3> points;
 		if (particleType == EXPLOSION)

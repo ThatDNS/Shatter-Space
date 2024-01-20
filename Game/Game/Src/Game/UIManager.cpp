@@ -5,6 +5,9 @@
 #include "stdafx.h"
 #include "App/app.h"
 #include "Game/UIManager.h"
+#include "Engine/Math/Matrix4x4.h"
+#include "Engine/Math/Vector3.h"
+#include "Engine/Systems/RenderSystem.h"
 
 void UIManager::Initialize()
 {
@@ -24,10 +27,32 @@ void UIManager::Update(float deltaTime)
 
 void UIManager::Render()
 {
+	// View projection
+	Matrix4x4 mView = RenderSystem::Get().GetViewMatrix();
+
+	// Projection matrix
+	Matrix4x4 mProj = RenderSystem::Get().GetProjectionMatrix();
+
 	// Render from the buffer
 	for (UIBuffer& uiB : renderBuffer)
 	{
-		App::Print(uiB.x, uiB.y, uiB.text.c_str(), 1.0f, 1.0f, 1.0f, GLUT_BITMAP_HELVETICA_12);
+		Vector3 point{ uiB.x, uiB.y, uiB.z};
+		if (uiB.project)
+		{
+			// No need of world projection, that's already there
+			// Transform to view space
+			point = mView * point;
+			// Projection
+			point = mProj * point;
+			// Normalize
+			point /= point.w;
+			// Scale
+			point += 1.0f;
+			point.x *= 0.5f * (float)APP_INIT_WINDOW_WIDTH;
+			point.y *= 0.5f * (float)APP_INIT_WINDOW_HEIGHT;
+		}
+
+		App::Print(point.x, point.y, uiB.text.c_str(), 1.0f, 1.0f, 1.0f, GLUT_BITMAP_HELVETICA_18);
 	}
 
 	// Remaining balls

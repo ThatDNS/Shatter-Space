@@ -95,13 +95,15 @@ void Breakable::Break()
 
 	// Update the UI
 	UIBuffer score;
-	// Get farthest point from mesh for coordinates
-	Vector3 maxProjectedPt = meshRenderer->GetFarthestProjectedPoint();
-	score.x = maxProjectedPt.x;
-	score.y = maxProjectedPt.y;
+	Vector3 position = GetEntity()->GetTransform().position;
+	score.x = position.x;
+	score.y = position.y + 3.0f;
+	score.z = position.z;
+	score.project = true;
 	score.timeRemaining = 1.0f;
-	score.text = "+1";
+	score.text = "+2";
 	uiManager->ScheduleRender(score);
+	uiManager->IncreaseBalls(2);
 
 	timeToDie = true;
 }

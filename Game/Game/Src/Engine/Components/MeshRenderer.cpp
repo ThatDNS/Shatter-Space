@@ -161,17 +161,12 @@ void MeshRenderer::Render()
 			nNewTriangles = listTriangles.size();
 		}
 
-		_farthestProjectedPoint.x = 0; _farthestProjectedPoint.y = 0;
 		// Draw the transformed, viewed, clipped, projected, sorted, clipped triangles
 		for (Triangle& t : listTriangles)
 		{
 			linesToDraw.insert({ { {t.points[0].x, t.points[0].y}, {t.points[1].x, t.points[1].y} }, triIntensityPair.second });
 			linesToDraw.insert({ { {t.points[0].x, t.points[0].y}, {t.points[2].x, t.points[2].y} }, triIntensityPair.second });
 			linesToDraw.insert({ { {t.points[1].x, t.points[1].y}, {t.points[2].x, t.points[2].y} }, triIntensityPair.second });
-
-			// Compute the farthest point
-			_farthestProjectedPoint.x = std::max(t.points[0].x, std::max(t.points[1].x, t.points[2].x));
-			_farthestProjectedPoint.y = std::max(t.points[0].y, std::max(t.points[1].y, t.points[2].y));
 		}
 	}
 
