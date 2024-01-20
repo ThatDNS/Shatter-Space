@@ -213,13 +213,13 @@
     <ClCompile Include="Src\Engine\Algorithms\Tests\TestBVH.cpp">
       <Filter>Src\Engine\Source Files\Algorithms\Tests</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Game\BallSpawner.cpp">
-      <Filter>Src\Game\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Src\Game\Game.cpp">
       <Filter>Src\Game</Filter>
     </ClCompile>
     <ClCompile Include="Src\Game\Ball.cpp">
+      <Filter>Src\Game\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Game\BallSpawner.cpp">
       <Filter>Src\Game\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -368,10 +368,10 @@
     <ClInclude Include="Src\Engine\Core\Tests\TestUtil.h">
       <Filter>Src\Engine\Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Game\BallSpawner.h">
+    <ClInclude Include="Src\Game\Ball.h">
       <Filter>Src\Game\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Game\Ball.h">
+    <ClInclude Include="Src\Game\BallSpawner.h">
       <Filter>Src\Game\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
