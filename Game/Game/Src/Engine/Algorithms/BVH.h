@@ -55,6 +55,8 @@ private:
 	 */
 	BoxCollider* CheckCollisions(BVHNode* node, BoxCollider* collider, Vector3& normal, ColliderTag colliderTag) const;
 
+	//bool BVH::AddCollider(BVHNode* node, BoxCollider* collider);
+
 	/**
 	 * @brief Compute the AABB enclosing a number of AABBs.
 	 */
@@ -98,10 +100,23 @@ public:
 	Vector3 GetCollisionNormal(BoxCollider* boxCollider, ColliderTag colliderTag = GENERIC) const;
 
 	/**
-	 * @brief Recursively re-build the tree using existign colliders.
+	 * @brief Recursively re-build the tree using existing colliders.
 	 * Useful if the colliders have changed.
 	 */
 	void BVH::RebuildTree();
+
+	// Decided that the better approach is to just rebuild the tree
+	// Explanation in CollisionSystem::Update()
+	// Not deleting this in case I need them later.
+	///**
+	// * @brief Add a single collider to the existing BVH tree.
+	// */
+	//void BVH::AddCollider(BoxCollider* collider);
+
+	///**
+	// * @brief Remove a single collider from the existing BVH tree.
+	// */
+	//void BVH::RemoveCollider(BoxCollider* collider);
 };
 
 #endif // !_BVH_H_

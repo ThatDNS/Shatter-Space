@@ -78,6 +78,21 @@ BoxCollider* BVH::CheckCollisions(BVHNode* node, BoxCollider* collider, Vector3&
 	return nullptr;
 }
 
+//bool BVH::AddCollider(BVHNode* node, BoxCollider* collider)
+//{
+//	if (node == nullptr || !node->boundingBox.Intersects(collider->boundingBox))
+//		return false;
+//
+//	// If reached leaf node, directly add the collider there
+//	if (node->IsLeaf())
+//	{
+//		node->colliders.push_back(collider);
+//		return true;
+//	}
+//
+//	return (AddCollider(node->left, collider) || AddCollider(node->right, collider));
+//}
+
 AABB BVH::GetEnclosingBoundingBox(const std::vector<BoxCollider*>& colliders) const
 {
 	Vector3 minC(std::numeric_limits<float>::max(), std::numeric_limits<float>::max(), std::numeric_limits<float>::max());
@@ -215,3 +230,26 @@ void BVH::RebuildTree()
 	RebuildTree(root);
 	//Logger::Get().Log("New BVH root: " + root->boundingBox.ToString());
 }
+
+//void BVH::AddCollider(BoxCollider* collider)
+//{
+//	if (root == nullptr)
+//	{
+//		// If root doesn't exist, build new tree
+//		root = BuildTreeInternal(std::vector<BoxCollider*>{ collider });
+//	}
+//	else
+//	{
+//		// If this collider can be a part of existing tree, add it
+//		if (root->boundingBox.Intersects(collider->boundingBox))
+//		{
+//			AddCollider(root, collider);
+//			// Adjust bounding boxes of the tree
+//			RebuildTree(root);
+//		}
+//	}
+//}
+//
+//void BVH::RemoveCollider(BoxCollider* collider)
+//{
+//}

@@ -25,6 +25,7 @@ class CollisionSystem
 	std::list<Collider*> colliders;
 	// BVH for box colliders
 	BVH* bvhTree = nullptr;
+	bool collidersAddedRemoved = false;
 
 	void BuildNewBVHTree();
 

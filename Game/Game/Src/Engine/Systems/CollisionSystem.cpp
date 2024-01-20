@@ -23,28 +23,36 @@ void CollisionSystem::Initialize()
 void CollisionSystem::Update()
 {
 	bool updateTree = false;
-	// Check if any box colliders got updated. If yes, we need to update the BVH tree
-	for (Collider* collider : colliders)
+	if (!collidersAddedRemoved)
 	{
-		if (collider->GetColliderType() == BOX && collider->gotUpdated)
+		// Check if any box colliders got updated. If yes, we need to update the BVH tree
+		for (Collider* collider : colliders)
 		{
-			collider->gotUpdated = false;
-			updateTree = true;
+			if (collider->GetColliderType() == BOX && collider->gotUpdated)
+			{
+				collider->gotUpdated = false;
+				updateTree = true;
+			}
 		}
 	}
 
 	// Update BVH Tree
-	if (updateTree)
+	if (collidersAddedRemoved || updateTree)
 	{
-		if (treeUpdateCount >= MAX_TREE_UPDATE_ITERS)
+		if (collidersAddedRemoved || (treeUpdateCount >= MAX_TREE_UPDATE_ITERS))
 		{
-			// BVH tree has been rebuilt a lot of times. In each rebuilt, its AABBs are adjusted. These
-			// adjustments could easily lead to inefficiencies over time. Hence, its important to recreate
-			// a fully-efficient BVH tree every once a while.
+			// Either new colliders got added / removed or BVH tree has been rebuilt a lot of times. 
+			// 1. When a new collider gets added / removed, we can add / remove just it from the tree instead of
+			//    building the entire tree again. However, in 1 frame update, multiple colliders can be added / removed.
+			//    The BVH tree would be changed and its nodes would be recallibrated for each new collider.
+			//    It seems better to just build a new BVH tree.
+			// 2. In each rebuilt, its AABBs are adjusted. These adjustments could easily lead to inefficiencies
+			//    over time. Hence, its important to recreate a fully-efficient BVH tree every once a while.
 			bvhTree->Destroy();
 			BuildNewBVHTree();
 
 			treeUpdateCount = 0;
+			collidersAddedRemoved = false;
 		}
 		else
 		{
@@ -67,11 +75,13 @@ void CollisionSystem::Destroy()
 void CollisionSystem::AddCollider(Collider* collider)
 {
 	colliders.push_back(collider);
+	collidersAddedRemoved = true;
 }
 
 void CollisionSystem::RemoveCollider(Collider* collider)
 {
 	colliders.remove(collider);
+	collidersAddedRemoved = true;
 }
 
 void CollisionSystem::BuildNewBVHTree()
