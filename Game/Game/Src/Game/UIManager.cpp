@@ -35,6 +35,9 @@ void UIManager::Render()
 	// Projection matrix
 	Matrix4x4 mProj = RenderSystem::Get().GetProjectionMatrix();
 
+	// To set the font size
+	float cameraPosZ = RenderSystem::Get().GetCameraPosition().z;
+
 	// Render from the buffer
 	for (UIBuffer& uiB : renderBuffer)
 	{
@@ -53,8 +56,14 @@ void UIManager::Render()
 			point.x *= 0.5f * (float)APP_INIT_WINDOW_WIDTH;
 			point.y *= 0.5f * (float)APP_INIT_WINDOW_HEIGHT;
 		}
-
-		App::Print(point.x, point.y, uiB.text.c_str(), 1.0f, 1.0f, 1.0f, GLUT_BITMAP_HELVETICA_18);
+		
+		float distFromCamera = std::abs(std::abs(uiB.z) - std::abs(cameraPosZ));
+		if (distFromCamera > 100.0f)
+			App::Print(point.x, point.y, uiB.text.c_str(), 1.0f, 1.0f, 1.0f, GLUT_BITMAP_HELVETICA_10);
+		else if (distFromCamera > 50.0f)
+			App::Print(point.x, point.y, uiB.text.c_str(), 1.0f, 1.0f, 1.0f, GLUT_BITMAP_HELVETICA_12);
+		else
+			App::Print(point.x, point.y, uiB.text.c_str(), 1.0f, 1.0f, 1.0f, GLUT_BITMAP_HELVETICA_18);
 	}
 
 	// Remaining balls
