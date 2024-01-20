@@ -57,25 +57,24 @@ void PhysicsSystem::Update(float deltaTime)
 			// Get collision normal
 			Vector3 normal = CollisionSystem::Get().GetCollisionNormal(rb->collider);
 
-			Logger::Get().Log("Not moving, collision normal: " + normal.ToString());
-
 			if (normal.Magnitude() != 0)
 			{
 				// Change velocity in the direction of collision's normal vector
 				if (normal.x != 0.0f)
-					rb->velocity.x = -rb->velocity.x;
+					rb->velocity.x = -rb->velocity.x * rb->resCoeff;
 				if (normal.y != 0.0f)
-					rb->velocity.y = -rb->velocity.y;
+					rb->velocity.y = -rb->velocity.y * rb->resCoeff;
 				if (normal.z != 0.0f)
-					rb->velocity.z = -rb->velocity.z;
-
-				// Some loss of energy on collision
-				//rb->velocity = rb->velocity * 0.8f;
+					rb->velocity.z = -rb->velocity.z * rb->resCoeff;
 			}
 
 			// Move the entity back & re-adjust the collider
 			rb->GetEntity()->GetTransform().position -= moveDelta;
 			rb->collider->Callibrate();
 		}
+
+		// To prevent unusual behavior
+		if (rb->velocity.Magnitude() < 0.1f)
+			rb->velocity.Reset();
 	}
 }

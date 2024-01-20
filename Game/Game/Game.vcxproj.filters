@@ -222,6 +222,9 @@
     <ClCompile Include="Src\Game\BallSpawner.cpp">
       <Filter>Src\Game\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Src\Game\Breakable.cpp">
+      <Filter>Src\Game\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="NextAPI\App\app.h">
@@ -372,6 +375,9 @@
       <Filter>Src\Game\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Src\Game\BallSpawner.h">
+      <Filter>Src\Game\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Game\Breakable.h">
       <Filter>Src\Game\Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -62,7 +62,6 @@ void CreateBallSpawner(Scene* scene)
 	Component* component = entity->GetComponent(BallSpawnerC);
 	BallSpawner* spawner = static_cast<BallSpawner*>(component);
 	spawner->SetMeshObj("Assets/Objects/sphere.obj");
-
 }
 
 void CreateWall(Scene* scene, Vector3& position, Vector3& scale)
@@ -78,8 +77,16 @@ void CreateWall(Scene* scene, Vector3& position, Vector3& scale)
 	Component* component = entity->GetComponent(MeshRendererC);
 	MeshRenderer* mr = static_cast<MeshRenderer*>(component);
 	mr->LoadMesh("Assets/Objects/cube.obj");
-	mr->SetRenderBackSide(true);
+	mr->SetRenderBackSide(false);
 	mr->SetMeshColor(Vector3(0.0f, 0.0f, 1.0f));
+}
+
+void CreateBreakable(Scene* scene, Vector3& position, Vector3& scale)
+{
+	Entity* entity = scene->CreateEntity(std::vector<ComponentType>{ MeshRendererC, BoxColliderC, RigidBodyC, ParticlesC, BreakableC });
+	entity->SetName("Breakable");
+	entity->GetTransform().position = position;
+	entity->GetTransform().scale = scale;
 }
 
 /**
@@ -100,10 +107,19 @@ void SetupLevel1()
 	PhysicsSystem::Get().SetGravity(-9.8f);
 
 	// ---------------------- Walls Entities ----------------------
-	CreateWall(scene, Vector3(-9.0f, 0.0f, 20.0f), Vector3(2.0f, 8.0f, 0.2f));
+	Vector3 wallScale{ 6.0f, 8.0f, 5.0f };
+	Vector3 breakableScale{ 2.0f, 2.0f, 2.0f };
+	CreateWall(scene, Vector3(-15.0f, -12.0f, 50.0f), wallScale);
+	CreateBreakable(scene, Vector3(-15.0f, 0.0f, 50.0f), breakableScale);
+	CreateWall(scene, Vector3(0.0f, -12.0f, 50.0f), wallScale);
+	CreateBreakable(scene, Vector3(0.0f, 0.0f, 50.0f), breakableScale);
+	CreateWall(scene, Vector3(15.0f, -12.0f, 50.0f), wallScale);
+	CreateBreakable(scene, Vector3(15.0f, 0.0f, 50.0f), breakableScale);
+
+	/*CreateWall(scene, Vector3(-9.0f, 0.0f, 20.0f), Vector3(2.0f, 8.0f, 0.2f));
 	CreateWall(scene, Vector3(-3.0f, -1.0f, 20.0f), Vector3(2.0f, 8.0f, 0.2f));
 	CreateWall(scene, Vector3(3.0f, 1.0f, 20.0f), Vector3(2.0f, 8.0f, 0.2f));
-	CreateWall(scene, Vector3(9.0f, 0.0f, 20.0f), Vector3(2.0f, 8.0f, 0.2f));
+	CreateWall(scene, Vector3(9.0f, 0.0f, 20.0f), Vector3(2.0f, 8.0f, 0.2f));*/
 
 	// ---------------------- Player Entity ----------------------
 	//CreatePlayer(scene, Vector3(00.0f, 6.0f, 12.0f), Vector3(1.0f, 1.0f, 1.0f));

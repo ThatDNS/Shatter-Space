@@ -16,6 +16,11 @@ class RigidBody : public Component
 public:
 	float mass = 1.0f;
 	float drag = 0.01f;  // or friction
+	// Restitution coefficient
+	// e == 0: Perfectly inelastic collision
+	// 0 < e < 1: Partially elastic collision
+	// e == 1: Perfectly elastic collision
+	float resCoeff = 0.8f;
 	bool applyGravity = true;
 
 	Collider* collider = nullptr;

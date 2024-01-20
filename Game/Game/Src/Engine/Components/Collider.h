@@ -8,13 +8,12 @@
 #define _COLLIDER_H_
 
 #include "Engine/Components/Renderable.h"
+#include "Engine/Core/Logger.h"
 
 enum ColliderTag {
 	GENERIC,  // collides with all
-	PLAYER,
-	ENEMY,
-	WALL,
-	DOOR
+	BALL,
+	BREAKABLE
 };
 
 enum ColliderType {
@@ -26,6 +25,9 @@ class Vector3;
 
 class Collider : public Renderable
 {
+	// type for collision callback function
+	using OnCollisionCallback = std::function<void(Collider*)>;
+
 	virtual void Callibrate() = 0;
 
 protected:
@@ -34,6 +36,9 @@ protected:
 
 	// A flag for collision system to check if the collider got updated by any component
 	bool gotUpdated = false;
+
+	// Called in OnCollisionEnter
+	OnCollisionCallback OnCollisionEnterFunc = nullptr;
 
 public:
 	Collider() = default;
@@ -45,6 +50,12 @@ public:
 	 * @brief Check if a collider collided with this box collider.
 	 */
 	virtual bool DidCollide(Collider*) = 0;
+
+	/**
+	 * @brief Gets called by Entity::Move() when collision happens.
+	 */
+	void OnCollisionEnter(Collider* other);
+	void SetOnCollisionEnterCallback(OnCollisionCallback callback) { OnCollisionEnterFunc = callback; }
 
 	void SetColliderTag(ColliderTag tag) { colliderTag = tag; }
 	ColliderTag GetColliderTag() const { return colliderTag; }

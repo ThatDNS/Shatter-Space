@@ -85,22 +85,22 @@ void CollisionSystem::BuildNewBVHTree()
 	bvhTree->BuildTree(boxColliders);
 }
 
-bool CollisionSystem::CheckCollision(Collider* collider)
+Collider* CollisionSystem::CheckCollision(Collider* collider, ColliderTag colliderTag)
 {
 	if (collider->GetColliderType() == BOX)
 	{
-		return bvhTree->CheckCollisions(static_cast<BoxCollider*>(collider));
+		return bvhTree->CheckCollisions(static_cast<BoxCollider*>(collider), colliderTag);
 	}
 	
 	// Not supporting any other collisions yet
-	return false;
+	return nullptr;
 }
 
-Vector3 CollisionSystem::GetCollisionNormal(Collider* collider)
+Vector3 CollisionSystem::GetCollisionNormal(Collider* collider, ColliderTag colliderTag)
 {
 	if (collider->GetColliderType() == BOX)
 	{
-		return bvhTree->GetCollisionNormal(static_cast<BoxCollider*>(collider));
+		return bvhTree->GetCollisionNormal(static_cast<BoxCollider*>(collider), colliderTag);
 	}
 
 	// Not supporting any other collisions yet

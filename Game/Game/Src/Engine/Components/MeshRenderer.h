@@ -18,6 +18,7 @@ class MeshRenderer : public Renderable
 {	
 	Mesh mesh;
 	bool renderBackSide = false;
+	bool hideMesh = false;
 	Vector3 meshColor{ 1.0f, 1.0f, 1.0f };
 
 protected:
@@ -36,6 +37,7 @@ public:
 	void LoadMesh(Mesh&);
 	Matrix4x4 GetWorldMatrix();
 	const Mesh& GetMesh() { return mesh; }
+	void SetHideMesh(bool value) { hideMesh = value; }
 	void SetRenderBackSide(bool value) { renderBackSide = value; }
 	void SetMeshColor(Vector3& color) { meshColor = color; }
 };

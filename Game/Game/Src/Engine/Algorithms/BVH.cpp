@@ -44,30 +44,38 @@ BVHNode* BVH::BuildTreeInternal(std::vector<BoxCollider*>& colliders)
 	return node;
 }
 
-bool BVH::CheckCollisions(BVHNode* node, BoxCollider* collider, Vector3& normal) const
+BoxCollider* BVH::CheckCollisions(BVHNode* node, BoxCollider* collider, Vector3& normal, ColliderTag colliderTag) const
 {
 	// If the node does not intersect with box collider then no need of checking its child nodes
 	if (node == nullptr || !node->boundingBox.Intersects(collider->boundingBox))
-		return false;
+		return nullptr;
 
 	// For the leaf node, we check individual collisions with all the colliders
 	if (node->IsLeaf())
 	{
-		for (const BoxCollider* leafC : node->colliders)
+		for (BoxCollider* leafC : node->colliders)
 		{
 			if ((collider->GetUid() != leafC->GetUid()) &&
-				(collider->boundingBox.Intersects(leafC->boundingBox)))
+				(collider->boundingBox.Intersects(leafC->boundingBox) &&
+				(colliderTag == GENERIC || leafC->GetColliderTag() == colliderTag)))
 			{
 				// Collision detected!
 				normal = collider->boundingBox.GetIntersectionNormal(leafC->boundingBox);
-				return true;
+				return leafC;
 			}
 		}
-		return false;
+		return nullptr;
 	}
 
 	// Collision happened with this BVH node so check child nodes
-	return CheckCollisions(node->left, collider, normal) || CheckCollisions(node->right, collider, normal);
+	BoxCollider* leftBoxCol = CheckCollisions(node->left, collider, normal, colliderTag);
+	if (leftBoxCol != nullptr)
+		return leftBoxCol;
+	BoxCollider* rightBoxCol = CheckCollisions(node->right, collider, normal, colliderTag);
+	if (rightBoxCol != nullptr)
+		return rightBoxCol;
+
+	return nullptr;
 }
 
 AABB BVH::GetEnclosingBoundingBox(const std::vector<BoxCollider*>& colliders) const
@@ -189,16 +197,16 @@ void BVH::Destroy()
 	root = nullptr;
 }
 
-bool BVH::CheckCollisions(BoxCollider* boxCollider) const
+BoxCollider* BVH::CheckCollisions(BoxCollider* boxCollider, ColliderTag colliderTag) const
 {
 	Vector3 _;  // Normal isn't required here
-	return CheckCollisions(root, boxCollider, _);
+	return CheckCollisions(root, boxCollider, _, colliderTag);
 }
 
-Vector3 BVH::GetCollisionNormal(BoxCollider* boxCollider) const
+Vector3 BVH::GetCollisionNormal(BoxCollider* boxCollider, ColliderTag colliderTag) const
 {
 	Vector3 collisionNormal;
-	CheckCollisions(root, boxCollider, collisionNormal);
+	CheckCollisions(root, boxCollider, collisionNormal, colliderTag);
 	return collisionNormal;
 }
 
