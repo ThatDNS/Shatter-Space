@@ -75,11 +75,15 @@ void LevelGenerator::CreateBreakableEntity(Vector3& position, Vector3& scale, Ve
 	Breakable* breakable = static_cast<Breakable*>(entity->GetComponent(BreakableC));
 	breakable->SetBreakableType(breakableType);
 
+	RigidBody* rb = static_cast<RigidBody*>(entity->GetComponent(RigidBodyC));
 	if (breakableType == BreakableType::Plane)
 	{
 		// Plane shouldn't be affected by gravity
-		RigidBody* rb = static_cast<RigidBody*>(entity->GetComponent(RigidBodyC));
 		rb->applyGravity = false;
+	}
+	else
+	{
+		rb->applyGravity = true;
 	}
 
 	// Initialize
