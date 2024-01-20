@@ -13,6 +13,7 @@
 #include "Engine/Components/MeshRenderer.h"
 #include "Engine/Math/Vector3.h"
 #include "Game/SelfDestruct.h"
+#include "Game/Breakable.h"
 
 void LevelGenerator::Initialize()
 {
@@ -60,12 +61,13 @@ void LevelGenerator::CreateWallEntity(Vector3& position, Vector3& scale)
 	entity->Initialize();
 }
 
-void LevelGenerator::CreateBreakableEntity(Vector3& position, Vector3& scale)
+void LevelGenerator::CreateBreakableEntity(Vector3& position, Vector3& scale, Vector3& rotation, BreakableType breakableType)
 {
 	Entity* entity = SceneManager::Get().GetActiveScene()->CreateEntity(std::vector<ComponentType>{ MeshRendererC, BoxColliderC, RigidBodyC, ParticlesC, BreakableC, SelfDestructC });
 	entity->SetName("Breakable");
 	entity->GetTransform().position = position;
 	entity->GetTransform().scale = scale;
+	entity->GetTransform().rotation = rotation;
 
 	// Initialize
 	entity->Initialize();
@@ -75,12 +77,13 @@ void LevelGenerator::SpawnLevel(float zPos)
 {
 	Vector3 wallScale{ 6.0f, 8.0f, 5.0f };
 	Vector3 breakableScale{ 2.0f, 2.0f, 2.0f };
+	Vector3 breakableRotation{ 0.0f, 0.0f, 0.0f };
 
 	CreateWallEntity     (Vector3(-15.0f, -12.0f, zPos), wallScale);
-	CreateBreakableEntity(Vector3(-15.0f, 0.0f, zPos),   breakableScale);
+	CreateBreakableEntity(Vector3(-15.0f, 0.0f, zPos),   breakableScale, breakableRotation, BreakableType::Pyramid);
 	CreateWallEntity     (Vector3(0.0f, -12.0f, zPos),   wallScale);
-	CreateBreakableEntity(Vector3(0.0f, 0.0f, zPos),     breakableScale);
+	CreateBreakableEntity(Vector3(0.0f, 0.0f, zPos),     breakableScale, breakableRotation, BreakableType::Pyramid);
 	CreateWallEntity     (Vector3(15.0f, -12.0f, zPos),  wallScale);
-	CreateBreakableEntity(Vector3(15.0f, 0.0f, zPos),    breakableScale);
+	CreateBreakableEntity(Vector3(15.0f, 0.0f, zPos),    breakableScale, breakableRotation, BreakableType::Pyramid);
 }
 

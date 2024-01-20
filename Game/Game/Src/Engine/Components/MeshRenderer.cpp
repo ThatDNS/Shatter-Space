@@ -181,3 +181,9 @@ void MeshRenderer::Render()
 		App::DrawLine(firstPt.first, firstPt.second, secondPt.first, secondPt.second, meshColor.x * intensity, meshColor.y * intensity, meshColor.z * intensity);
 	}
 }
+
+void MeshRenderer::Destroy()
+{
+	// Empty the mesh
+	mesh.faces.clear();
+}

@@ -25,6 +25,20 @@ void Breakable::Initialize()
 	else
 		uiManager = static_cast<UIManager*>(match.front()->GetComponent(UIManagerC));
 
+	// Intentionally written without extension.
+	// Names of breakable parts of this mesh have just indices appended to this filename.
+	std::string meshObjFile = "Assets/Objects/Breakable/";
+	if (breakableType == BreakableType::Pyramid)
+	{
+		meshObjFile += "Pyramid";
+		numPieces = 4;
+	}
+	else if (breakableType == BreakableType::Plane)
+	{
+		meshObjFile += "Plane";
+		numPieces = 8;
+	}
+
 	// Load the mesh & its settings
 	meshRenderer = static_cast<MeshRenderer*>(GetEntity()->GetComponent(MeshRendererC));
 	meshRenderer->LoadMesh(meshObjFile + ".obj");

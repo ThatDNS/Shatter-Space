@@ -10,6 +10,7 @@
 #include "Engine/Math/Vector3.h"
 
 class Entity;
+enum BreakableType;
 
 class LevelGenerator : public Component
 {
@@ -22,7 +23,7 @@ class LevelGenerator : public Component
 	float lastSpawnDistance = 0.0f;
 
 	void CreateWallEntity(Vector3& position, Vector3& scale);
-	void CreateBreakableEntity(Vector3& position, Vector3& scale);
+	void CreateBreakableEntity(Vector3& position, Vector3& scale, Vector3& rotation, BreakableType breakableType);
 
 	void SpawnLevel(float zPos);
 

@@ -28,7 +28,7 @@ protected:
 	void Initialize() override;
 	void Update(float) override { }
 	void Render() override;
-	void Destroy() override { }
+	void Destroy() override;
 
 public:
 	MeshRenderer() { type = MeshRendererC; }
