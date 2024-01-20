@@ -40,6 +40,7 @@ public:
 	void SetHideMesh(bool value) { hideMesh = value; }
 	void SetRenderBackSide(bool value) { renderBackSide = value; }
 	void SetMeshColor(Vector3& color) { meshColor = color; }
+	Vector3 GetMeshColor() const { return meshColor; }
 };
 
 #endif // !_MESH_RENERER_H_

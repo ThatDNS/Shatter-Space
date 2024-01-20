@@ -106,9 +106,10 @@ void SetupLevel1()
 	// Outer space scene
 	PhysicsSystem::Get().SetGravity(-9.8f);
 
-	// ---------------------- Walls Entities ----------------------
+	// ---------------------- Level Generator ----------------------
 	Vector3 wallScale{ 6.0f, 8.0f, 5.0f };
 	Vector3 breakableScale{ 2.0f, 2.0f, 2.0f };
+
 	CreateWall(scene, Vector3(-15.0f, -12.0f, 50.0f), wallScale);
 	CreateBreakable(scene, Vector3(-15.0f, 0.0f, 50.0f), breakableScale);
 	CreateWall(scene, Vector3(0.0f, -12.0f, 50.0f), wallScale);

@@ -24,7 +24,8 @@ enum ComponentType {
     PlayerC,
     BallSpawnerC,
     BallC,
-    BreakableC
+    BreakableC,
+    SelfDestructC
 };
 
 class Component : public Object

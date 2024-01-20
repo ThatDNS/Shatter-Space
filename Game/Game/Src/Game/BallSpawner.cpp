@@ -13,7 +13,7 @@
 #include "Engine/Components/Component.h"
 #include "Engine/Components/MeshRenderer.h"
 #include "Engine/Components/RigidBody.h"
-#include "Game/Ball.h"
+#include "Game/SelfDestruct.h"
 
 void BallSpawner::Initialize()
 {
@@ -36,7 +36,7 @@ void BallSpawner::Update(float deltaTime)
 	}
 
 	// Move the ball spawner. Camera moves with it
-	GetEntity()->GetTransform().Translate(Vector3(0.0f, 0.0f, spawnerMoveSpeed * (deltaTime / 1000.0f)));
+	//GetEntity()->GetTransform().Translate(Vector3(0.0f, 0.0f, spawnerMoveSpeed * (deltaTime / 1000.0f)));
 }
 
 void BallSpawner::SpawnBall()
@@ -66,9 +66,9 @@ void BallSpawner::SpawnBall()
 	ballDir.Normalize();
 	rb->SetVelocity(ballDir * ballSpeed);
 
-	// Ball script data
-	Ball* ball = static_cast<Ball*>(entity->GetComponent(BallC));
-	ball->minYPos = -20.0f;
+	// Self destuct data
+	SelfDestruct* sd = static_cast<SelfDestruct*>(entity->GetComponent(SelfDestructC));
+	sd->SetBound(Vector3(0.0f, -20.0f, 0.0f));  // Currently it checks only Y
 
 	// Initialize the ball entity
 	entity->Initialize();
