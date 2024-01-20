@@ -32,7 +32,7 @@ private:
 	// Component creation happens with new entity creation. Improves cache coherence.
 	std::vector<ComponentType> componentTypes;
 
-	std::vector<ComponentType> renderables{ MeshRendererC, SpriteC, BoxColliderC, ParticlesC, CanvasC };
+	std::vector<ComponentType> renderables{ MeshRendererC, SpriteC, BoxColliderC, ParticlesC, CanvasC, UIManagerC };
 	std::vector<ComponentType> colliders{ BoxColliderC };
 
 	void CleanUpObject(Object*) override;

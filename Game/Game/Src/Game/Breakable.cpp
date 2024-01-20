@@ -14,9 +14,17 @@
 #include "Engine/Systems/Scene.h"
 #include "Engine/Systems/CollisionSystem.h"
 #include "Game/SelfDestruct.h"
+#include "Game/UIManager.h"
 
 void Breakable::Initialize()
 {
+	// Find the UIManager
+	std::list<Entity*> match = SceneManager::Get().GetActiveScene()->FindEntityWithComponent(UIManagerC);
+	if (match.size() == 0)
+		Logger::Get().Log("Breakable could not find UI Manager", ERROR_LOG);
+	else
+		uiManager = static_cast<UIManager*>(match.front()->GetComponent(UIManagerC));
+
 	// Load the mesh & its settings
 	meshRenderer = static_cast<MeshRenderer*>(GetEntity()->GetComponent(MeshRendererC));
 	meshRenderer->LoadMesh(meshObjFile + ".obj");
@@ -84,6 +92,18 @@ void Breakable::Break()
 
 	// Start particle effects
 	particles->Emit(50);
+
+	// Update the UI
+	UIBuffer score;
+	Vector3 position = GetEntity()->GetTransform().position;
+	score.x = position.x;
+	score.y = position.y + 3.0f;
+	score.z = position.z;
+	score.project = true;
+	score.timeRemaining = 1.0f;
+	score.text = "+2";
+	uiManager->ScheduleRender(score);
+	uiManager->IncreaseBalls(2);
 
 	timeToDie = true;
 }

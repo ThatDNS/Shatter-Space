@@ -9,11 +9,16 @@
 #include "Engine/Components/Component.h"
 #include "Engine/Math/Mesh.h"
 
+class UIManager;
+
 class BallSpawner : public Component
 {
 	int ballCounter = 0;
 	float ballSpeed = 100.0f;
 	float spawnerMoveSpeed = 10.0f;
+
+	// To update the UI and check if any more balls can be spawned
+	UIManager* uiManager = nullptr;
 
 	// Ball component data
 	std::string meshObjFile = "";

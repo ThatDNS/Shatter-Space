@@ -36,6 +36,7 @@ public:
 	void LoadMesh(const std::string&);
 	void LoadMesh(Mesh&);
 	Matrix4x4 GetWorldMatrix();
+
 	const Mesh& GetMesh() { return mesh; }
 	void SetHideMesh(bool value) { hideMesh = value; }
 	void SetRenderBackSide(bool value) { renderBackSide = value; }
