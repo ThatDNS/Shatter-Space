@@ -23,6 +23,8 @@ void UIManager::Update(float deltaTime)
 		uiBuffer.timeRemaining -= (deltaTime / 1000.0f);
 	}
 	renderBuffer.remove_if([](const UIBuffer& uiB) { return (uiB.timeRemaining <= 0); });
+
+	CheckForGamePause();
 }
 
 void UIManager::Render()
@@ -56,6 +58,26 @@ void UIManager::Render()
 	}
 
 	// Remaining balls
-	App::Print(APP_VIRTUAL_WIDTH / 2, APP_VIRTUAL_HEIGHT - 50,
-		std::to_string(ballsLeft).c_str(), 1.0f, 1.0f, 1.0f, GLUT_BITMAP_TIMES_ROMAN_24);
+	App::Print(APP_VIRTUAL_WIDTH / 2 - 5, APP_VIRTUAL_HEIGHT - 50, std::to_string(ballsLeft).c_str(), 1.0f, 1.0f, 1.0f, GLUT_BITMAP_TIMES_ROMAN_24);
+	if (isGamePaused)
+		App::Print(APP_VIRTUAL_WIDTH / 2 - 80, APP_VIRTUAL_HEIGHT - 100, "GAME PAUSED", 1.0f, 1.0f, 1.0f, GLUT_BITMAP_TIMES_ROMAN_24);
+
+	// Pause text
+	if (isGamePaused)
+		App::Print(APP_VIRTUAL_WIDTH - 190, APP_VIRTUAL_HEIGHT - 40, "Press P to Resume", 1.0f, 1.0f, 1.0f, GLUT_BITMAP_HELVETICA_18);
+	else
+		App::Print(APP_VIRTUAL_WIDTH - 170, APP_VIRTUAL_HEIGHT - 40, "Press P to Pause", 1.0f, 1.0f, 1.0f, GLUT_BITMAP_HELVETICA_18);
+}
+
+void UIManager::CheckForGamePause()
+{
+	if (App::IsKeyPressed('P') && !_pausekeyPressed)
+	{
+		_pausekeyPressed = true;
+		isGamePaused = !isGamePaused;
+	}
+	else if (!App::IsKeyPressed('P') && _pausekeyPressed)
+	{
+		_pausekeyPressed = false;
+	}
 }

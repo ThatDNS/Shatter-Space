@@ -29,8 +29,13 @@ class UIManager : public Renderable
 	int ballsLeft = 0;
 	bool ballsChanged = false;
 
+	bool _pausekeyPressed = false;
+	bool isGamePaused = false;
+
 	// Anything added to it gets rendered for the specified time
 	std::list<UIBuffer> renderBuffer;
+
+	void CheckForGamePause();
 
 public:
 	UIManager() { type = UIManagerC; }
@@ -41,7 +46,8 @@ public:
 	void Destroy() override {}
 
 	void ScheduleRender(UIBuffer& uiB) { renderBuffer.push_back(uiB); }
-
+	
+	bool IsGamePaused() const { return isGamePaused; }
 	int GetBallsLeft() const { return ballsLeft; }
 	void IncreaseBalls(int n) { ballsLeft += n; ballsChanged = true; }
 	void DecreaseBalls(int n) { ballsLeft -= n; ballsChanged = true; }
