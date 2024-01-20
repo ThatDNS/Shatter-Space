@@ -18,6 +18,7 @@
 #include "Game/Ball.h"
 #include "Game/Breakable.h"
 #include "Game/SelfDestruct.h"
+#include "Game/LevelGenerator.h"
 
 STRCODE GetHashCode(const char* str)
 {
@@ -101,6 +102,9 @@ Component* CreateComponent(ComponentType componentType)
 	case SelfDestructC:
 		component = new SelfDestruct();
 		break;
+	case LevelGeneratorC:
+		component = new LevelGenerator();
+		break;
 	default:
 		Logger::Get().Log("Trying to create an invalid component on an entity.", ERROR_LOG);
 	}
@@ -150,6 +154,9 @@ std::string ComponentTypeToStr(ComponentType componentType)
 		break;
 	case SelfDestructC:
 		componentName = "SelfDestruct";
+		break;
+	case LevelGeneratorC:
+		componentName = "LevelGenerator";
 		break;
 	default:
 		Logger::Get().Log("Trying to get string representation of invalid component.", ERROR_LOG);

@@ -71,6 +71,7 @@
     <ClCompile Include="Src\Game\Breakable.cpp" />
     <ClCompile Include="Src\Game\Game.cpp" />
     <ClCompile Include="Src\Game\GameLevel.cpp" />
+    <ClCompile Include="Src\Game\LevelGenerator.cpp" />
     <ClCompile Include="Src\Game\Player.cpp" />
     <ClCompile Include="Src\Game\SelfDestruct.cpp" />
   </ItemGroup>
@@ -125,6 +126,7 @@
     <ClInclude Include="Src\Game\Ball.h" />
     <ClInclude Include="Src\Game\BallSpawner.h" />
     <ClInclude Include="Src\Game\Breakable.h" />
+    <ClInclude Include="Src\Game\LevelGenerator.h" />
     <ClInclude Include="Src\Game\Player.h" />
     <ClInclude Include="Src\Game\SelfDestruct.h" />
   </ItemGroup>
