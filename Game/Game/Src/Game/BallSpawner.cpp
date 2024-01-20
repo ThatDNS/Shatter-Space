@@ -14,12 +14,20 @@
 #include "Engine/Components/MeshRenderer.h"
 #include "Engine/Components/RigidBody.h"
 #include "Game/SelfDestruct.h"
+#include "Game/UIManager.h"
 
 void BallSpawner::Initialize()
 {
 	// Load the mesh
 	mesh.LoadFromObjectFile(meshObjFile);
 	RenderSystem::Get().AttachCamera(GetEntity());
+
+	// Find the UIManager
+	std::list<Entity*> match = SceneManager::Get().GetActiveScene()->FindEntityWithComponent(UIManagerC);
+	if (match.size() == 0)
+		Logger::Get().Log("Ball spawner could not find UI Manager", ERROR_LOG);
+	else
+		uiManager = static_cast<UIManager*>(match.front()->GetComponent(UIManagerC));
 }
 
 void BallSpawner::Update(float deltaTime)
@@ -28,6 +36,7 @@ void BallSpawner::Update(float deltaTime)
 	if (App::IsKeyPressed(VK_LBUTTON) && !isClickPressed)
 	{
 		SpawnBall();
+		uiManager->DecreaseBalls(1);
 		isClickPressed = true;
 	}
 	else if (!App::IsKeyPressed(VK_LBUTTON))

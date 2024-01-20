@@ -28,7 +28,8 @@ enum ComponentType {
     BallC,
     BreakableC,
     SelfDestructC,
-    LevelGeneratorC
+    LevelGeneratorC,
+    UIManagerC
 };
 
 class Component : public Object

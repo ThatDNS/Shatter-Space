@@ -74,6 +74,7 @@
     <ClCompile Include="Src\Game\LevelGenerator.cpp" />
     <ClCompile Include="Src\Game\Player.cpp" />
     <ClCompile Include="Src\Game\SelfDestruct.cpp" />
+    <ClCompile Include="Src\Game\UIManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\stb_image\stb_image.h" />
@@ -129,6 +130,7 @@
     <ClInclude Include="Src\Game\LevelGenerator.h" />
     <ClInclude Include="Src\Game\Player.h" />
     <ClInclude Include="Src\Game\SelfDestruct.h" />
+    <ClInclude Include="Src\Game\UIManager.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{7A12010B-608E-4FBE-9089-494DBB9078A1}</ProjectGuid>

@@ -117,12 +117,12 @@ void SetupLevel1()
 	CreateBallSpawner(scene);
 
 	// ---------------------- Canvas Entity ----------------------
-	entity = scene->CreateEntity(std::vector<ComponentType>{ CanvasC });
+	entity = scene->CreateEntity(std::vector<ComponentType>{ UIManagerC });
 	entity->SetName("Canvas");
 
 	// Add canvas data
-	Component* component = entity->GetComponent(CanvasC);
-	Canvas* canvas = static_cast<Canvas*>(component);
-	canvas->AddText(CanvasText(20, APP_VIRTUAL_HEIGHT - 30, "Level 1"));
+	//Component* component = entity->GetComponent(CanvasC);
+	//Canvas* canvas = static_cast<Canvas*>(component);
+	//canvas->AddText(CanvasText(20, APP_VIRTUAL_HEIGHT - 30, "Level 1"));
 
 }
