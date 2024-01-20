@@ -29,6 +29,23 @@ void UIManager::Update(float deltaTime)
 
 void UIManager::Render()
 {
+	// Render the text data present in renderBuffer list
+	RenderTheBuffer();
+
+	// Remaining balls
+	App::Print(APP_VIRTUAL_WIDTH / 2 - 5, APP_VIRTUAL_HEIGHT - 50, std::to_string(ballsLeft).c_str(), 1.0f, 1.0f, 1.0f, GLUT_BITMAP_TIMES_ROMAN_24);
+	if (isGamePaused)
+		App::Print(APP_VIRTUAL_WIDTH / 2 - 80, APP_VIRTUAL_HEIGHT - 100, "GAME PAUSED", 1.0f, 1.0f, 1.0f, GLUT_BITMAP_TIMES_ROMAN_24);
+
+	// Pause text
+	if (isGamePaused)
+		App::Print(APP_VIRTUAL_WIDTH - 190, APP_VIRTUAL_HEIGHT - 40, "Press P to Resume", 1.0f, 1.0f, 1.0f, GLUT_BITMAP_HELVETICA_18);
+	else
+		App::Print(APP_VIRTUAL_WIDTH - 170, APP_VIRTUAL_HEIGHT - 40, "Press P to Pause", 1.0f, 1.0f, 1.0f, GLUT_BITMAP_HELVETICA_18);
+}
+
+void UIManager::RenderTheBuffer()
+{
 	// View projection
 	Matrix4x4 mView = RenderSystem::Get().GetViewMatrix();
 
@@ -41,10 +58,9 @@ void UIManager::Render()
 	// Render from the buffer
 	for (UIBuffer& uiB : renderBuffer)
 	{
-		Vector3 point{ uiB.x, uiB.y, uiB.z};
+		Vector3 point{ uiB.x, uiB.y, uiB.z };
 		if (uiB.project)
 		{
-			// No need of world projection, that's already there
 			// Transform to view space
 			point = mView * point;
 			// Projection
@@ -56,7 +72,8 @@ void UIManager::Render()
 			point.x *= 0.5f * (float)APP_INIT_WINDOW_WIDTH;
 			point.y *= 0.5f * (float)APP_INIT_WINDOW_HEIGHT;
 		}
-		
+
+		// Giving depth perception via font size
 		float distFromCamera = std::abs(std::abs(uiB.z) - std::abs(cameraPosZ));
 		if (distFromCamera > 100.0f)
 			App::Print(point.x, point.y, uiB.text.c_str(), 1.0f, 1.0f, 1.0f, GLUT_BITMAP_HELVETICA_10);
@@ -65,17 +82,6 @@ void UIManager::Render()
 		else
 			App::Print(point.x, point.y, uiB.text.c_str(), 1.0f, 1.0f, 1.0f, GLUT_BITMAP_HELVETICA_18);
 	}
-
-	// Remaining balls
-	App::Print(APP_VIRTUAL_WIDTH / 2 - 5, APP_VIRTUAL_HEIGHT - 50, std::to_string(ballsLeft).c_str(), 1.0f, 1.0f, 1.0f, GLUT_BITMAP_TIMES_ROMAN_24);
-	if (isGamePaused)
-		App::Print(APP_VIRTUAL_WIDTH / 2 - 80, APP_VIRTUAL_HEIGHT - 100, "GAME PAUSED", 1.0f, 1.0f, 1.0f, GLUT_BITMAP_TIMES_ROMAN_24);
-
-	// Pause text
-	if (isGamePaused)
-		App::Print(APP_VIRTUAL_WIDTH - 190, APP_VIRTUAL_HEIGHT - 40, "Press P to Resume", 1.0f, 1.0f, 1.0f, GLUT_BITMAP_HELVETICA_18);
-	else
-		App::Print(APP_VIRTUAL_WIDTH - 170, APP_VIRTUAL_HEIGHT - 40, "Press P to Pause", 1.0f, 1.0f, 1.0f, GLUT_BITMAP_HELVETICA_18);
 }
 
 void UIManager::CheckForGamePause()

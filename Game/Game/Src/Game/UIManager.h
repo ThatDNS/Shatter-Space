@@ -36,6 +36,7 @@ class UIManager : public Renderable
 	std::list<UIBuffer> renderBuffer;
 
 	void CheckForGamePause();
+	void RenderTheBuffer();
 
 public:
 	UIManager() { type = UIManagerC; }
