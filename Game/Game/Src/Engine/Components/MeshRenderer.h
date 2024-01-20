@@ -21,6 +21,9 @@ class MeshRenderer : public Renderable
 	bool hideMesh = false;
 	Vector3 meshColor{ 1.0f, 1.0f, 1.0f };
 
+	// Computed while rendering
+	Vector3 _farthestProjectedPoint;
+
 protected:
 	// Protected destructor so that only Entity can delete it
 	~MeshRenderer() = default;
@@ -36,6 +39,8 @@ public:
 	void LoadMesh(const std::string&);
 	void LoadMesh(Mesh&);
 	Matrix4x4 GetWorldMatrix();
+
+	Vector3 GetFarthestProjectedPoint() const { return _farthestProjectedPoint; }
 	const Mesh& GetMesh() { return mesh; }
 	void SetHideMesh(bool value) { hideMesh = value; }
 	void SetRenderBackSide(bool value) { renderBackSide = value; }

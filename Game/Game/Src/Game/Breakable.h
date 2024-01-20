@@ -12,6 +12,7 @@
 class MeshRenderer;
 class BoxCollider;
 class Particles;
+class UIManager;
 
 class Breakable : public Component
 {
@@ -23,6 +24,7 @@ class Breakable : public Component
 	MeshRenderer* meshRenderer = nullptr;
 	BoxCollider* boxC = nullptr;
 	Particles* particles = nullptr;
+	UIManager* uiManager = nullptr;
 
 	// Broken mesh parts
 	size_t numPieces = 4;

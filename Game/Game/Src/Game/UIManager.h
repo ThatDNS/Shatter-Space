@@ -6,14 +6,27 @@
 
 #include "Engine/Components/Renderable.h"
 
-class Canvas;
+struct UIBuffer
+{
+	float x = 0.0f;
+	float y = 0.0f;
+
+	// Should it be transform to projection space
+	bool project = false;
+	
+	std::string text = "";
+
+	// The text will get rendered for this much time
+	float timeRemaining = 1.0f;  // in seconds
+};
 
 class UIManager : public Renderable
 {
 	int ballsLeft = 0;
 	bool ballsChanged = false;
 
-	Canvas* canvas = nullptr;
+	// Anything added to it gets rendered for the specified time
+	std::list<UIBuffer> renderBuffer;
 
 public:
 	UIManager() { type = UIManagerC; }
@@ -22,6 +35,8 @@ public:
 	void Update(float) override;
 	void Render() override;
 	void Destroy() override {}
+
+	void ScheduleRender(UIBuffer& uiB) { renderBuffer.push_back(uiB); }
 
 	int GetBallsLeft() const { return ballsLeft; }
 	void IncreaseBalls(int n) { ballsLeft += n; ballsChanged = true; }
