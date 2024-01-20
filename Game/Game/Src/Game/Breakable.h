@@ -30,7 +30,7 @@ class Breakable : public Component
 
 	// Delay in deleting the object
 	bool timeToDie = false;
-	float timeLeft = 1.0;
+	float timeLeft = 1.0f;
 
 	void SpawnBrokenPieces(Mesh& mesh);
 

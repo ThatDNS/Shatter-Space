@@ -178,7 +178,6 @@ std::list<Entity*> Scene::FindEntityWithComponent(ComponentType componentType) c
 
 void Scene::RemoveEntity(Entity* entity)
 {
-	Logger::Get().Log("Removed " + entity->GetName() + " from the scene.");
 	entity->sourcePool->MarkObjectAsFree(entity);
 }
 

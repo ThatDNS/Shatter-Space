@@ -24,6 +24,7 @@ void Breakable::Initialize()
 	meshRenderer->SetMeshColor(Vector3(0.0f, 0.8f, 1.0f));
 
 	// Load broken mesh pieces
+	brokenPieces.clear();
 	for (size_t i = 0; i < numPieces; i++)
 	{
 		Mesh mesh;
@@ -50,8 +51,11 @@ void Breakable::Initialize()
 	// Particles settings
 	particles = static_cast<Particles*>(entity->GetComponent(ParticlesC));
 	particles->SetParticleType(EXPLOSION);
+	// Blue to Turquoise
+	particles->SetParticleColors(Vector3(0.0f, 1.0f, 1.0f), Vector3(0.0f, 0.0f, 1.0f));
 
 	timeToDie = false;
+	timeLeft = 1.0f;
 }
 
 void Breakable::Update(float deltaTime)
@@ -79,7 +83,7 @@ void Breakable::Break()
 	}
 
 	// Start particle effects
-	particles->Emit(500);
+	particles->Emit(50);
 
 	timeToDie = true;
 }
