@@ -16,6 +16,7 @@ class RigidBody : public Component
 public:
 	float mass = 1.0f;
 	float drag = 0.01f;  // or friction
+	bool applyGravity = true;
 
 	Collider* collider = nullptr;
 
@@ -26,6 +27,7 @@ public:
 	RigidBody() { type = RigidBodyC; }
 
 	void ApplyForce(const Vector3&);
+	void SetVelocity(const Vector3&);
 
 	void Initialize() override;
 	void Update(float) override {}

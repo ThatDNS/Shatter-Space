@@ -44,6 +44,12 @@ void SceneManager::Destroy()
 		scene->Destroy();
 		delete scene;
 	}
+
+	// Destroy all the entity pools
+	for (const auto& itr : entityPools)
+	{
+		delete (itr.second);
+	}
 }
 
 Scene* SceneManager::CreateNewScene()

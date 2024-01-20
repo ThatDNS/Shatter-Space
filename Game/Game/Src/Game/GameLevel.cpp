@@ -9,10 +9,12 @@
 #include "Engine/Components/Component.h"
 #include "Engine/Components/MeshRenderer.h"
 #include "Engine/Components/BoxCollider.h"
+#include "Engine/Components/RigidBody.h"
 #include "Engine/Components/Canvas.h"
 #include "Engine/Components/Particles.h"
 
 #include "Game/Player.h"
+#include "Game/BallSpawner.h"
 
 
 void CreatePlayer(Scene* scene, Vector3& position, Vector3& scale)
@@ -32,6 +34,9 @@ void CreatePlayer(Scene* scene, Vector3& position, Vector3& scale)
 	mr->SetRenderBackSide(true);
 	mr->SetMeshColor(Vector3(0.0f, 1.0f, 0.0f));
 
+	RigidBody* rb = static_cast<RigidBody*>(entity->GetComponent(RigidBodyC));
+	rb->applyGravity = false;
+
 	// Set box collider data
 	component = entity->GetComponent(BoxColliderC);
 	BoxCollider* boxCollider = static_cast<BoxCollider*>(component);
@@ -45,7 +50,19 @@ void CreatePlayer(Scene* scene, Vector3& position, Vector3& scale)
 	// Set player script data
 	component = entity->GetComponent(PlayerC);
 	Player* player = static_cast<Player*>(component);
-	player->SetMoveSpeed(1.5f);
+	player->SetMoveSpeed(15.0f);
+}
+
+void CreateBallSpawner(Scene* scene)
+{
+	Entity* entity = scene->CreateEntity(std::vector<ComponentType>{ BallSpawnerC });
+	entity->SetName("Ball_Spawner");
+
+	// Set ball spawner data
+	Component* component = entity->GetComponent(BallSpawnerC);
+	BallSpawner* spawner = static_cast<BallSpawner*>(component);
+	spawner->SetMeshObj("Assets/Objects/sphere.obj");
+
 }
 
 void CreateWall(Scene* scene, Vector3& position, Vector3& scale)
@@ -80,19 +97,21 @@ void SetupLevel1()
 	scene->SetName("Level 1");
 
 	// Outer space scene
-	PhysicsSystem::Get().SetGravity(0.0f);
+	PhysicsSystem::Get().SetGravity(-9.8f);
 
 	// ---------------------- Walls Entities ----------------------
-	CreateWall(scene, Vector3(-9.0f, 0.0f, 20.0f), Vector3(0.2f, 8.0f, 5.0f));
-	CreateWall(scene, Vector3(-3.0f, -1.0f, 20.0f), Vector3(0.2f, 6.0f, 5.0f));
-	CreateWall(scene, Vector3(3.0f, 1.0f, 20.0f), Vector3(0.2f, 6.0f, 5.0f));
-	CreateWall(scene, Vector3(9.0f, 0.0f, 20.0f), Vector3(0.2f, 8.0f, 5.0f));
+	CreateWall(scene, Vector3(-9.0f, 0.0f, 20.0f), Vector3(2.0f, 8.0f, 0.2f));
+	CreateWall(scene, Vector3(-3.0f, -1.0f, 20.0f), Vector3(2.0f, 8.0f, 0.2f));
+	CreateWall(scene, Vector3(3.0f, 1.0f, 20.0f), Vector3(2.0f, 8.0f, 0.2f));
+	CreateWall(scene, Vector3(9.0f, 0.0f, 20.0f), Vector3(2.0f, 8.0f, 0.2f));
 
 	// ---------------------- Player Entity ----------------------
-	CreatePlayer(scene, Vector3(0.0f, 0.0f, 15.0f), Vector3(1.0f, 1.0f, 1.0f));
+	//CreatePlayer(scene, Vector3(00.0f, 6.0f, 12.0f), Vector3(1.0f, 1.0f, 1.0f));
+	CreateBallSpawner(scene);
 
 	// ---------------------- Canvas Entity ----------------------
 	Entity* entity = scene->CreateEntity(std::vector<ComponentType>{ CanvasC });
+	entity->SetName("Canvas");
 
 	// Add canvas data
 	Component* component = entity->GetComponent(CanvasC);

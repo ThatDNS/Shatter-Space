@@ -9,6 +9,7 @@
 #include "Engine/Components/Transform.h"
 #include "Engine/Components/BoxCollider.h"
 #include "Engine/Systems/CollisionSystem.h"
+#include "Engine/Core/Logger.h"
 
 void PhysicsSystem::AddRigidBody(RigidBody* rb)
 {
@@ -25,48 +26,38 @@ void PhysicsSystem::Update(float deltaTime)
 	for (RigidBody* rb : rigidBodies)
 	{
 		// Update velocity as per acceleration (v = u + at)
-		rb->velocity += rb->instAcceleration * (deltaTime / 100.0f);
+		rb->velocity += rb->instAcceleration * (deltaTime / 1000.0f);
 		// Instantaneous acceleration must be set to zero after it has been applied to the velocity
 		rb->instAcceleration.Reset();
 
 		// Apply gravity
-		rb->velocity.y += gravity * (deltaTime / 100.0f);
+		if (rb->applyGravity)
+			rb->velocity.y += gravity * (deltaTime / 1000.0f);
 
 		// If the object is not moving, there's nothing else to be done
 		if (rb->velocity.Magnitude() == 0)
 			continue;
-
+		
 		// Update position as per velocity
-		bool didMove = rb->GetEntity()->Move(rb->velocity * (deltaTime / 100.0f), rb->collider);
+		bool didMove = rb->GetEntity()->Move(rb->velocity * (deltaTime / 1000.0f), rb->collider);
 		if (didMove)
 		{
 			// Apply drag / friction
-			if (rb->drag != 0)
-			{
-				float normalRxn = std::abs(rb->mass * gravity);
-				float frictionForce = normalRxn * rb->drag;
-
-				// Friction gets applied as acceleration, opposite to velocity
-				Vector3 direction = -rb->velocity;
-				direction.Normalize();
-				rb->instAcceleration = direction * (frictionForce / rb->mass);
-
-				// Upper bound acceleration such that the best it can do is stop object in single frame
-				float actualAccMag = std::min(rb->instAcceleration.Magnitude(), rb->velocity.Magnitude() / (deltaTime / 100.0f));
-				rb->instAcceleration.Normalize();
-				rb->instAcceleration *= actualAccMag;
-			}
+			// (This formula decreases velocity by drag percentage every second)
+			rb->velocity -= (rb->velocity * rb->drag) / (1000.0f / deltaTime);
 		}
 		// Object didn't move, so there was a collision
 		else
 		{
 			// Collision happens on object movement, so we have to move it first
-			Vector3 moveDelta = rb->velocity * (deltaTime / 100.0f);
+			Vector3 moveDelta = rb->velocity * (deltaTime / 1000.0f);
 			rb->GetEntity()->GetTransform().Translate(moveDelta);
 			rb->collider->Callibrate();  // Adjust collider after transform change
 
 			// Get collision normal
 			Vector3 normal = CollisionSystem::Get().GetCollisionNormal(rb->collider);
+
+			Logger::Get().Log("Not moving, collision normal: " + normal.ToString());
 
 			if (normal.Magnitude() != 0)
 			{
@@ -79,7 +70,7 @@ void PhysicsSystem::Update(float deltaTime)
 					rb->velocity.z = -rb->velocity.z;
 
 				// Some loss of energy on collision
-				rb->velocity = rb->velocity * 0.8f;
+				//rb->velocity = rb->velocity * 0.8f;
 			}
 
 			// Move the entity back & re-adjust the collider

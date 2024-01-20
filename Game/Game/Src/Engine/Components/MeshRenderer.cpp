@@ -15,6 +15,11 @@ void MeshRenderer::LoadMesh(const std::string& objFileLocation)
 	mesh.LoadFromObjectFile(objFileLocation);
 }
 
+void MeshRenderer::LoadMesh(Mesh& _mesh)
+{
+	mesh = _mesh;
+}
+
 Matrix4x4 MeshRenderer::GetWorldMatrix()
 {
 	// Scale, Rotate, Translate
@@ -86,6 +91,7 @@ void MeshRenderer::Render()
 			clipped[i].points[2] /= clipped[i].points[2].w;
 
 			// Scale the object
+			// Projection matrix result is in [-1, 1]. Shift it to [0, 2] & scale to the screen.
 			clipped[i].points[0] += 1.0f;
 			clipped[i].points[1] += 1.0f;
 			clipped[i].points[2] += 1.0f;

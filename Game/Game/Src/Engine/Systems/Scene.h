@@ -22,8 +22,6 @@ private:
 
 	std::list<Entity*> entitiesToBeAdded;
 	std::list<Entity*> entities;
-	std::list<Entity*> entitiesToDestroy;
-
 	// Any entity which is part of this becomes dangling
 	// Useful in object pooling
 	std::list<Entity*> entitiesToUntrack;
@@ -113,20 +111,18 @@ public:
 	 */
 	std::list<Entity*> FindEntityWithComponent(ComponentType componentType) const;
 
+
 	/**
-	 * @brief Remove an entity from the Scene and delete it.
-	 *
-	 * @param entityGUID GUID of the entity.
-	 * @return Boolean representing if the entity got removed successfully.
+	 * @brief Remove an entity from the active scene.
+	 * It does not actually free up the memory of the entity.
+	 * It simply returns the entity back to the object pool and marks it as free.
+	 * 
+	 * @param entity Pointer to the entity
 	 */
-	bool RemoveEntity(std::string& entityGUID);
-	/**
-	 * @brief Remove an entity from the Scene and delete it.
-	 *
-	 * @param entityId UID of the entity.
-	 * @return Boolean representing if the entity got removed successfully.
-	 */
-	bool RemoveEntity(STRCODE entityId);
+	void RemoveEntity(Entity* entity);
+	void RemoveEntity(STRCODE entityId);
+	void RemoveEntity(std::string& entityGUID);
+
 	/**
 	 * @brief Remove an entity from the Scene without actually deleting it.
 	 *
