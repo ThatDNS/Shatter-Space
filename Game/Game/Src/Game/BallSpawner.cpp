@@ -36,7 +36,7 @@ void BallSpawner::Update(float deltaTime)
 	}
 
 	// Move the ball spawner. Camera moves with it
-	//GetEntity()->GetTransform().Translate(Vector3(0.0f, 0.0f, spawnerMoveSpeed * (deltaTime / 1000.0f)));
+	GetEntity()->GetTransform().Translate(Vector3(0.0f, 0.0f, spawnerMoveSpeed * (deltaTime / 1000.0f)));
 }
 
 void BallSpawner::SpawnBall()

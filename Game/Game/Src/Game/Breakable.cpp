@@ -87,9 +87,10 @@ void Breakable::Break()
 void Breakable::SpawnBrokenPieces(Mesh& mesh)
 {
 	Scene* scene = SceneManager::Get().GetActiveScene();
-	Entity* entity = scene->CreateEntity(std::vector<ComponentType>{ MeshRendererC, BoxColliderC, RigidBodyC, SelfDestructC });
+	Entity* entity = scene->CreateEntity(std::vector<ComponentType>{ MeshRendererC, RigidBodyC, SelfDestructC });
 
-	entity->GetTransform().position = GetEntity()->GetTransform().position + Vector3(Random::Get().Float(), Random::Get().Float() * 2.0f, 0.0f) * 2.0f;
+	Vector3 randomFactor{ Random::Get().Float() * 2.0f - 1.0f, Random::Get().Float() * 2.0f - 1.0f, 0.0f };
+	entity->GetTransform().position = GetEntity()->GetTransform().position + randomFactor;
 
 	// Load the mesh
 	MeshRenderer* mr = static_cast<MeshRenderer*>(entity->GetComponent(MeshRendererC));
@@ -101,7 +102,7 @@ void Breakable::SpawnBrokenPieces(Mesh& mesh)
 	RigidBody* rb = static_cast<RigidBody*>(entity->GetComponent(RigidBodyC));
 	Vector3 velocity{ Random::Get().Float() * 0.5f, Random::Get().Float() * 0.5f, Random::Get().Float() };
 	velocity.Normalize();
-	velocity *= 10.0f;
+	velocity *= 20.0f;
 	rb->SetVelocity(velocity);
 
 	// Self destuct data
