@@ -14,6 +14,7 @@ class Entity;
 // Any new derived class of Component must be added here (except abstract classes)
 enum ComponentType {
     UNDEFINEDC,  // default value
+    // Engine components
     TransformC,
     MeshRendererC,
     SpriteC,
@@ -21,10 +22,13 @@ enum ComponentType {
     RigidBodyC,
     ParticlesC,
     CanvasC,
+    // Game components
     PlayerC,
     BallSpawnerC,
     BallC,
-    BreakableC
+    BreakableC,
+    SelfDestructC,
+    LevelGeneratorC
 };
 
 class Component : public Object

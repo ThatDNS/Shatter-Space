@@ -24,8 +24,15 @@ Entity::Entity(std::string _guid) : Object(_guid)
 
 void Entity::Initialize()
 {
-	// Initialize happens before first PreUpdate. So it must be called on componentsToAdd
+	// At the start of the game, Initialize happens before first PreUpdate.
+	// So it must be called on componentsToAdd
 	for (Component* component : componentsToAdd)
+	{
+		component->Initialize();
+	}
+
+	// Previously used entities received from pool during runtime already have components.
+	for (Component* component : components)
 	{
 		component->Initialize();
 	}

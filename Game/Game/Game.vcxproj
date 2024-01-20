@@ -71,7 +71,9 @@
     <ClCompile Include="Src\Game\Breakable.cpp" />
     <ClCompile Include="Src\Game\Game.cpp" />
     <ClCompile Include="Src\Game\GameLevel.cpp" />
+    <ClCompile Include="Src\Game\LevelGenerator.cpp" />
     <ClCompile Include="Src\Game\Player.cpp" />
+    <ClCompile Include="Src\Game\SelfDestruct.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\stb_image\stb_image.h" />
@@ -124,7 +126,9 @@
     <ClInclude Include="Src\Game\Ball.h" />
     <ClInclude Include="Src\Game\BallSpawner.h" />
     <ClInclude Include="Src\Game\Breakable.h" />
+    <ClInclude Include="Src\Game\LevelGenerator.h" />
     <ClInclude Include="Src\Game\Player.h" />
+    <ClInclude Include="Src\Game\SelfDestruct.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{7A12010B-608E-4FBE-9089-494DBB9078A1}</ProjectGuid>

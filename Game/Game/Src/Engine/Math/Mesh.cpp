@@ -14,6 +14,7 @@ bool Mesh::LoadFromObjectFile(const std::string& objFilename)
 		return false;
 
 	std::vector<Vector3> vertices;
+	faces.clear();
 
 	while (!file.eof())
 	{
