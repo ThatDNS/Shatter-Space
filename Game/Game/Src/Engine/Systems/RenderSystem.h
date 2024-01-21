@@ -34,6 +34,8 @@ private:
 	// Directional light (sun)
 	Vector3 lightDirection{ -0.5f, 0.0f, -1.0f };
 	bool enableSun = false;
+	// Farther objects would have lower alpha
+	bool enableDepthShadow = false;
 
 	Matrix4x4 viewMatrix;
 	Matrix4x4 projectionMatrix;
@@ -51,8 +53,10 @@ public:
 	
 	// ------------------ Light source ------------------
 	bool HasSun() const { return enableSun; }
+	bool HasDepthShadow() const { return enableDepthShadow; }
 	Vector3& GetSunlightDirection() { return lightDirection; }
 	void SetSun(bool enable) { enableSun = enable; }
+	void SetDepthShadow(bool enable) { enableDepthShadow = enable; }
 	void SetSunlight(Vector3& direction) { lightDirection = direction; }
 
 protected:

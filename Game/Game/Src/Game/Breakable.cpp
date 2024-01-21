@@ -110,16 +110,19 @@ void Breakable::Break()
 	particles->Emit(50);
 
 	// Update the UI
-	UIBuffer score;
-	Vector3 position = GetEntity()->GetTransform().position;
-	score.x = position.x;
-	score.y = position.y + 3.0f;
-	score.z = position.z;
-	score.project = true;
-	score.timeRemaining = 1.0f;
-	score.text = "+" + std::to_string(_score);
-	uiManager->ScheduleRender(score);
-	uiManager->IncreaseBalls(_score);
+	if (_score > 0)
+	{
+		UIBuffer score;
+		Vector3 position = GetEntity()->GetTransform().position;
+		score.x = position.x;
+		score.y = position.y + 3.0f;
+		score.z = position.z;
+		score.project = true;
+		score.timeRemaining = 1.0f;
+		score.text = "+" + std::to_string(_score);
+		uiManager->ScheduleRender(score);
+		uiManager->IncreaseBalls(_score);
+	}
 
 	timeToDie = true;
 }
@@ -144,7 +147,7 @@ void Breakable::SpawnBrokenPieces(Mesh& mesh)
 
 	// Apply outward velocity
 	RigidBody* rb = static_cast<RigidBody*>(entity->GetComponent(RigidBodyC));
-	Vector3 velocity{ Random::Get().Float() * 0.5f, Random::Get().Float() * 0.5f, Random::Get().Float() };
+	Vector3 velocity{ Random::Get().Float() * 0.5f, Random::Get().Float() * 0.1f, Random::Get().Float() };
 	velocity.Normalize();
 	velocity *= 20.0f;
 	rb->SetVelocity(velocity);

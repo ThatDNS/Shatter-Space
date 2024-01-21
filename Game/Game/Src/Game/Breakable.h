@@ -24,7 +24,7 @@ class Breakable : public Component
 {
 	BreakableType breakableType = Pyramid;
 	const int PYRAMID_SCORE = 2;
-	const int PLANE_SCORE = 1;
+	const int PLANE_SCORE = 0;
 	int _score = 0;
 
 	// Cached components

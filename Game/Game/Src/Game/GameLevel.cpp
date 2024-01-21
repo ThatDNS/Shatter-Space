@@ -4,6 +4,7 @@
 #include "Engine/Systems/SceneManager.h"
 #include "Engine/Systems/Scene.h"
 #include "Engine/Systems/PhysicsSystem.h"
+#include "Engine/Systems/RenderSystem.h"
 #include "Engine/Math/Vector3.h"
 #include "Engine/Components/Entity.h"
 #include "Engine/Components/Component.h"
@@ -103,8 +104,8 @@ void SetupLevel1()
 	Scene* scene = SceneManager::Get().CreateNewScene();
 	scene->SetName("Level 1");
 
-	// Outer space scene
 	PhysicsSystem::Get().SetGravity(-9.8f);
+	RenderSystem::Get().SetDepthShadow(true);
 
 	// ---------------------- Level Generator ----------------------
 	/*Vector3 wallScale{ 6.0f, 8.0f, 5.0f };
