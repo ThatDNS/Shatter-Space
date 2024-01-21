@@ -24,6 +24,7 @@ void DoorOpener::Initialize()
 		uiManager = static_cast<UIManager*>(match.front()->GetComponent(UIManagerC));
 
 	tookDamage = false;
+	soundPlayed = false;
 }
 
 void DoorOpener::Update(float deltaTime)
@@ -33,6 +34,11 @@ void DoorOpener::Update(float deltaTime)
 
 	if (openDoorNow)
 	{
+		if (!soundPlayed)
+		{
+			App::PlaySound("Assets/Sounds/door_open.wav");
+			soundPlayed = true;
+		}
 		int sign = (openLeft) ? -1 : 1;
 		GetEntity()->GetTransform().Translate(Vector3(moveSpeed * sign * (deltaTime / 1000.0f), 0.0f, 0.0f));
 	}

@@ -41,6 +41,13 @@ void UIManager::Initialize()
 
 	obstacles_msg_timer = 5.0f;
 	stars_msg_timer = 10.0f;
+	
+	// Main menu sound
+	if (App::IsSoundPlaying("Assets/Sounds/DJ Striden - Lights.wav"))
+		App::StopSound("Assets/Sounds/DJ Striden - Lights.wav");
+	if (App::IsSoundPlaying("Assets/Sounds/DJ Striden - Level 1.wav"))
+		App::StopSound("Assets/Sounds/DJ Striden - Level 1.wav");
+	App::PlaySound("Assets/Sounds/DJ Striden - Level 1.wav", true);
 }
 
 void UIManager::Update(float deltaTime)
@@ -92,6 +99,8 @@ void UIManager::Update(float deltaTime)
 
 void UIManager::Render()
 {
+	App::Print(APP_VIRTUAL_WIDTH - 130, 20, "Music by DJ Striden", 1.0f, 1.0f, 1.0f, GLUT_BITMAP_HELVETICA_12);
+
 	if (!gameStarted)
 	{
 		DisplayWelcomeMessage();
@@ -209,6 +218,11 @@ void UIManager::CheckForGameStart()
 	if (App::IsKeyPressed(VK_SPACE))
 	{
 		gameStarted = true;
+
+		if (App::IsSoundPlaying("Assets/Sounds/DJ Striden - Level 1.wav"))
+			App::StopSound("Assets/Sounds/DJ Striden - Level 1.wav");
+
+		App::PlaySound("Assets/Sounds/DJ Striden - Lights.wav", true);
 	}
 }
 
@@ -287,4 +301,12 @@ void UIManager::DisplayWelcomeMessage()
 	App::Print(APP_VIRTUAL_WIDTH / 2 - 105, APP_VIRTUAL_HEIGHT - 120, "Use Mouse to Aim and Fire", 1.0f, 1.0f, 1.0f, GLUT_BITMAP_HELVETICA_18);
 	App::Print(APP_VIRTUAL_WIDTH / 2 - 85, APP_VIRTUAL_HEIGHT - 180, "Press SPACE to Start", 1.0f, 1.0f, 1.0f, GLUT_BITMAP_HELVETICA_18);
 	App::Print(APP_VIRTUAL_WIDTH / 2 - 20, APP_VIRTUAL_HEIGHT - 240, "Enjoy!", 1.0f, 1.0f, 1.0f, GLUT_BITMAP_HELVETICA_18);
+}
+
+void UIManager::Destroy()
+{
+	if (App::IsSoundPlaying("Assets/Sounds/DJ Striden - Lights.wav"))
+		App::StopSound("Assets/Sounds/DJ Striden - Lights.wav");
+	if (App::IsSoundPlaying("Assets/Sounds/DJ Striden - Level 1.wav"))
+		App::StopSound("Assets/Sounds/DJ Striden - Level 1.wav");
 }

@@ -59,7 +59,7 @@ public:
 	void Initialize() override;
 	void Update(float) override;
 	void Render() override;
-	void Destroy() override {}
+	void Destroy() override;
 
 	void ScheduleRender(UIBuffer& uiB);
 	void SetTutorialTimer(float timer);
