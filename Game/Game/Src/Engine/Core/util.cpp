@@ -20,6 +20,7 @@
 #include "Game/SelfDestruct.h"
 #include "Game/LevelGenerator.h"
 #include "Game/UIManager.h"
+#include "Game/DoorOpener.h"
 
 STRCODE GetHashCode(const char* str)
 {
@@ -109,6 +110,9 @@ Component* CreateComponent(ComponentType componentType)
 	case UIManagerC:
 		component = new UIManager();
 		break;
+	case DoorOpenerC:
+		component = new DoorOpener();
+		break;
 	default:
 		Logger::Get().Log("Trying to create an invalid component on an entity.", ERROR_LOG);
 	}
@@ -164,6 +168,9 @@ std::string ComponentTypeToStr(ComponentType componentType)
 		break;
 	case UIManagerC:
 		componentName = "UIManager";
+		break;
+	case DoorOpenerC:
+		componentName = "DoorOpener";
 		break;
 	default:
 		Logger::Get().Log("Trying to get string representation of invalid component.", ERROR_LOG);

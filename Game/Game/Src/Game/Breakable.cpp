@@ -18,6 +18,7 @@
 #include "Engine/Systems/CollisionSystem.h"
 #include "Game/SelfDestruct.h"
 #include "Game/UIManager.h"
+#include "Game/DoorOpener.h"
 
 void Breakable::LoadMeshes(std::string& meshObjFile, size_t meshPieces)
 {
@@ -236,6 +237,12 @@ void Breakable::Break(float updateScore)
 			achievement.color = Vector3(1.0f, 1.0f, 0.0f);
 			uiManager->ScheduleRender(achievement);
 		}
+	}
+
+	// Indicate the door openers to open
+	for (DoorOpener* door : doorOpeners)
+	{
+		door->SetOpenDoor(true);
 	}
 
 	timeToDie = true;

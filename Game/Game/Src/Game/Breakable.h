@@ -13,6 +13,7 @@ class MeshRenderer;
 class RigidBody;
 class Particles;
 class UIManager;
+class DoorOpener;
 
 enum BreakableType
 {
@@ -35,13 +36,16 @@ class Breakable : public Component
 	Particles* particles = nullptr;
 	UIManager* uiManager = nullptr;
 
+	// Doors to open
+	std::vector<DoorOpener*> doorOpeners;
+
 	// Broken mesh parts
 	std::list<Mesh> brokenPieces;
 
-	// Is the breakable moving vertically?
-	bool moveVertically = false;
+	// Is the breakable moving vertically? Used for plane.
 	float amplitude = 10.0f;
 	float theta = 0.0f;
+	bool moveVertically = false;
 
 	// Delay in deleting the object
 	bool timeToDie = false;
@@ -58,6 +62,7 @@ public:
 	void Break(float updateScore = true);
 	void SetBreakableType(BreakableType bt) { breakableType = bt; }
 	void SetMoveVertically(bool move) { moveVertically = move; }
+	void AttachDoorOpener(DoorOpener* door) { doorOpeners.push_back(door); }
 
 	void Initialize() override;
 	void Update(float) override;

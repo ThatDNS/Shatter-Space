@@ -20,6 +20,7 @@
 #include "Game/SelfDestruct.h"
 #include "Game/Breakable.h"
 #include "Game/BallSpawner.h"
+#include "Game/DoorOpener.h"
 
 void LevelGenerator::Initialize()
 {
@@ -51,9 +52,13 @@ void LevelGenerator::Update(float deltaTime)
 	}
 }
 
-void LevelGenerator::CreateWallEntity(Vector3& position, Vector3& scale)
+Entity* LevelGenerator::CreateWallEntity(Vector3& position, Vector3& scale, bool isDoor, bool opensLeft)
 {
-	Entity* entity = SceneManager::Get().GetActiveScene()->CreateEntity(std::vector<ComponentType>{ MeshRendererC, BoxColliderC, SelfDestructC });
+	std::vector<ComponentType> comps{ MeshRendererC, BoxColliderC, SelfDestructC };
+	if (isDoor)
+		comps.push_back(DoorOpenerC);
+
+	Entity* entity = SceneManager::Get().GetActiveScene()->CreateEntity(comps);
 	entity->SetName("Wall");
 
 	// Load the transform data
@@ -65,13 +70,26 @@ void LevelGenerator::CreateWallEntity(Vector3& position, Vector3& scale)
 	MeshRenderer* mr = static_cast<MeshRenderer*>(component);
 	mr->LoadMesh("Assets/Objects/cube.obj");
 	mr->SetRenderBackSide(false);
-	mr->SetMeshColor(Vector3(0.8f, 0.8f, 0.8f));
-	
+	if (isDoor)
+	{
+		mr->SetMeshColor(Vector3(1.0f, 0.0f, 0.0f));
+		// Attach the breakable entity to the door to know when to open it
+		DoorOpener* doorOpener = static_cast<DoorOpener*>(entity->GetComponent(DoorOpenerC));
+		doorOpener->SetOpensLeft(opensLeft);
+		doorOpener->SetOpenDoor(false);
+	}
+	else
+	{
+		mr->SetMeshColor(Vector3(0.8f, 0.8f, 0.8f));
+	}
+
 	// Initialize
 	entity->Initialize();
+
+	return entity;
 }
 
-void LevelGenerator::CreateBreakableEntity(Vector3& position, Vector3& scale, Vector3& rotation, BreakableType breakableType)
+Entity* LevelGenerator::CreateBreakableEntity(Vector3& position, Vector3& scale, Vector3& rotation, BreakableType breakableType)
 {
 	Entity* entity = SceneManager::Get().GetActiveScene()->CreateEntity(std::vector<ComponentType>{ MeshRendererC, BoxColliderC, RigidBodyC, ParticlesC, BreakableC, SelfDestructC });
 	entity->SetName("Breakable");
@@ -93,12 +111,31 @@ void LevelGenerator::CreateBreakableEntity(Vector3& position, Vector3& scale, Ve
 
 	// Initialize
 	entity->Initialize();
+
+	return entity;
 }
 
 void LevelGenerator::SpawnLevel(float zPos)
 {
+	++_countIter;
+	// Generate a door at every 10th step
+	if (_countIter % 10 == 0)
+	{
+		// Closed door
+		Vector3 wallScale{ 6.0f, 8.0f, 1.0f };
+		Vector3 breakableScale{ 2.0f, 2.0f, 2.0f };
+		Vector3 breakableRotation{ 0.0f, 0.0f, 0.0f };
+		Entity* breakableE = CreateBreakableEntity(Vector3(0.0f, 4.0f, zPos), breakableScale, breakableRotation, BreakableType::Pyramid);
+		Entity* doorLE = CreateWallEntity(Vector3(-6.0f, -5.0f, zPos), wallScale, true, true);
+		Entity* doorRE = CreateWallEntity(Vector3(6.0f, -5.0f, zPos), wallScale, true, false);
+
+		// Attach the doors
+		Breakable* breakable = static_cast<Breakable*>(breakableE->GetComponent(BreakableC));
+		breakable->AttachDoorOpener(static_cast<DoorOpener*>(doorLE->GetComponent(DoorOpenerC)));
+		breakable->AttachDoorOpener(static_cast<DoorOpener*>(doorRE->GetComponent(DoorOpenerC)));
+	}
 	// Randomly generate breakable objects
-	if (Random::Get().Float() < PLANE_PROBABILITY)
+	else if (_countIter > 4 && Random::Get().Float() < PLANE_PROBABILITY)
 	{
 		// Spawn breakable plane
 		Vector3 breakableScale{ 5.0f, 5.0f, 5.0f };
