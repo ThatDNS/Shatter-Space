@@ -32,21 +32,26 @@ class UIManager : public Renderable
 	bool ballsChanged = false;
 
 	bool _pausekeyPressed = false;
+	bool gameStarted = false;
 	bool gamePaused = false;
 	bool gameOver = false;
+	bool isTutorialUp = false;
 
 	// Timers for starting instruction messages
-	float obstacles_msg_timer = 4.0f;
-	float stars_msg_timer = 8.0f;
+	float obstacles_msg_timer = 5.0f;
+	float stars_msg_timer = 10.0f;
+	float tutorial_timer = 0.0f;
 
 	// Anything added to it gets rendered for the specified time
 	std::list<UIBuffer> renderBuffer;
 
+	void CheckForGameStart();
 	void CheckForGamePause();
 	void CheckForGameRestart();
 	void RenderTheBuffer();
 	void DisplayObstaclesMsg();
 	void DisplayStarsMsg();
+	void DisplayWelcomeMessage();
 
 public:
 	UIManager() { type = UIManagerC; }
@@ -56,8 +61,10 @@ public:
 	void Render() override;
 	void Destroy() override {}
 
-	void ScheduleRender(UIBuffer& uiB) { renderBuffer.push_back(uiB); }
-	
+	void ScheduleRender(UIBuffer& uiB);
+	void SetTutorialTimer(float timer);
+
+	bool HasGameStarted() const { return gameStarted; }
 	bool IsGamePaused() const { return gamePaused; }
 	bool IsGameOver() const { return gameOver; }
 	int GetBallsLeft() const { return ballsLeft; }

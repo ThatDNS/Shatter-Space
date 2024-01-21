@@ -45,6 +45,9 @@ void BallSpawner::Initialize()
 
 void BallSpawner::Update(float deltaTime)
 {
+	if (!uiManager->HasGameStarted())
+		return;
+
 	if (!uiManager->IsGamePaused() && !uiManager->IsGameOver())
 	{
 		// Spawn ball on left click

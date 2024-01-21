@@ -15,7 +15,8 @@ enum ParticleType
 {
 	EXPLOSION,
 	PROPULSION,
-	SPEEDLINE
+	SPEEDLINE,
+	STARS
 };
 
 class Particles : public Renderable
@@ -62,6 +63,11 @@ private:
 	// Utility functions
 	void ComputeLineVertices(const Vector3& center, float length, float rotation, Vector3& edge1, Vector3& edge2);
 	void ComputeTriangleVertices(const Vector3& center, float length, float rotation, Triangle& tri);
+
+	void InitiateExplosionParticle(Particle& particle);
+	void InitiatePropulsionParticle(Particle& particle, Vector3& direction);
+	void InitiateSpeedlineParticle(Particle& particle);
+	void InitiateStarParticle(Particle& particle);
 
 protected:
 	// Protected destructor so that only Entity can delete it

@@ -75,6 +75,7 @@
     <ClCompile Include="Src\Game\LevelGenerator.cpp" />
     <ClCompile Include="Src\Game\Player.cpp" />
     <ClCompile Include="Src\Game\SelfDestruct.cpp" />
+    <ClCompile Include="Src\Game\StarsController.cpp" />
     <ClCompile Include="Src\Game\UIManager.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -132,6 +133,7 @@
     <ClInclude Include="Src\Game\LevelGenerator.h" />
     <ClInclude Include="Src\Game\Player.h" />
     <ClInclude Include="Src\Game\SelfDestruct.h" />
+    <ClInclude Include="Src\Game\StarsController.h" />
     <ClInclude Include="Src\Game\UIManager.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
