@@ -174,6 +174,7 @@ void UIManager::DecreaseBalls(int n)
 
 	if (ballsLeft <= 0)
 	{
+		ballsLeft = 0;
 		gameOver = true;
 
 		int distance = static_cast<int>(std::abs(RenderSystem::Get().GetCameraPosition().z));

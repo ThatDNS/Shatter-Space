@@ -117,7 +117,7 @@ Entity* LevelGenerator::CreateBreakableEntity(Vector3& position, Vector3& scale,
 
 void LevelGenerator::SpawnLevel(float zPos)
 {
-	++_countIter;
+	//++_countIter;
 	// Generate a door at every 10th step
 	if (_countIter % 10 == 0)
 	{

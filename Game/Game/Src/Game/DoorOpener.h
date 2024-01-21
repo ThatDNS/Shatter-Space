@@ -8,13 +8,19 @@
 
 #include "Engine/Components/Component.h"
 
+class UIManager;
+
 class DoorOpener : public Component
 {
+	UIManager* uiManager;
+
 	// Indication to open the door
 	bool openDoorNow = false;
 
 	// If false, it'll open right
 	bool openLeft = false;
+
+	bool tookDamage = false;
 
 	float moveSpeed = 10.0f;
 
@@ -24,7 +30,7 @@ public:
 	void SetOpenDoor(bool value);
 	void SetOpensLeft(bool value) { openLeft = value; }
 
-	void Initialize() override {}
+	void Initialize() override;
 	void Update(float) override;
 	void Destroy() override {}
 };
