@@ -190,7 +190,7 @@ void Breakable::Break()
 			achievement.position.y = APP_VIRTUAL_HEIGHT - 80;
 			achievement.project = false;
 			achievement.timeRemaining = 2.0f;
-			achievement.text = "Shot the Shooting Star! (+10)";
+			achievement.text = "Shot the Shooting Star! (+5)";
 			achievement.color = Vector3(1.0f, 1.0f, 0.0f);
 			uiManager->ScheduleRender(achievement);
 		}

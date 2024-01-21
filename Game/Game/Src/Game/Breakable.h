@@ -24,9 +24,9 @@ enum BreakableType
 class Breakable : public Component
 {
 	BreakableType breakableType = Pyramid;
-	const int PYRAMID_SCORE = 2;
+	const int PYRAMID_SCORE = 1;
 	const int PLANE_SCORE = 0;
-	const int STAR_SCORE = 10;
+	const int STAR_SCORE = 5;
 	int _score = 0;
 
 	// Cached components

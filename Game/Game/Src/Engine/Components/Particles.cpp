@@ -102,6 +102,11 @@ void Particles::Update(float deltaTime)
 
 void Particles::Render()
 {
+	// Do not render particles if the entity went beyond the camera
+	float cameraZ = std::abs(RenderSystem::Get().GetCameraPosition().z);
+	if (GetEntity()->GetTransform().position.z < cameraZ)
+		return;
+
 	// View matrix
 	Matrix4x4 mView = RenderSystem::Get().GetViewMatrix();
 
