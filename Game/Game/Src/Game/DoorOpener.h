@@ -12,7 +12,7 @@ class UIManager;
 
 class DoorOpener : public Component
 {
-	UIManager* uiManager;
+	UIManager* uiManager = nullptr;
 
 	// Indication to open the door
 	bool openDoorNow = false;

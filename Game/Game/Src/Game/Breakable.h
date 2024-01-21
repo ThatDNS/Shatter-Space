@@ -63,6 +63,7 @@ public:
 	void SetBreakableType(BreakableType bt) { breakableType = bt; }
 	void SetMoveVertically(bool move) { moveVertically = move; }
 	void AttachDoorOpener(DoorOpener* door) { doorOpeners.push_back(door); }
+	void ClearDoorOpeners() { doorOpeners.clear(); }
 
 	void Initialize() override;
 	void Update(float) override;

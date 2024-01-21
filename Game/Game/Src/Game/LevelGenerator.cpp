@@ -100,6 +100,7 @@ Entity* LevelGenerator::CreateBreakableEntity(Vector3& position, Vector3& scale,
 	// Set breakable type
 	Breakable* breakable = static_cast<Breakable*>(entity->GetComponent(BreakableC));
 	breakable->SetBreakableType(breakableType);
+	breakable->ClearDoorOpeners();
 	if (breakableType == BreakableType::Plane && Random::Get().Float() < PLANE_MOVE_PROBABILITY)
 	{
 		breakable->SetMoveVertically(true);
