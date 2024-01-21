@@ -16,11 +16,11 @@ void UIManager::Initialize()
 	// Start the game with 10 balls
 	ballsLeft = 10;
 
-	// Starting message
+	// Starting messages
 	UIBuffer startMsg;
 	startMsg.position.x = APP_VIRTUAL_WIDTH / 2 - 85;
-	startMsg.position.y = APP_VIRTUAL_HEIGHT - 80;
-	startMsg.timeRemaining = 2.0f;
+	startMsg.position.y = APP_VIRTUAL_HEIGHT - 70;
+	startMsg.timeRemaining = 3.5f;
 	startMsg.color = Vector3(1.0f, 0.0f, 0.0f);
 	startMsg.project = false;
 	startMsg.text = "Click to Shoot Balls!";
@@ -33,16 +33,35 @@ void UIManager::Initialize()
 	{
 		highscore = SceneManager::Get().GetPersistentData(highestScoreHash);
 	}
+
+	obstacles_msg_timer = 4.0f;
+	stars_msg_timer = 8.0f;
 }
 
 void UIManager::Update(float deltaTime)
 {
-	// Check if any items from render buffer should be removed
-	for (UIBuffer& uiBuffer : renderBuffer)
+	if (!gamePaused)
 	{
-		uiBuffer.timeRemaining -= (deltaTime / 1000.0f);
+		// Check if any items from render buffer should be removed
+		for (UIBuffer& uiBuffer : renderBuffer)
+		{
+			uiBuffer.timeRemaining -= (deltaTime / 1000.0f);
+		}
+		renderBuffer.remove_if([](const UIBuffer& uiB) { return (uiB.timeRemaining <= 0); });
+
+		if (obstacles_msg_timer > 0.0f)
+		{
+			obstacles_msg_timer -= (deltaTime / 1000.0f);
+			if (obstacles_msg_timer <= 0)
+				DisplayObstaclesMsg();
+		}
+		if (stars_msg_timer > 0.0f)
+		{
+			stars_msg_timer -= (deltaTime / 1000.0f);
+			if (stars_msg_timer <= 0)
+				DisplayStarsMsg();
+		}
 	}
-	renderBuffer.remove_if([](const UIBuffer& uiB) { return (uiB.timeRemaining <= 0); });
 
 	if (gameOver)
 		CheckForGameRestart();
@@ -185,4 +204,28 @@ void UIManager::DecreaseBalls(int n)
 			SceneManager::Get().StorePersistentData(highestScoreHash, highscore);
 		}
 	}
+}
+
+void UIManager::DisplayObstaclesMsg()
+{
+	UIBuffer startMsg;
+	startMsg.position.x = APP_VIRTUAL_WIDTH / 2 - 135;
+	startMsg.position.y = APP_VIRTUAL_HEIGHT - 70;
+	startMsg.timeRemaining = 3.5f;
+	startMsg.color = Vector3(0.0f, 0.8f, 1.0f);
+	startMsg.project = false;
+	startMsg.text = "Ice blocks can hurt you. Break them!";
+	renderBuffer.push_back(startMsg);
+}
+
+void UIManager::DisplayStarsMsg()
+{
+	UIBuffer startMsg;
+	startMsg.position.x = APP_VIRTUAL_WIDTH / 2 - 120;
+	startMsg.position.y = APP_VIRTUAL_HEIGHT - 70;
+	startMsg.timeRemaining = 3.5f;
+	startMsg.color = Vector3(1.0f, 1.0f, 0.0f);
+	startMsg.project = false;
+	startMsg.text = "Always shoot for the STARS!";
+	renderBuffer.push_back(startMsg);
 }

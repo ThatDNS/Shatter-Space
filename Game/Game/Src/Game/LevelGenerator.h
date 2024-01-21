@@ -11,12 +11,14 @@
 
 class Entity;
 class BallSpawner;
+class UIManager;
 enum BreakableType;
 
 class LevelGenerator : public Component
 {
 	Entity* ballSpawnerEntity = nullptr;
 	BallSpawner* ballSpawner = nullptr;
+	UIManager* uiManager = nullptr;
 
 	const float SEPARATION_DIST = 50.0f;
 	const float STAR_PROBABILITY = 0.35f;
@@ -29,6 +31,7 @@ class LevelGenerator : public Component
 
 	// To ensure that initial blocks are simpler
 	int _countIter = 0;
+	bool isFirstDoor = true;
 
 	Entity* CreateWallEntity(Vector3& position, Vector3& scale, bool isDoor = false, bool opensLeft = false);
 	Entity* CreateBreakableEntity(Vector3& position, Vector3& scale, Vector3& rotation, BreakableType breakableType);

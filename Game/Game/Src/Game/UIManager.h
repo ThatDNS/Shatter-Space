@@ -35,12 +35,18 @@ class UIManager : public Renderable
 	bool gamePaused = false;
 	bool gameOver = false;
 
+	// Timers for starting instruction messages
+	float obstacles_msg_timer = 4.0f;
+	float stars_msg_timer = 8.0f;
+
 	// Anything added to it gets rendered for the specified time
 	std::list<UIBuffer> renderBuffer;
 
 	void CheckForGamePause();
 	void CheckForGameRestart();
 	void RenderTheBuffer();
+	void DisplayObstaclesMsg();
+	void DisplayStarsMsg();
 
 public:
 	UIManager() { type = UIManagerC; }

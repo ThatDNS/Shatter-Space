@@ -21,23 +21,32 @@
 #include "Game/Breakable.h"
 #include "Game/BallSpawner.h"
 #include "Game/DoorOpener.h"
+#include "Game/UIManager.h"
 
 void LevelGenerator::Initialize()
 {
 	maxSightDistance = 150.0f;
 	lastSpawnDistance = 0.0f;
+	isFirstDoor = true;
 
 	// Find the player entity and cache it
 	std::list<Entity*> matchedEntities = SceneManager::Get().GetActiveScene()->FindEntityWithComponent(BallSpawnerC);
 	if (matchedEntities.size() == 0)
 	{
-		Logger::Get().Log("Could not find ball spawner");
+		Logger::Get().Log("Level generator could not find ball spawner", ERROR_LOG);
 	}
 	else
 	{
 		ballSpawnerEntity = matchedEntities.front();
 		ballSpawner = static_cast<BallSpawner*>(ballSpawnerEntity->GetComponent(BallSpawnerC));
 	}
+
+	// Find the UIManager
+	std::list<Entity*> match = SceneManager::Get().GetActiveScene()->FindEntityWithComponent(UIManagerC);
+	if (match.size() == 0)
+		Logger::Get().Log("Level generator could not find UI Manager", ERROR_LOG);
+	else
+		uiManager = static_cast<UIManager*>(match.front()->GetComponent(UIManagerC));
 }
 
 void LevelGenerator::Update(float deltaTime)
@@ -118,7 +127,7 @@ Entity* LevelGenerator::CreateBreakableEntity(Vector3& position, Vector3& scale,
 
 void LevelGenerator::SpawnLevel(float zPos)
 {
-	//++_countIter;
+	++_countIter;
 	// Generate a door at every 10th step
 	if (_countIter % 10 == 0)
 	{
@@ -134,6 +143,18 @@ void LevelGenerator::SpawnLevel(float zPos)
 		Breakable* breakable = static_cast<Breakable*>(breakableE->GetComponent(BreakableC));
 		breakable->AttachDoorOpener(static_cast<DoorOpener*>(doorLE->GetComponent(DoorOpenerC)));
 		breakable->AttachDoorOpener(static_cast<DoorOpener*>(doorRE->GetComponent(DoorOpenerC)));
+
+		if (isFirstDoor)
+		{
+			UIBuffer doorMsg;
+			doorMsg.position.x = APP_VIRTUAL_WIDTH / 2 - 135;
+			doorMsg.position.y = APP_VIRTUAL_HEIGHT - 70;
+			doorMsg.timeRemaining = 5.0f;
+			doorMsg.color = Vector3(1.0f, 0.5f, 0.0f);
+			doorMsg.project = false;
+			doorMsg.text = "Break the ICE on Red door to open it!";
+			uiManager->ScheduleRender(doorMsg);
+		}
 	}
 	// Randomly generate breakable objects
 	else if (_countIter > 4 && Random::Get().Float() < PLANE_PROBABILITY)
