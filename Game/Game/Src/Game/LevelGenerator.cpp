@@ -13,6 +13,7 @@
 #include "Engine/Components/Transform.h"
 #include "Engine/Components/MeshRenderer.h"
 #include "Engine/Components/RigidBody.h"
+#include "Engine/Components/Particles.h"
 #include "Engine/Math/Vector3.h"
 #include "Game/SelfDestruct.h"
 #include "Game/Breakable.h"
@@ -84,6 +85,8 @@ void LevelGenerator::CreateBreakableEntity(Vector3& position, Vector3& scale, Ve
 	else
 	{
 		rb->applyGravity = true;
+		Particles* particles = static_cast<Particles*>(entity->GetComponent(ParticlesC));
+		particles->SetPositionOffset(Vector3(0.0f, 2.5f, 0.0f));
 	}
 
 	// Initialize

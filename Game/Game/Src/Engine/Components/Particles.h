@@ -24,6 +24,7 @@ private:
 	const size_t maxParticles = 500;
 
 	// Configurable props
+	Vector3 positionOffset{ 0.0f, 0.0f, 0.0f };  // Difference between entity position & particle position
 	Vector3 particleStartColor{ 1.0f, 0.0f, 0.0f };
 	Vector3 particleEndColor{ 0.0f, 0.0f, 1.0f };
 
@@ -73,6 +74,7 @@ protected:
 public:
 	Particles();
 
+	void SetPositionOffset(Vector3& offset) { positionOffset = offset; }
 	void SetParticleColors(Vector3& startColor, Vector3& endColor) { particleStartColor = startColor; particleEndColor = endColor; }
 	
 	// Must be done before initialization.

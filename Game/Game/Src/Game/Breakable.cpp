@@ -107,7 +107,8 @@ void Breakable::Break()
 	}
 
 	// Start particle effects
-	particles->Emit(50);
+	if (breakableType == Pyramid)
+		particles->Emit(64);
 
 	// Update the UI
 	if (_score > 0)
