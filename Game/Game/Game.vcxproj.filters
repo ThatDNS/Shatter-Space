@@ -237,6 +237,9 @@
     <ClCompile Include="Src\Game\DoorOpener.cpp">
       <Filter>Src\Game\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Src\Game\StarsController.cpp">
+      <Filter>Src\Game\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="NextAPI\App\app.h">
@@ -402,6 +405,9 @@
       <Filter>Src\Game\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Src\Game\DoorOpener.h">
+      <Filter>Src\Game\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Game\StarsController.h">
       <Filter>Src\Game\Header Files</Filter>
     </ClInclude>
   </ItemGroup>

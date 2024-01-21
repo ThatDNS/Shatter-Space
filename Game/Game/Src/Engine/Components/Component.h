@@ -30,7 +30,8 @@ enum ComponentType {
     SelfDestructC,
     LevelGeneratorC,
     UIManagerC,
-    DoorOpenerC
+    DoorOpenerC,
+    StarsControllerC
 };
 
 class Component : public Object

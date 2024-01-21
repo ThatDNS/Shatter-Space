@@ -37,6 +37,8 @@ void Particles::Emit(int num, Vector3 direction)
 			InitiatePropulsionParticle(particle, direction);
 		else if (particleType == SPEEDLINE)
 			InitiateSpeedlineParticle(particle);
+		else if (particleType == STARS)
+			InitiateStarParticle(particle);
 
 		--num;
 		particleIdx = (++particleIdx) % particlePool.size();
@@ -143,6 +145,19 @@ void Particles::Render()
 			App::DrawLine(points[0].x, points[0].y, points[2].x, points[2].y, particle.color.x * particle.alpha, particle.color.y * particle.alpha, particle.color.z * particle.alpha);
 			App::DrawLine(points[1].x, points[1].y, points[2].x, points[2].y, particle.color.x * particle.alpha, particle.color.y * particle.alpha, particle.color.z * particle.alpha);
 		}
+		else if (particleType == STARS)
+		{
+			// Star positions are already in projection space
+			float x = particle.position.x;
+			float y = particle.position.y;
+			float cV = std::acosf(PI / 3.0f);
+			float sV = std::asinf(PI / 3.0f);
+			float l = particle.lineLength / 2.0f;
+
+			App::DrawLine(x - l,      y,          x + l,      y, particle.color.x * particle.alpha, particle.color.y * particle.alpha, particle.color.z * particle.alpha);
+			App::DrawLine(x - l * cV, y - l * sV, x + l * cV, y + l * sV, particle.color.x * particle.alpha, particle.color.y * particle.alpha, particle.color.z * particle.alpha);
+			App::DrawLine(x - l * cV, y + l * sV, x + l * cV, y - l * sV, particle.color.x * particle.alpha, particle.color.y * particle.alpha, particle.color.z * particle.alpha);
+		}
 	}
 }
 
@@ -208,6 +223,25 @@ void Particles::InitiateSpeedlineParticle(Particle& particle)
 	particle.lineDelta = 0.0f;
 
 	particle.alphaDelta = 0.0f;
+}
+
+void Particles::InitiateStarParticle(Particle& particle)
+{
+	// Short lived. No velocity
+	particle.lifeTime = 500.0f;
+	particle.speed = 0.0f;
+
+	// Appear randomly on the screen
+	float xpos = Random::Get().Float() * APP_VIRTUAL_WIDTH;
+	float ypos = Random::Get().Float() * APP_VIRTUAL_HEIGHT;
+	particle.position = Vector3(xpos, ypos, 0.0f);
+
+	// No rotation
+	particle.rotation = 0.0f;
+	particle.rotationDelta = 0.0f;
+
+	particle.lineLength = Random::Get().Float();
+	particle.lineDelta = 0.0f;
 }
 
 void Particles::ComputeLineVertices(const Vector3& center, float length, float rotation, Vector3& edge1, Vector3& edge2)

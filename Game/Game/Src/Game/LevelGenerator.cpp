@@ -174,15 +174,15 @@ void LevelGenerator::SpawnLevel(float zPos)
 		Vector3 breakableScale{ 2.0f, 2.0f, 2.0f };
 		Vector3 breakableRotation{ 0.0f, 0.0f, 0.0f };
 
-		CreateWallEntity(Vector3(-15.0f, -15.0f, zPos), wallScale);
-		CreateWallEntity(Vector3(15.0f, -15.0f, zPos), wallScale);
-		CreateBreakableEntity(Vector3(-15.0f, -2.0f, zPos), breakableScale, breakableRotation, BreakableType::Pyramid);
-		CreateBreakableEntity(Vector3(15.0f, -2.0f, zPos), breakableScale, breakableRotation, BreakableType::Pyramid);
+		CreateWallEntity(Vector3(-15.0f, -16.0f, zPos), wallScale);
+		CreateWallEntity(Vector3(15.0f, -16.0f, zPos), wallScale);
+		CreateBreakableEntity(Vector3(-15.0f, -3.0f, zPos), breakableScale, breakableRotation, BreakableType::Pyramid);
+		CreateBreakableEntity(Vector3(15.0f, -3.0f, zPos), breakableScale, breakableRotation, BreakableType::Pyramid);
 		
 		if (Random::Get().Float() > 0.2f)
 		{
-			CreateWallEntity(Vector3(0.0f, -15.0f, zPos), wallScale);
-			CreateBreakableEntity(Vector3(0.0f, -2.0f, zPos), breakableScale, breakableRotation, BreakableType::Pyramid);
+			CreateWallEntity(Vector3(0.0f, -16.0f, zPos), wallScale);
+			CreateBreakableEntity(Vector3(0.0f, -3.0f, zPos), breakableScale, breakableRotation, BreakableType::Pyramid);
 		}
 	}
 
