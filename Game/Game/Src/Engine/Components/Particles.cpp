@@ -68,7 +68,7 @@ void Particles::Emit(int num, Vector3 direction)
 
 			// Lines must appear on the edge of the screen
 			// Hardcoding as this is the only legit use of speedlines
-			float distFromCenter = Random::Get().Float() * 5.0f + 50.0f;
+			float distFromCenter = Random::Get().Float() * 30.0f + 40.0f;
 			float entityZ = GetEntity()->GetTransform().position.z;
 			float theta = Random::Get().Float() * (PI / 2.0f);
 			Vector3 pos{ distFromCenter * std::cosf(theta), distFromCenter * std::sinf(theta), entityZ };

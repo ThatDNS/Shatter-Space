@@ -155,6 +155,8 @@ void LevelGenerator::SpawnLevel(float zPos)
 			doorMsg.project = false;
 			doorMsg.text = "Break the ICE on Red door to open it!";
 			uiManager->ScheduleRender(doorMsg);
+			uiManager->SetTutorialTimer(5.0f);
+			isFirstDoor = false;
 		}
 	}
 	// Randomly generate breakable objects
