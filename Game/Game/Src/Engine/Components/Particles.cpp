@@ -24,7 +24,7 @@ void Particles::Emit(int num, Vector3 direction)
 		Particle& particle = particlePool[particleIdx];
 		particle.isActive = true;
 
-		particle.position = GetEntity()->GetTransform().position;
+		particle.position = GetEntity()->GetTransform().position + positionOffset;
 		// Set random rotation between [-PI/2, PI/2]
 		particle.rotation = (Random::Get().Float() * PI) - PI / 2;
 		particle.rotationDelta = Random::Get().Float() * 0.5f;

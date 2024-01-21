@@ -49,6 +49,9 @@ void MeshRenderer::Render()
 	// Projection matrix
 	Matrix4x4 mProj = RenderSystem::Get().GetProjectionMatrix();
 
+	Vector3 cameraPosition = RenderSystem::Get().GetCameraPosition();
+	float cameraAbsZ = std::abs(cameraPosition.z);
+
 	// Draw the mesh (Does world, view, projection transformation)
 	// Triangle gets transformed so creating a copy in loop
 	std::vector<std::pair<Triangle, float>> triToRaster;  // Not all triangles get rendered, filtering here
@@ -69,7 +72,7 @@ void MeshRenderer::Render()
 		if (!renderBackSide)
 		{
 			// Ray casted from triangle to camera
-			if (Vector3::Dot(normal, (tri.points[0] - RenderSystem::Get().GetCameraPosition())) > 0)
+			if (Vector3::Dot(normal, (tri.points[0] - cameraPosition)) > 0)
 				continue;
 		}
 
@@ -77,6 +80,14 @@ void MeshRenderer::Render()
 		if (RenderSystem::Get().HasSun())
 		{
 			lightIntensity = std::max(0.2f, Vector3::Dot(RenderSystem::Get().GetSunlightDirection(), normal));
+		}
+		else if (RenderSystem::Get().HasDepthShadow())
+		{
+			// zDelta - [0, 30]   -> alpha = 1.0
+			// zDelta - [50, 100] -> alpha = [1.0, 0.0]
+			float zDelta = std::abs(std::abs(tri.points[0].z) - std::abs(cameraAbsZ));
+			zDelta = std::max(0.0f, zDelta - 30.0f);
+			lightIntensity = (1.0f - zDelta / 150.0f);
 		}
 
 		// 2.) Transform to view space
@@ -180,4 +191,10 @@ void MeshRenderer::Render()
 		auto& secondPt = linePoints.second;
 		App::DrawLine(firstPt.first, firstPt.second, secondPt.first, secondPt.second, meshColor.x * intensity, meshColor.y * intensity, meshColor.z * intensity);
 	}
+}
+
+void MeshRenderer::Destroy()
+{
+	// Empty the mesh
+	mesh.faces.clear();
 }

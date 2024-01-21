@@ -14,11 +14,18 @@ class BoxCollider;
 class Particles;
 class UIManager;
 
+enum BreakableType
+{
+	Pyramid,
+	Plane
+};
+
 class Breakable : public Component
 {
-	// Intentionally written without extension.
-	// Names of breakable parts of this mesh have just indices appended to this filename.
-	std::string meshObjFile = "Assets/Objects/Breakable/Pyramid";
+	BreakableType breakableType = Pyramid;
+	const int PYRAMID_SCORE = 2;
+	const int PLANE_SCORE = 0;
+	int _score = 0;
 
 	// Cached components
 	MeshRenderer* meshRenderer = nullptr;
@@ -27,7 +34,7 @@ class Breakable : public Component
 	UIManager* uiManager = nullptr;
 
 	// Broken mesh parts
-	size_t numPieces = 4;
+	size_t numPieces = 0;
 	std::list<Mesh> brokenPieces;
 
 	// Delay in deleting the object
@@ -40,6 +47,7 @@ public:
 	Breakable() { type = BreakableC; }
 	
 	void Break();
+	void SetBreakableType(BreakableType bt) { breakableType = bt; }
 
 	void Initialize() override;
 	void Update(float) override;

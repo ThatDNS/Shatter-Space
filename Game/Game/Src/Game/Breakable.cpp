@@ -25,6 +25,22 @@ void Breakable::Initialize()
 	else
 		uiManager = static_cast<UIManager*>(match.front()->GetComponent(UIManagerC));
 
+	// Intentionally written without extension.
+	// Names of breakable parts of this mesh have just indices appended to this filename.
+	std::string meshObjFile = "Assets/Objects/Breakable/";
+	if (breakableType == BreakableType::Pyramid)
+	{
+		meshObjFile += "Pyramid";
+		numPieces = 4;
+		_score = PYRAMID_SCORE;
+	}
+	else if (breakableType == BreakableType::Plane)
+	{
+		meshObjFile += "Plane";
+		numPieces = 8;
+		_score = PLANE_SCORE;
+	}
+
 	// Load the mesh & its settings
 	meshRenderer = static_cast<MeshRenderer*>(GetEntity()->GetComponent(MeshRendererC));
 	meshRenderer->LoadMesh(meshObjFile + ".obj");
@@ -91,19 +107,23 @@ void Breakable::Break()
 	}
 
 	// Start particle effects
-	particles->Emit(50);
+	if (breakableType == Pyramid)
+		particles->Emit(64);
 
 	// Update the UI
-	UIBuffer score;
-	Vector3 position = GetEntity()->GetTransform().position;
-	score.x = position.x;
-	score.y = position.y + 3.0f;
-	score.z = position.z;
-	score.project = true;
-	score.timeRemaining = 1.0f;
-	score.text = "+2";
-	uiManager->ScheduleRender(score);
-	uiManager->IncreaseBalls(2);
+	if (_score > 0)
+	{
+		UIBuffer score;
+		Vector3 position = GetEntity()->GetTransform().position;
+		score.position = position;
+		score.position.y += 3.0f;
+		score.project = true;
+		score.timeRemaining = 1.0f;
+		score.text = "+" + std::to_string(_score);
+		score.color = Vector3(0.0f, 1.0f, 0.0f);
+		uiManager->ScheduleRender(score);
+		uiManager->IncreaseBalls(_score);
+	}
 
 	timeToDie = true;
 }
@@ -114,8 +134,11 @@ void Breakable::SpawnBrokenPieces(Mesh& mesh)
 	Entity* entity = scene->CreateEntity(std::vector<ComponentType>{ MeshRendererC, RigidBodyC, SelfDestructC });
 	entity->SetName("BrokenPiece");
 
+	Transform& transform = GetEntity()->GetTransform();
 	Vector3 randomFactor{ Random::Get().Float() * 2.0f - 1.0f, Random::Get().Float() * 2.0f - 1.0f, 0.0f };
-	entity->GetTransform().position = GetEntity()->GetTransform().position + randomFactor;
+	entity->GetTransform().position = transform.position + randomFactor;
+	entity->GetTransform().rotation = transform.rotation;
+	entity->GetTransform().scale = transform.scale;
 
 	// Load the mesh
 	MeshRenderer* mr = static_cast<MeshRenderer*>(entity->GetComponent(MeshRendererC));
@@ -125,7 +148,7 @@ void Breakable::SpawnBrokenPieces(Mesh& mesh)
 
 	// Apply outward velocity
 	RigidBody* rb = static_cast<RigidBody*>(entity->GetComponent(RigidBodyC));
-	Vector3 velocity{ Random::Get().Float() * 0.5f, Random::Get().Float() * 0.5f, Random::Get().Float() };
+	Vector3 velocity{ Random::Get().Float() - 0.5f, Random::Get().Float() * 0.1f, Random::Get().Float() };
 	velocity.Normalize();
 	velocity *= 20.0f;
 	rb->SetVelocity(velocity);

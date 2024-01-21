@@ -26,6 +26,14 @@ Scene::Scene(std::string& _guid)
 	guid = _guid;
 }
 
+void Scene::Load()
+{
+	if (LoadSceneFunc != nullptr)
+	{
+		LoadSceneFunc(this);
+	}
+}
+
 void Scene::Initialize()
 {
 	// Initialize happens before first PreUpdate. So it must be called on entitiesToBeAdded
@@ -84,6 +92,19 @@ void Scene::PostUpdate()
 		entities.remove(entity);
 	}
 	entitiesToUntrack.clear();
+
+	if (_reloadScene)
+	{
+		_reloadScene = false;
+		// Destroy the scene
+		Destroy();
+
+		// Reload it
+		Load();
+
+		// Scene reload happens mid-game. Engine won't initialize it
+		Initialize();
+	}
 }
 
 void Scene::Destroy()
@@ -95,6 +116,19 @@ void Scene::Destroy()
 		entity->sourcePool->MarkObjectAsFree(static_cast<Object*>(entity));
 	}
 	entities.clear();
+	// Ensure nothing is scheduled to be added or removed
+	for (Entity* entity : entitiesToBeAdded)
+	{
+		entity->sourcePool->MarkObjectAsFree(static_cast<Object*>(entity));
+	}
+	entitiesToBeAdded.clear();
+	entitiesToUntrack.clear();
+}
+
+void Scene::ReloadScene()
+{
+	// Schedule the scene to be reloaded on subsequent post update
+	_reloadScene = true;
 }
 
 Entity* Scene::CreateEntity(std::vector<ComponentType>& components)

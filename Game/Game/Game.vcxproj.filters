@@ -231,6 +231,9 @@
     <ClCompile Include="Src\Game\SelfDestruct.cpp">
       <Filter>Src\Game\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Src\Game\UIManager.cpp">
+      <Filter>Src\Game\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="NextAPI\App\app.h">
@@ -390,6 +393,9 @@
       <Filter>Src\Game\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Src\Game\SelfDestruct.h">
+      <Filter>Src\Game\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Game\UIManager.h">
       <Filter>Src\Game\Header Files</Filter>
     </ClInclude>
   </ItemGroup>

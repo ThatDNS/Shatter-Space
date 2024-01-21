@@ -18,6 +18,12 @@
 
 void BallSpawner::Initialize()
 {
+	ballCounter = 0;
+	spawnerMoveSpeed = 10.0f;
+
+	// Start from origin
+	GetEntity()->GetTransform().position = Vector3(0.0f, 0.0f, 0.0f);
+
 	// Load the mesh
 	mesh.LoadFromObjectFile(meshObjFile);
 	RenderSystem::Get().AttachCamera(GetEntity());
@@ -32,7 +38,7 @@ void BallSpawner::Initialize()
 
 void BallSpawner::Update(float deltaTime)
 {
-	if (!uiManager->IsGamePaused())
+	if (!uiManager->IsGamePaused() && !uiManager->IsGameOver())
 	{
 		// Spawn ball on left click
 		if (App::IsKeyPressed(VK_LBUTTON) && !isClickPressed)
@@ -48,6 +54,7 @@ void BallSpawner::Update(float deltaTime)
 
 		// Move the ball spawner. Camera moves with it
 		GetEntity()->GetTransform().Translate(Vector3(0.0f, 0.0f, spawnerMoveSpeed * (deltaTime / 1000.0f)));
+		spawnerMoveSpeed = std::min(spawnerMoveSpeed + (deltaTime / 5000.0f), MAX_SPEED);
 	}
 }
 
