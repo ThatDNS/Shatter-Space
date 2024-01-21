@@ -19,7 +19,7 @@ void UIManager::Initialize()
 	// Starting message
 	UIBuffer startMsg;
 	startMsg.position.x = APP_VIRTUAL_WIDTH / 2 - 85;
-	startMsg.position.y = APP_VIRTUAL_HEIGHT - 100;
+	startMsg.position.y = APP_VIRTUAL_HEIGHT - 80;
 	startMsg.timeRemaining = 2.0f;
 	startMsg.color = Vector3(1.0f, 0.0f, 0.0f);
 	startMsg.project = false;
@@ -28,6 +28,11 @@ void UIManager::Initialize()
 
 	gamePaused = false;
 	gameOver = false;
+
+	if (SceneManager::Get().HasPersistentData(highestScoreHash))
+	{
+		highscore = SceneManager::Get().GetPersistentData(highestScoreHash);
+	}
 }
 
 void UIManager::Update(float deltaTime)
@@ -53,28 +58,32 @@ void UIManager::Render()
 	// Distance covered
 	float distance = std::abs(RenderSystem::Get().GetCameraPosition().z);
 	std::string distStr = "Distance: " + std::to_string(static_cast<int>(distance));
-	App::Print(30, APP_VIRTUAL_HEIGHT - 40, distStr.c_str(), 1.0f, 1.0f, 1.0f, GLUT_BITMAP_HELVETICA_18);
+	App::Print(20, APP_VIRTUAL_HEIGHT - 30, distStr.c_str(), 1.0f, 1.0f, 1.0f, GLUT_BITMAP_HELVETICA_18);
+
+	// Highscore
+	std::string highStr = "Highscore: " + highscore;
+	App::Print(20, APP_VIRTUAL_HEIGHT - 60, highStr.c_str(), 1.0f, 1.0f, 1.0f, GLUT_BITMAP_HELVETICA_18);
 
 	// Remaining balls
 	std::string ballsLeftStr = "Balls Left: " + std::to_string(ballsLeft);
-	App::Print(APP_VIRTUAL_WIDTH / 2 - 50, APP_VIRTUAL_HEIGHT - 40, ballsLeftStr.c_str(), 1.0f, 1.0f, 1.0f, GLUT_BITMAP_HELVETICA_18);
+	App::Print(APP_VIRTUAL_WIDTH / 2 - 50, APP_VIRTUAL_HEIGHT - 30, ballsLeftStr.c_str(), 1.0f, 1.0f, 1.0f, GLUT_BITMAP_HELVETICA_18);
 
 	// Pause / Game Over text
 	if (gameOver)
 	{
-		App::Print(APP_VIRTUAL_WIDTH / 2 - 70, APP_VIRTUAL_HEIGHT - 100, "GAME OVER", 1.0f, 0.0f, 0.0f, GLUT_BITMAP_TIMES_ROMAN_24);
-		App::Print(APP_VIRTUAL_WIDTH / 2 - 70, APP_VIRTUAL_HEIGHT - 150, "Press R to Restart", 1.0f, 1.0f, 1.0f, GLUT_BITMAP_HELVETICA_18);
+		App::Print(APP_VIRTUAL_WIDTH / 2 - 70, APP_VIRTUAL_HEIGHT - 80, "GAME OVER", 1.0f, 0.0f, 0.0f, GLUT_BITMAP_TIMES_ROMAN_24);
+		App::Print(APP_VIRTUAL_WIDTH / 2 - 70, APP_VIRTUAL_HEIGHT - 120, "Press R to Restart", 1.0f, 1.0f, 1.0f, GLUT_BITMAP_HELVETICA_18);
 	}
 	else
 	{
 		if (gamePaused)
 		{
-			App::Print(APP_VIRTUAL_WIDTH / 2 - 85, APP_VIRTUAL_HEIGHT - 100, "GAME PAUSED", 1.0f, 0.0f, 0.0f, GLUT_BITMAP_TIMES_ROMAN_24);
-			App::Print(APP_VIRTUAL_WIDTH - 190, APP_VIRTUAL_HEIGHT - 40, "Press P to Resume", 1.0f, 1.0f, 1.0f, GLUT_BITMAP_HELVETICA_18);
+			App::Print(APP_VIRTUAL_WIDTH / 2 - 88, APP_VIRTUAL_HEIGHT - 80, "GAME PAUSED", 1.0f, 0.0f, 0.0f, GLUT_BITMAP_TIMES_ROMAN_24);
+			App::Print(APP_VIRTUAL_WIDTH - 190, APP_VIRTUAL_HEIGHT - 30, "Press P to Resume", 1.0f, 1.0f, 1.0f, GLUT_BITMAP_HELVETICA_18);
 		}
 		else
 		{
-			App::Print(APP_VIRTUAL_WIDTH - 170, APP_VIRTUAL_HEIGHT - 40, "Press P to Pause", 1.0f, 1.0f, 1.0f, GLUT_BITMAP_HELVETICA_18);
+			App::Print(APP_VIRTUAL_WIDTH - 170, APP_VIRTUAL_HEIGHT - 30, "Press P to Pause", 1.0f, 1.0f, 1.0f, GLUT_BITMAP_HELVETICA_18);
 		}
 	}
 }
@@ -158,5 +167,15 @@ void UIManager::DecreaseBalls(int n)
 	ballsChanged = true;
 
 	if (ballsLeft <= 0)
+	{
 		gameOver = true;
+
+		int distance = static_cast<int>(std::abs(RenderSystem::Get().GetCameraPosition().z));
+		// Update high score
+		if (std::stoi(highscore) < distance)
+		{
+			highscore = std::to_string(distance);
+			SceneManager::Get().StorePersistentData(highestScoreHash, highscore);
+		}
+	}
 }

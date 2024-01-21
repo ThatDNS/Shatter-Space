@@ -120,3 +120,20 @@ Entity* SceneManager::GetNewEntity(std::vector<ComponentType>& components)
 	}
 	return static_cast<Entity*>(relevantPool->GetFreeObject());
 }
+
+void SceneManager::StorePersistentData(STRCODE hashkey, std::string& dataStr)
+{
+	persistentData[hashkey] = dataStr;
+}
+
+bool SceneManager::HasPersistentData(STRCODE hashkey)
+{
+	return (persistentData.find(hashkey) != persistentData.end());
+}
+
+std::string SceneManager::GetPersistentData(STRCODE hashkey)
+{
+	if (HasPersistentData(hashkey))
+		return persistentData[hashkey];
+	return "";
+}

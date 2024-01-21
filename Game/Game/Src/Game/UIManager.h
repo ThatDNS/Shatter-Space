@@ -25,6 +25,9 @@ struct UIBuffer
 
 class UIManager : public Renderable
 {
+	const STRCODE highestScoreHash = 12345;
+	std::string highscore = "0";
+
 	int ballsLeft = 0;
 	bool ballsChanged = false;
 

@@ -41,6 +41,9 @@ private:
 	// NOTE: Developers are allowed to create new scenes using SceneManager & change the active scene, but they can't delete scenes.
 	std::vector<Scene*> allScenes;
 
+	// Persistent data between scenes
+	std::unordered_map<STRCODE, std::string> persistentData;
+
 protected:
 	/**
 	 * @brief Load the active scene data.
@@ -112,6 +115,30 @@ public:
 	 * @return Pointer to the entity.
 	 */
 	Entity* GetNewEntity(std::vector<ComponentType>& components);
+
+	/**
+	 * @brief Store data that remains persistent as long as the application runs.
+	 *
+	 * @param hashkey Hash key to store the data.
+	 * @param dataStr String representing actual data.
+	 */
+	void StorePersistentData(STRCODE hashkey, std::string& dataStr);
+
+	/**
+	 * @brief Check if the data is available for given hashkey.
+	 *
+	 * @param hashkey Hash key to store the data.
+	 * @return Is the data available?
+	 */
+	bool HasPersistentData(STRCODE hashkey);
+
+	/**
+	 * @brief Get the persistent data.
+	 *
+	 * @param hashkey Hash key to store the data.
+	 * @return String representing actual data.
+	 */
+	std::string GetPersistentData(STRCODE hashkey);
 };
 
 #endif // !_SCENE_MANAGER_H_
