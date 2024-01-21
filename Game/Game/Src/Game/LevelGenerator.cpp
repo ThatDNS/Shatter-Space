@@ -19,6 +19,7 @@
 #include "Engine/Math/Random.h"
 #include "Game/SelfDestruct.h"
 #include "Game/Breakable.h"
+#include "Game/BallSpawner.h"
 
 void LevelGenerator::Initialize()
 {
@@ -34,13 +35,14 @@ void LevelGenerator::Initialize()
 	}
 	else
 	{
-		playerEntity = matchedEntities.front();
+		ballSpawnerEntity = matchedEntities.front();
+		ballSpawner = static_cast<BallSpawner*>(ballSpawnerEntity->GetComponent(BallSpawnerC));
 	}
 }
 
 void LevelGenerator::Update(float deltaTime)
 {
-	float playerPosition = playerEntity->GetTransform().position.z;
+	float playerPosition = ballSpawnerEntity->GetTransform().position.z;
 	float canSeeTill = playerPosition + maxSightDistance;
 	while (lastSpawnDistance + SEPARATION_DIST <= canSeeTill)
 	{
@@ -120,7 +122,12 @@ void LevelGenerator::SpawnLevel(float zPos)
 		float xPos = Random::Get().Float() * 10.0f + 25.0f;
 		if (Random::Get().Float() < 0.5f) xPos = -xPos;
 
-		Vector3 position{ xPos, Random::Get().Float() * 10.0f + 30.0f, zPos - 3.0f * SEPARATION_DIST / 2.0f };
+		// Adjust spawn position as per player / spawner speed
+		// [10, 50] -> [-3/2 * separation, -1/2 * separation]
+		float speed = ballSpawner->GetSpawnerSpeed();
+		float zPosition = zPos - (3.0f * SEPARATION_DIST / 2.0f) + (SEPARATION_DIST * (speed - 10.0f) / 40.0f);
+
+		Vector3 position{ xPos, Random::Get().Float() * 10.0f + 30.0f, zPosition };
 		Vector3 scale{ 2.0f, 2.0f, 2.0f };
 		Vector3 rotation{ (float)PI / 2.0f, 0.0f, 0.0f };
 		CreateBreakableEntity(position, scale, rotation, BreakableType::Star);

@@ -146,7 +146,7 @@ void Breakable::Update(float deltaTime)
 		if (breakableType == BreakableType::Star)
 		{
 			// Rotate the stars
-			float rotation = GetEntity()->GetTransform().rotation.z + (deltaTime / 100.0f);
+			float rotation = GetEntity()->GetTransform().rotation.z + (deltaTime / 500.0f);
 			GetEntity()->GetTransform().rotation.z = std::fmod(rotation, 2.0f * PI);
 
 			// Move trail

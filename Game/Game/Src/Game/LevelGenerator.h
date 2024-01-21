@@ -10,14 +10,16 @@
 #include "Engine/Math/Vector3.h"
 
 class Entity;
+class BallSpawner;
 enum BreakableType;
 
 class LevelGenerator : public Component
 {
-	Entity* playerEntity = nullptr;
+	Entity* ballSpawnerEntity = nullptr;
+	BallSpawner* ballSpawner = nullptr;
 
 	const float SEPARATION_DIST = 50.0f;
-	const float STAR_PROBABILITY = 0.4f;
+	const float STAR_PROBABILITY = 0.35f;
 
 	// Player can't see beyond this distance, so don't spawn levels beyond this
 	float maxSightDistance = 150.0f;

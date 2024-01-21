@@ -10,16 +10,20 @@
 #include "Engine/Math/Mesh.h"
 
 class UIManager;
+class Particles;
 
 class BallSpawner : public Component
 {
 	int ballCounter = 0;
 	float ballSpeed = 100.0f;
 	float spawnerMoveSpeed = 10.0f;
-	const float MAX_SPEED = 50.0f;
+
+	float speedLineTimer = 0.0f;
+	float SPEEDLINE_DELAY = 0.1f;
 
 	// To update the UI and check if any more balls can be spawned
 	UIManager* uiManager = nullptr;
+	Particles* particles = nullptr;
 
 	// Ball component data
 	std::string meshObjFile = "";
@@ -33,12 +37,16 @@ class BallSpawner : public Component
 	void SpawnBall();
 
 public:
+	const float MAX_SPEED = 50.0f;
+
 	BallSpawner() { type = BallSpawnerC; }
 	void SetMeshObj(const std::string& filename) { meshObjFile = filename; }
 
 	void Initialize() override;
 	void Update(float) override;
 	void Destroy() override {}
+
+	float GetSpawnerSpeed() const { return spawnerMoveSpeed; }
 };
 
 #endif // !_BALL_SPAWNER_H_

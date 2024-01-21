@@ -14,7 +14,8 @@
 enum ParticleType
 {
 	EXPLOSION,
-	PROPULSION
+	PROPULSION,
+	SPEEDLINE
 };
 
 class Particles : public Renderable
