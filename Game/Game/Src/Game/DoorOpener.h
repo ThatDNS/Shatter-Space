@@ -16,6 +16,7 @@ class DoorOpener : public Component
 
 	// Indication to open the door
 	bool openDoorNow = false;
+	bool soundPlayed = false;
 
 	// If false, it'll open right
 	bool openLeft = false;

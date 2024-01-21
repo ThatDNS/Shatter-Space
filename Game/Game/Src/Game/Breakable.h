@@ -30,6 +30,8 @@ class Breakable : public Component
 	const int STAR_SCORE = 5;
 	int _score = 0;
 
+	std::string glassBreakSound = "Assets/Sounds/glass_break_";
+
 	// Cached components
 	MeshRenderer* meshRenderer = nullptr;
 	RigidBody* rigidBody = nullptr;

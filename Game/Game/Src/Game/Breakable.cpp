@@ -245,6 +245,18 @@ void Breakable::Break(float updateScore)
 		door->SetOpenDoor(true);
 	}
 
+	if (breakableType == Plane)
+	{
+		std::string soundFile = glassBreakSound + "big.wav";
+		App::PlaySound(soundFile.c_str());
+	}
+	else
+	{
+		int randomInt = static_cast<int>(Random::Get().Float() * 3.9f);
+		std::string soundFile = glassBreakSound + std::to_string(randomInt + 1) + ".wav";
+		App::PlaySound(soundFile.c_str());
+	}
+	
 	timeToDie = true;
 }
 
