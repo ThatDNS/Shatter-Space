@@ -66,6 +66,7 @@
     <ClCompile Include="Src\Engine\Systems\RenderSystem.cpp" />
     <ClCompile Include="Src\Engine\Systems\Scene.cpp" />
     <ClCompile Include="Src\Engine\Systems\SceneManager.cpp" />
+    <ClCompile Include="Src\Game\AimAssist.cpp" />
     <ClCompile Include="Src\Game\Ball.cpp" />
     <ClCompile Include="Src\Game\BallSpawner.cpp" />
     <ClCompile Include="Src\Game\Breakable.cpp" />
@@ -126,6 +127,7 @@
     <ClInclude Include="Src\Engine\Systems\RenderSystem.h" />
     <ClInclude Include="Src\Engine\Systems\Scene.h" />
     <ClInclude Include="Src\Engine\Systems\SceneManager.h" />
+    <ClInclude Include="Src\Game\AimAssist.h" />
     <ClInclude Include="Src\Game\Ball.h" />
     <ClInclude Include="Src\Game\BallSpawner.h" />
     <ClInclude Include="Src\Game\Breakable.h" />

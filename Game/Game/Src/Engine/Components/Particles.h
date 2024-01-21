@@ -16,7 +16,8 @@ enum ParticleType
 	EXPLOSION,
 	PROPULSION,
 	SPEEDLINE,
-	STARS
+	STARS,
+	AIM_ASSIST
 };
 
 class Particles : public Renderable
@@ -33,6 +34,7 @@ private:
 	struct Particle
 	{
 		bool isActive = false;
+		bool applyGravity = false;
 
 		Vector3 position;
 		float rotation = 0.0f;
@@ -43,8 +45,7 @@ private:
 		float lifeSpent = 0.0f;
 
 		// Velocity
-		float speed = 0.0f;
-		Vector3 velocityDir;
+		Vector3 velocity;
 
 		// Color & Alpha
 		Vector3 color;
@@ -68,18 +69,19 @@ private:
 	void InitiatePropulsionParticle(Particle& particle, Vector3& direction);
 	void InitiateSpeedlineParticle(Particle& particle);
 	void InitiateStarParticle(Particle& particle);
+	void InitiateAimAssistParticle(Particle& particle);
 
 protected:
 	// Protected destructor so that only Entity can delete it
 	~Particles() = default;
 
-	void Initialize() override { }
+	void Initialize() override;
 	void Update(float) override;
 	void Render() override;
 	void Destroy() override { }
 
 public:
-	Particles();
+	Particles() { type = ParticlesC; }
 
 	void SetPositionOffset(Vector3& offset) { positionOffset = offset; }
 	void SetParticleColors(Vector3& startColor, Vector3& endColor) { particleStartColor = startColor; particleEndColor = endColor; }
@@ -88,7 +90,7 @@ public:
 	void SetParticleType(ParticleType p) { particleType = p; }
 
 	// Emit n particles
-	void Emit(int num, Vector3 direction = {0.0f, 0.0f, 0.0f});
+	void Emit(int num, Vector3 direction = { 0.0f, 0.0f, 0.0f }, Vector3 position = { 0.0f, 0.0f, 0.0f });
 };
 
 #endif // !_PARTICLES_H_

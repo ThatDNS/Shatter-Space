@@ -89,10 +89,6 @@ void LoadGameEntities(Scene* scene)
 	entity = scene->CreateEntity(std::vector<ComponentType>{ BallSpawnerC, ParticlesC });
 	entity->SetName("BallSpawner");
 
-	// Set ball spawner data
-	BallSpawner* spawner = static_cast<BallSpawner*>(entity->GetComponent(BallSpawnerC));
-	spawner->SetMeshObj("Assets/Objects/sphere.obj");
-
 	// ---------------------- Stars Background ----------------------
 	entity = scene->CreateEntity(std::vector<ComponentType>{ ParticlesC, StarsControllerC });
 	entity->SetName("Background");
@@ -100,6 +96,11 @@ void LoadGameEntities(Scene* scene)
 	// ---------------------- UI Manager ----------------------
 	entity = scene->CreateEntity(std::vector<ComponentType>{ UIManagerC });
 	entity->SetName("UI");
+
+	// ---------------------- Aim Assist ----------------------
+	entity = scene->CreateEntity(std::vector<ComponentType>{ ParticlesC, AimAssistC });
+	entity->SetName("AimAssist");
+
 }
 
 /**

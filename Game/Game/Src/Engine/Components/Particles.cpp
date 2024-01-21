@@ -11,14 +11,13 @@
 #include "Engine/Math/Matrix4x4.h"
 #include "Engine/Systems/RenderSystem.h"
 
-Particles::Particles()
+void Particles::Initialize()
 {
-	type = ParticlesC;
 	particlePool.clear();
 	particlePool.resize(maxParticles);
 }
 
-void Particles::Emit(int num, Vector3 direction)
+void Particles::Emit(int num, Vector3 direction, Vector3 position)
 {
 	while (num)
 	{
@@ -27,6 +26,7 @@ void Particles::Emit(int num, Vector3 direction)
 		particle.isActive = true;
 		particle.lifeSpent = 0.0f;
 
+		particle.position = position;
 		particle.alpha = 1.0f;
 		particle.color = particleStartColor;
 		particle.alphaDelta = Random::Get().Float() * 0.2f;
@@ -39,6 +39,8 @@ void Particles::Emit(int num, Vector3 direction)
 			InitiateSpeedlineParticle(particle);
 		else if (particleType == STARS)
 			InitiateStarParticle(particle);
+		else if (particleType == AIM_ASSIST)
+			InitiateAimAssistParticle(particle);
 
 		--num;
 		particleIdx = (++particleIdx) % particlePool.size();
@@ -61,8 +63,11 @@ void Particles::Update(float deltaTime)
 			continue;
 		}
 
+		if (particle.applyGravity)
+			particle.velocity.y -= 9.8f * deltaTime / 100.0f;
+
 		// Move particle as per the velocity
-		particle.position += particle.velocityDir * particle.speed * (deltaTime / 100.0f);
+		particle.position += particle.velocity * (deltaTime / 100.0f);
 
 		// Rotate particle
 		particle.rotation += particle.rotationDelta * (deltaTime / 100.0f);
@@ -72,10 +77,9 @@ void Particles::Update(float deltaTime)
 		Vector3::Lerp(particle.color, particleEndColor, (deltaTime / 500.0f));
 
 		particle.lineLength -= particle.lineDelta;
+		particle.lineLength = std::max(0.2f, particle.lineLength);
 		if (particleType == EXPLOSION)
 			particle.lineLength = std::max(0.5f, particle.lineLength);
-		else if (particleType == PROPULSION)
-			particle.lineLength = std::max(0.2f, particle.lineLength);
 	}
 }
 
@@ -118,6 +122,13 @@ void Particles::Render()
 			points.push_back(Vector3{ particle.position.x, particle.position.y, particle.position.z + positionOffset.z });
 			points.push_back(Vector3{ particle.position.x, particle.position.y, particle.position.z + positionOffset.z + particle.lineLength });
 		}
+		else if (particleType == AIM_ASSIST)
+		{
+			Vector3 velN = particle.velocity;
+			velN.Normalize();
+			points.push_back(Vector3{ particle.position.x, particle.position.y, particle.position.z });
+			points.push_back(Vector3{ particle.position.x + velN.x, particle.position.y + velN.y, particle.position.z + velN.z });
+		}
 
 		// Transform the points
 		for (Vector3& point : points)
@@ -135,7 +146,7 @@ void Particles::Render()
 		}
 
 		// Render the line / triangle
-		if (particleType == EXPLOSION || particleType == SPEEDLINE)
+		if (particleType == EXPLOSION || particleType == SPEEDLINE || particleType == AIM_ASSIST)
 		{
 			App::DrawLine(points[0].x, points[0].y, points[1].x, points[1].y, particle.color.x * particle.alpha, particle.color.y * particle.alpha, particle.color.z * particle.alpha);
 		}
@@ -169,13 +180,14 @@ void Particles::InitiateExplosionParticle(Particle& particle)
 	particle.rotationDelta = Random::Get().Float() * 0.5f;
 
 	// Explosion particles go away from center
-	particle.velocityDir.x = Random::Get().Float();
-	particle.velocityDir.y = Random::Get().Float();
-	if (Random::Get().Float() > 0.5f) particle.velocityDir.x = -particle.velocityDir.x;
-	if (Random::Get().Float() > 0.5f) particle.velocityDir.y = -particle.velocityDir.y;
-	particle.velocityDir.Normalize();
+	Vector3 velocityDir;
+	velocityDir.x = Random::Get().Float();
+	velocityDir.y = Random::Get().Float();
+	if (Random::Get().Float() > 0.5f) velocityDir.x = -velocityDir.x;
+	if (Random::Get().Float() > 0.5f) velocityDir.y = -velocityDir.y;
+	velocityDir.Normalize();
 
-	particle.speed = Random::Get().Float();
+	particle.velocity = velocityDir * Random::Get().Float();
 
 	particle.lineLength = 2.0f;
 	particle.lineDelta = Random::Get().Float() * 0.1f;
@@ -190,9 +202,9 @@ void Particles::InitiatePropulsionParticle(Particle& particle, Vector3& directio
 
 	// Propulsion particles go opposite to the direction of motion
 	// Relying on the programmer to provide correct direcition.
-	particle.velocityDir = direction;
-	particle.velocityDir.Normalize();
-	particle.speed = Random::Get().Float();
+	Vector3 velocityDir = direction;
+	velocityDir.Normalize();
+	particle.velocity = velocityDir * Random::Get().Float();
 
 	particle.lineLength = 0.5f;
 	particle.lineDelta = Random::Get().Float() * 0.05f;
@@ -202,7 +214,7 @@ void Particles::InitiateSpeedlineParticle(Particle& particle)
 {
 	// Short lived. No velocity
 	particle.lifeTime = 400.0f;
-	particle.speed = 0.0f;
+	particle.velocity.Reset();
 
 	// Lines must appear on the edge of the screen
 	// Hardcoding as this is the only legit use of speedlines
@@ -229,7 +241,7 @@ void Particles::InitiateStarParticle(Particle& particle)
 {
 	// Short lived. No velocity
 	particle.lifeTime = 500.0f;
-	particle.speed = 0.0f;
+	particle.velocity.Reset();
 
 	// Appear randomly on the screen
 	float xpos = Random::Get().Float() * APP_VIRTUAL_WIDTH;
@@ -242,6 +254,29 @@ void Particles::InitiateStarParticle(Particle& particle)
 
 	particle.lineLength = Random::Get().Float();
 	particle.lineDelta = 0.0f;
+}
+
+void Particles::InitiateAimAssistParticle(Particle& particle)
+{
+	Vector3 mousePos;
+	// Update mouse coordinates
+	App::GetMousePos(mousePos.x, mousePos.y);
+
+	// Convert screen coords to the coords used by the engine
+	mousePos.x = ((mousePos.x - 0.5f * (float)APP_INIT_WINDOW_WIDTH) / (float)APP_INIT_WINDOW_WIDTH) * 10.0f;
+	mousePos.y = ((mousePos.y - 0.5f * (float)APP_INIT_WINDOW_HEIGHT) / (float)APP_INIT_WINDOW_HEIGHT) * 6.0f;
+	mousePos.z = 5.0f;
+	mousePos.Normalize();
+	// Mouse position becomes the velocity direction for Aim assist lines
+	particle.velocity = mousePos * 100.0f;
+	particle.applyGravity = true;
+
+	// Rotation gets determined in a different way for these
+	particle.rotation = 0.0f;
+	particle.rotationDelta = 0.0f;
+
+	particle.lifeTime = 500.0f;
+	particle.lineLength = 2.0f;
 }
 
 void Particles::ComputeLineVertices(const Vector3& center, float length, float rotation, Vector3& edge1, Vector3& edge2)

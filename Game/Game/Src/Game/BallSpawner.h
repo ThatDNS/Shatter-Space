@@ -26,7 +26,7 @@ class BallSpawner : public Component
 	Particles* particles = nullptr;
 
 	// Ball component data
-	std::string meshObjFile = "";
+	std::string meshObjFile = "Assets/Objects/sphere.obj";
 	Mesh mesh;
 	std::vector<ComponentType> ballComponents{ MeshRendererC, BoxColliderC, RigidBodyC, BallC, SelfDestructC };
 
@@ -47,6 +47,7 @@ public:
 	void Destroy() override {}
 
 	float GetSpawnerSpeed() const { return spawnerMoveSpeed; }
+	float GetBallSpeed() const { return ballSpeed; }
 };
 
 #endif // !_BALL_SPAWNER_H_
