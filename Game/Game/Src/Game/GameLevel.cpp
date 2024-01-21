@@ -86,12 +86,11 @@ void LoadGameEntities(Scene* scene)
 	entity->SetName("LevelGenerator");
 
 	// ---------------------- Ball Spawner ----------------------
-	entity = scene->CreateEntity(std::vector<ComponentType>{ BallSpawnerC });
+	entity = scene->CreateEntity(std::vector<ComponentType>{ BallSpawnerC, ParticlesC });
 	entity->SetName("BallSpawner");
 
 	// Set ball spawner data
-	Component* component = entity->GetComponent(BallSpawnerC);
-	BallSpawner* spawner = static_cast<BallSpawner*>(component);
+	BallSpawner* spawner = static_cast<BallSpawner*>(entity->GetComponent(BallSpawnerC));
 	spawner->SetMeshObj("Assets/Objects/sphere.obj");
 
 	// ---------------------- UI Manager ----------------------

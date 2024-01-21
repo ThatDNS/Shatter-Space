@@ -10,23 +10,32 @@
 #include "Engine/Math/Vector3.h"
 
 class Entity;
+class BallSpawner;
+class UIManager;
 enum BreakableType;
 
 class LevelGenerator : public Component
 {
-	Entity* playerEntity = nullptr;
+	Entity* ballSpawnerEntity = nullptr;
+	BallSpawner* ballSpawner = nullptr;
+	UIManager* uiManager = nullptr;
 
 	const float SEPARATION_DIST = 50.0f;
+	const float STAR_PROBABILITY = 0.35f;
+	const float PLANE_PROBABILITY = 0.25f;
+	const float PLANE_MOVE_PROBABILITY = 0.5f;
 
 	// Player can't see beyond this distance, so don't spawn levels beyond this
 	float maxSightDistance = 150.0f;
 	float lastSpawnDistance = 0.0f;
 
-	int _pyramidCounter = 0;
+	// To ensure that initial blocks are simpler
+	int _countIter = 0;
+	bool isFirstDoor = true;
 
-	void CreateWallEntity(Vector3& position, Vector3& scale);
-	void CreateBreakableEntity(Vector3& position, Vector3& scale, Vector3& rotation, BreakableType breakableType);
-
+	Entity* CreateWallEntity(Vector3& position, Vector3& scale, bool isDoor = false, bool opensLeft = false);
+	Entity* CreateBreakableEntity(Vector3& position, Vector3& scale, Vector3& rotation, BreakableType breakableType);
+	
 	void SpawnLevel(float zPos);
 
 public:

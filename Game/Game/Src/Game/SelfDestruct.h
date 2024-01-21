@@ -14,7 +14,7 @@ class Entity;
 class SelfDestruct : public Component
 {
 	// Self destructs if it goes below this position
-	Vector3 bound{ 0.0f, -20.0f, 0.0f };
+	Vector3 bound{ 0.0f, -20.0f, 10.0f };
 
 	Entity* playerEntity = nullptr;
 

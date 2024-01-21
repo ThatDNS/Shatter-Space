@@ -13,6 +13,7 @@
 #include "Engine/Components/Component.h"
 #include "Engine/Components/MeshRenderer.h"
 #include "Engine/Components/RigidBody.h"
+#include "Engine/Components/Particles.h"
 #include "Game/SelfDestruct.h"
 #include "Game/UIManager.h"
 
@@ -34,6 +35,12 @@ void BallSpawner::Initialize()
 		Logger::Get().Log("Ball spawner could not find UI Manager", ERROR_LOG);
 	else
 		uiManager = static_cast<UIManager*>(match.front()->GetComponent(UIManagerC));
+
+	// Find the particles component
+	particles = static_cast<Particles*>(entity->GetComponent(ParticlesC));
+	particles->SetParticleType(SPEEDLINE);
+	particles->SetPositionOffset(Vector3{ 0.0f, 0.0f, 30.0f });
+	particles->SetParticleColors(Vector3(1.0f, 1.0f, 1.0f), Vector3(0.5f, 0.5f, 0.5f));
 }
 
 void BallSpawner::Update(float deltaTime)
@@ -55,6 +62,18 @@ void BallSpawner::Update(float deltaTime)
 		// Move the ball spawner. Camera moves with it
 		GetEntity()->GetTransform().Translate(Vector3(0.0f, 0.0f, spawnerMoveSpeed * (deltaTime / 1000.0f)));
 		spawnerMoveSpeed = std::min(spawnerMoveSpeed + (deltaTime / 5000.0f), MAX_SPEED);
+		SPEEDLINE_DELAY = 1.0f / spawnerMoveSpeed;
+
+		if (spawnerMoveSpeed > 20.0f)
+		{
+			// Speedlines
+			if (speedLineTimer == 0.0f)
+			{
+				particles->Emit(1);
+				speedLineTimer = SPEEDLINE_DELAY;
+			}
+			speedLineTimer = std::max(0.0f, speedLineTimer - (deltaTime / 1000.0f));
+		}
 	}
 }
 

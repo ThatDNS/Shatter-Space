@@ -14,6 +14,7 @@
 Particles::Particles()
 {
 	type = ParticlesC;
+	particlePool.clear();
 	particlePool.resize(maxParticles);
 }
 
@@ -59,6 +60,32 @@ void Particles::Emit(int num, Vector3 direction)
 			particle.lineLength = 0.5f;
 			particle.lineDelta = Random::Get().Float() * 0.05f;
 		}
+		else if (particleType == SPEEDLINE)
+		{
+			// Short lived. No velocity
+			particle.lifeTime = 400.0f;
+			particle.speed = 0.0f;
+
+			// Lines must appear on the edge of the screen
+			// Hardcoding as this is the only legit use of speedlines
+			float distFromCenter = Random::Get().Float() * 5.0f + 50.0f;
+			float entityZ = GetEntity()->GetTransform().position.z;
+			float theta = Random::Get().Float() * (PI / 2.0f);
+			Vector3 pos{ distFromCenter * std::cosf(theta), distFromCenter * std::sinf(theta), entityZ };
+			if (Random::Get().Float() < 0.5f) pos.x = -pos.x;
+			if (Random::Get().Float() < 0.5f && std::abs(pos.x) > 0.8f * distFromCenter) pos.y = -pos.y;
+			particle.position = pos;
+			
+			// No rotation
+			particle.rotation = 0.0f;
+			particle.rotationDelta = 0.0f;
+
+			// length b/w [70, 100]
+			particle.lineLength = Random::Get().Float() * 30.0f + 70.0f;
+			particle.lineDelta = 0.0f;
+
+			particle.alphaDelta = 0.0f;
+		}
 
 		--num;
 		particleIdx = (++particleIdx) % particlePool.size();
@@ -101,6 +128,11 @@ void Particles::Update(float deltaTime)
 
 void Particles::Render()
 {
+	// Do not render particles if the entity went beyond the camera
+	float cameraZ = std::abs(RenderSystem::Get().GetCameraPosition().z);
+	if (GetEntity()->GetTransform().position.z < cameraZ)
+		return;
+
 	// View matrix
 	Matrix4x4 mView = RenderSystem::Get().GetViewMatrix();
 
@@ -128,6 +160,11 @@ void Particles::Render()
 			for (Vector3& vec : tri.points)
 				points.push_back(vec);
 		}
+		else if (particleType == SPEEDLINE)
+		{
+			points.push_back(Vector3{ particle.position.x, particle.position.y, particle.position.z + positionOffset.z });
+			points.push_back(Vector3{ particle.position.x, particle.position.y, particle.position.z + positionOffset.z + particle.lineLength });
+		}
 
 		// Transform the points
 		for (Vector3& point : points)
@@ -145,7 +182,7 @@ void Particles::Render()
 		}
 
 		// Render the line / triangle
-		if (particleType == EXPLOSION)
+		if (particleType == EXPLOSION || particleType == SPEEDLINE)
 		{
 			App::DrawLine(points[0].x, points[0].y, points[1].x, points[1].y, particle.color.x * particle.alpha, particle.color.y * particle.alpha, particle.color.z * particle.alpha);
 		}
