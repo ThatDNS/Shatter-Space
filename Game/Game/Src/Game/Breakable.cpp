@@ -114,12 +114,12 @@ void Breakable::Break()
 	{
 		UIBuffer score;
 		Vector3 position = GetEntity()->GetTransform().position;
-		score.x = position.x;
-		score.y = position.y + 3.0f;
-		score.z = position.z;
+		score.position = position;
+		score.position.y += 3.0f;
 		score.project = true;
 		score.timeRemaining = 1.0f;
 		score.text = "+" + std::to_string(_score);
+		score.color = Vector3(0.0f, 1.0f, 0.0f);
 		uiManager->ScheduleRender(score);
 		uiManager->IncreaseBalls(_score);
 	}

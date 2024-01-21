@@ -16,6 +16,7 @@ class BallSpawner : public Component
 	int ballCounter = 0;
 	float ballSpeed = 100.0f;
 	float spawnerMoveSpeed = 10.0f;
+	float MAX_SPEED = 50.0f;
 
 	// To update the UI and check if any more balls can be spawned
 	UIManager* uiManager = nullptr;

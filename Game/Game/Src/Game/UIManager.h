@@ -7,13 +7,12 @@
 #define _UIMANAGER_H_
 
 #include "Engine/Components/Renderable.h"
+#include "Engine/Math/Vector3.h"
 
 struct UIBuffer
 {
-	// Not using Vector3 to save 4 bytes. Doesn't matter much but it makes me happy :)
-	float x = 0.0f;
-	float y = 0.0f;
-	float z = 0.0f;
+	Vector3 position{ 0.0f, 0.0f, 0.0f };
+	Vector3 color{ 1.0f, 1.0f, 1.0f };
 
 	// The text will get rendered for this much time
 	float timeRemaining = 1.0f;  // in seconds

@@ -13,6 +13,16 @@ void UIManager::Initialize()
 {
 	// Start the game with 10 balls
 	ballsLeft = 10;
+
+	// Starting message
+	UIBuffer startMsg;
+	startMsg.position.x = APP_VIRTUAL_WIDTH / 2 - 80;
+	startMsg.position.y = APP_VIRTUAL_HEIGHT - 100;
+	startMsg.timeRemaining = 2.0f;
+	startMsg.color = Vector3(1.0f, 0.0f, 0.0f);
+	startMsg.project = false;
+	startMsg.text = "Click to Shoot Balls!";
+	renderBuffer.push_back(startMsg);
 }
 
 void UIManager::Update(float deltaTime)
@@ -35,7 +45,7 @@ void UIManager::Render()
 	// Remaining balls
 	App::Print(APP_VIRTUAL_WIDTH / 2 - 5, APP_VIRTUAL_HEIGHT - 50, std::to_string(ballsLeft).c_str(), 1.0f, 1.0f, 1.0f, GLUT_BITMAP_TIMES_ROMAN_24);
 	if (isGamePaused)
-		App::Print(APP_VIRTUAL_WIDTH / 2 - 80, APP_VIRTUAL_HEIGHT - 100, "GAME PAUSED", 1.0f, 1.0f, 1.0f, GLUT_BITMAP_TIMES_ROMAN_24);
+		App::Print(APP_VIRTUAL_WIDTH / 2 - 80, APP_VIRTUAL_HEIGHT - 100, "GAME PAUSED", 1.0f, 0.0f, 0.0f, GLUT_BITMAP_TIMES_ROMAN_24);
 
 	// Pause text
 	if (isGamePaused)
@@ -58,7 +68,7 @@ void UIManager::RenderTheBuffer()
 	// Render from the buffer
 	for (UIBuffer& uiB : renderBuffer)
 	{
-		Vector3 point{ uiB.x, uiB.y, uiB.z };
+		Vector3 point = uiB.position;
 		if (uiB.project)
 		{
 			// Transform to view space
@@ -71,16 +81,21 @@ void UIManager::RenderTheBuffer()
 			point += 1.0f;
 			point.x *= 0.5f * (float)APP_INIT_WINDOW_WIDTH;
 			point.y *= 0.5f * (float)APP_INIT_WINDOW_HEIGHT;
-		}
 
-		// Giving depth perception via font size
-		float distFromCamera = std::abs(std::abs(uiB.z) - std::abs(cameraPosZ));
-		if (distFromCamera > 100.0f)
-			App::Print(point.x, point.y, uiB.text.c_str(), 1.0f, 1.0f, 1.0f, GLUT_BITMAP_HELVETICA_10);
-		else if (distFromCamera > 50.0f)
-			App::Print(point.x, point.y, uiB.text.c_str(), 1.0f, 1.0f, 1.0f, GLUT_BITMAP_HELVETICA_12);
+			// Giving depth perception via font size
+			float distFromCamera = std::abs(std::abs(uiB.position.z) - std::abs(cameraPosZ));
+			if (distFromCamera > 100.0f)
+				App::Print(point.x, point.y, uiB.text.c_str(), uiB.color.x, uiB.color.y, uiB.color.z, GLUT_BITMAP_HELVETICA_10);
+			else if (distFromCamera > 50.0f)
+				App::Print(point.x, point.y, uiB.text.c_str(), uiB.color.x, uiB.color.y, uiB.color.z, GLUT_BITMAP_HELVETICA_12);
+			else
+				App::Print(point.x, point.y, uiB.text.c_str(), uiB.color.x, uiB.color.y, uiB.color.z, GLUT_BITMAP_HELVETICA_18);
+		}
 		else
-			App::Print(point.x, point.y, uiB.text.c_str(), 1.0f, 1.0f, 1.0f, GLUT_BITMAP_HELVETICA_18);
+		{
+			App::Print(point.x, point.y, uiB.text.c_str(), uiB.color.x, uiB.color.y, uiB.color.z, GLUT_BITMAP_HELVETICA_18);
+
+		}
 	}
 }
 

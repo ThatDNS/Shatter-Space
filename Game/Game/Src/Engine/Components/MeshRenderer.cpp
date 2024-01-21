@@ -83,10 +83,10 @@ void MeshRenderer::Render()
 		}
 		else if (RenderSystem::Get().HasDepthShadow())
 		{
-			// zDelta - [0, 50]   -> alpha = 1.0
-			// zDelta - [50, 200] -> alpha = [1.0, 0.0]
+			// zDelta - [0, 30]   -> alpha = 1.0
+			// zDelta - [50, 100] -> alpha = [1.0, 0.0]
 			float zDelta = std::abs(std::abs(tri.points[0].z) - std::abs(cameraAbsZ));
-			zDelta = std::max(0.0f, zDelta - 50.0f);
+			zDelta = std::max(0.0f, zDelta - 30.0f);
 			lightIntensity = (1.0f - zDelta / 150.0f);
 		}
 
