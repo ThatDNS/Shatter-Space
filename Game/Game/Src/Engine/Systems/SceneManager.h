@@ -43,6 +43,11 @@ private:
 
 protected:
 	/**
+	 * @brief Load the active scene data.
+	 */
+	void Load();
+
+	/**
 	 * @brief Initialize the active scene.
 	 */
 	void Initialize();
@@ -94,9 +99,9 @@ public:
 	/**
 	 * @brief Set the passed scene as the active scene.
 	 *
-	 * @return Pointer to the active scene.
+	 * @param scene Pointer to the active scene.
 	 */
-	void SetActiveScene(Scene*);
+	void SetActiveScene(Scene* scene);
 
 	/**
 	 * @brief Gets the required entity from the appropriate entity pool.
@@ -107,6 +112,13 @@ public:
 	 * @return Pointer to the entity.
 	 */
 	Entity* GetNewEntity(std::vector<ComponentType>& components);
+
+	/**
+	 * @brief Destroy the passed scene. Must not be an active scene
+	 *
+	 * @param scene Pointer to the active scene.
+	 */
+	void DestroyScene(Scene* scene);
 };
 
 #endif // !_SCENE_MANAGER_H_

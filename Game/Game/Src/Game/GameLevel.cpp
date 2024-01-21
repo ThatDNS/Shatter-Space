@@ -54,17 +54,6 @@ void CreatePlayer(Scene* scene, Vector3& position, Vector3& scale)
 	player->SetMoveSpeed(15.0f);
 }
 
-void CreateBallSpawner(Scene* scene)
-{
-	Entity* entity = scene->CreateEntity(std::vector<ComponentType>{ BallSpawnerC });
-	entity->SetName("Ball_Spawner");
-
-	// Set ball spawner data
-	Component* component = entity->GetComponent(BallSpawnerC);
-	BallSpawner* spawner = static_cast<BallSpawner*>(component);
-	spawner->SetMeshObj("Assets/Objects/sphere.obj");
-}
-
 void CreateWall(Scene* scene, Vector3& position, Vector3& scale)
 {
 	Entity* entity = scene->CreateEntity(std::vector<ComponentType>{ MeshRendererC, BoxColliderC });
@@ -90,6 +79,26 @@ void CreateBreakable(Scene* scene, Vector3& position, Vector3& scale)
 	entity->GetTransform().scale = scale;
 }
 
+void LoadGameEntities(Scene* scene)
+{
+	// ---------------------- Level Generator ----------------------
+	Entity* entity = scene->CreateEntity(std::vector<ComponentType>{ LevelGeneratorC });
+	entity->SetName("LevelGenerator");
+
+	// ---------------------- Ball Spawner ----------------------
+	entity = scene->CreateEntity(std::vector<ComponentType>{ BallSpawnerC });
+	entity->SetName("BallSpawner");
+
+	// Set ball spawner data
+	Component* component = entity->GetComponent(BallSpawnerC);
+	BallSpawner* spawner = static_cast<BallSpawner*>(component);
+	spawner->SetMeshObj("Assets/Objects/sphere.obj");
+
+	// ---------------------- UI Manager ----------------------
+	entity = scene->CreateEntity(std::vector<ComponentType>{ UIManagerC });
+	entity->SetName("UI");
+}
+
 /**
  * @brief Function used to load up the 1st scene.
  * 
@@ -98,32 +107,10 @@ void CreateBreakable(Scene* scene, Vector3& position, Vector3& scale)
  * I didn't have time to write a JSON library and can not use external libraries in UbisoftNEXT.
  * So, this is the alternative I'm using :)
  */
-void SetupLevel1()
+void LoadGameScene()
 {
 	// Create a new scene
 	Scene* scene = SceneManager::Get().CreateNewScene();
-	scene->SetName("Level 1");
-
-	PhysicsSystem::Get().SetGravity(-9.8f);
-	RenderSystem::Get().SetDepthShadow(true);
-
-	// ---------------------- Level Generator ----------------------
-	/*Vector3 wallScale{ 6.0f, 8.0f, 5.0f };
-	Vector3 breakableScale{ 2.0f, 2.0f, 2.0f };*/
-	Entity* entity = scene->CreateEntity(std::vector<ComponentType>{ LevelGeneratorC });
-	entity->SetName("Level_Generator");
-
-	// ---------------------- Player Entity ----------------------
-	//CreatePlayer(scene, Vector3(00.0f, 6.0f, 12.0f), Vector3(1.0f, 1.0f, 1.0f));
-	CreateBallSpawner(scene);
-
-	// ---------------------- Canvas Entity ----------------------
-	entity = scene->CreateEntity(std::vector<ComponentType>{ UIManagerC });
-	entity->SetName("UI");
-
-	// Add canvas data
-	//Component* component = entity->GetComponent(CanvasC);
-	//Canvas* canvas = static_cast<Canvas*>(component);
-	//canvas->AddText(CanvasText(20, APP_VIRTUAL_HEIGHT - 30, "Level 1"));
-
+	scene->SetName("GameLevel");
+	scene->SetLoadSceneFunc(LoadGameEntities);
 }

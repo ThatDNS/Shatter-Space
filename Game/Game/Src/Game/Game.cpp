@@ -16,6 +16,7 @@
 #include "Engine/Math/Mesh.h"
 #include "Engine/Math/EngineMath.h"
 #include "Engine/Systems/RenderSystem.h"
+#include "Engine/Systems/PhysicsSystem.h"
 
 // Unit tests
 #include "Engine/Math/Tests/TestVector3.h"
@@ -27,7 +28,7 @@
 #include "Engine/Algorithms/Tests/TestBVH.h"
 #include "Engine/Core/Tests/TestUtil.h"
 
-extern void SetupLevel1();
+extern void LoadGameScene();
 
 //------------------------------------------------------------------------
 // Called before first update. Do any initial setup here.
@@ -50,8 +51,12 @@ void Init()
 	TestGetHashCode();
 #endif
 
-	// Setup level 1
-	SetupLevel1();
+	// Systems settings
+	PhysicsSystem::Get().SetGravity(-9.8f);
+	RenderSystem::Get().SetDepthShadow(true);
+
+	// Load the game scene
+	LoadGameScene();
 
 	Engine::Get().Initialize();
 }

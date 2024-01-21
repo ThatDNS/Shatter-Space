@@ -18,6 +18,9 @@ void Engine::Initialize()
 {
 	timeElapsed = 0.0f;
 
+	// Scene entities must be loaded before they can be initialized
+	SceneManager::Get().Load();
+
 	// Initialize the managers
 	SceneManager::Get().Initialize();
 	RenderSystem::Get().Initialize();

@@ -26,6 +26,14 @@ Scene::Scene(std::string& _guid)
 	guid = _guid;
 }
 
+void Scene::Load()
+{
+	if (LoadSceneFunc != nullptr)
+	{
+		LoadSceneFunc(this);
+	}
+}
+
 void Scene::Initialize()
 {
 	// Initialize happens before first PreUpdate. So it must be called on entitiesToBeAdded

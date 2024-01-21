@@ -26,6 +26,10 @@ private:
 	// Useful in object pooling
 	std::list<Entity*> entitiesToUntrack;
 
+	// Function to load the initial data of the scene
+	std::function<void(Scene*)> LoadSceneFunc = nullptr;
+	bool _loadScene = false;
+
 protected:
 	/**
 	 * @brief Scene constructor generates a random GUID & UID.
@@ -41,6 +45,11 @@ protected:
 
 	// Destructor is protected so that only SceneManager can delete a scene.
 	~Scene() = default;
+
+	/**
+	 * @brief Load the entities.
+	 */
+	void Load();
 
 	/**
 	 * @brief Initialize all the entities of this scene.
@@ -136,6 +145,7 @@ public:
 	const STRCODE GetUID() const { return uid; }
 	const std::string& GetName() const { return name; }
 	void SetName(const std::string& n) { name = n; }
+	void SetLoadSceneFunc(std::function<void(Scene*)> foo) { LoadSceneFunc = foo; }
 
 	friend class SceneManager;
 };

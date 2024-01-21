@@ -9,6 +9,11 @@
 #include "Engine/Components/Entity.h"
 #include "Engine/Pools/EntityPool.h"
 
+void SceneManager::Load()
+{
+	activeScene->Load();
+}
+
 void SceneManager::Initialize()
 {
 	activeScene->Initialize();
