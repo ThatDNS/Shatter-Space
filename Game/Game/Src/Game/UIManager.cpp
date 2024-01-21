@@ -66,7 +66,10 @@ void UIManager::Render()
 
 	// Remaining balls
 	std::string ballsLeftStr = "Balls Left: " + std::to_string(ballsLeft);
-	App::Print(APP_VIRTUAL_WIDTH / 2 - 50, APP_VIRTUAL_HEIGHT - 30, ballsLeftStr.c_str(), 1.0f, 1.0f, 1.0f, GLUT_BITMAP_HELVETICA_18);
+	if (ballsLeft <= 3)
+		App::Print(APP_VIRTUAL_WIDTH / 2 - 50, APP_VIRTUAL_HEIGHT - 30, ballsLeftStr.c_str(), 1.0f, 0.0f, 0.0f, GLUT_BITMAP_HELVETICA_18);
+	else
+		App::Print(APP_VIRTUAL_WIDTH / 2 - 50, APP_VIRTUAL_HEIGHT - 30, ballsLeftStr.c_str(), 1.0f, 1.0f, 1.0f, GLUT_BITMAP_HELVETICA_18);
 
 	// Pause / Game Over text
 	if (gameOver)
@@ -157,6 +160,9 @@ void UIManager::CheckForGameRestart()
 
 void UIManager::IncreaseBalls(int n)
 {
+	if (gameOver)
+		return;
+
 	ballsLeft += n;
 	ballsChanged = true;
 }

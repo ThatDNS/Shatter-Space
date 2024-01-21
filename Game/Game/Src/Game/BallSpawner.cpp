@@ -64,7 +64,7 @@ void BallSpawner::Update(float deltaTime)
 		spawnerMoveSpeed = std::min(spawnerMoveSpeed + (deltaTime / 5000.0f), MAX_SPEED);
 		SPEEDLINE_DELAY = 1.0f / spawnerMoveSpeed;
 
-		if (spawnerMoveSpeed > 15.0f)
+		if (spawnerMoveSpeed > 20.0f)
 		{
 			// Speedlines
 			if (speedLineTimer == 0.0f)

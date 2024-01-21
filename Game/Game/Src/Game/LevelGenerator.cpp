@@ -23,7 +23,6 @@
 
 void LevelGenerator::Initialize()
 {
-	_pyramidCounter = 0;
 	maxSightDistance = 150.0f;
 	lastSpawnDistance = 0.0f;
 
@@ -83,6 +82,14 @@ void LevelGenerator::CreateBreakableEntity(Vector3& position, Vector3& scale, Ve
 	// Set breakable type
 	Breakable* breakable = static_cast<Breakable*>(entity->GetComponent(BreakableC));
 	breakable->SetBreakableType(breakableType);
+	if (breakableType == BreakableType::Plane && Random::Get().Float() < PLANE_MOVE_PROBABILITY)
+	{
+		breakable->SetMoveVertically(true);
+	}
+	else
+	{
+		breakable->SetMoveVertically(false);
+	}
 
 	// Initialize
 	entity->Initialize();
@@ -90,7 +97,15 @@ void LevelGenerator::CreateBreakableEntity(Vector3& position, Vector3& scale, Ve
 
 void LevelGenerator::SpawnLevel(float zPos)
 {
-	if (_pyramidCounter < 3)
+	// Randomly generate breakable objects
+	if (Random::Get().Float() < PLANE_PROBABILITY)
+	{
+		// Spawn breakable plane
+		Vector3 breakableScale{ 5.0f, 5.0f, 5.0f };
+		Vector3 breakableRotation{ 0.0f, (float)PI / 2.0f, 0.0f };
+		CreateBreakableEntity(Vector3(0.0f, -6.0f, zPos), breakableScale, breakableRotation, BreakableType::Plane);
+	}
+	else
 	{
 		// Spawn breakable pyramid
 		Vector3 wallScale{ 6.0f, 8.0f, 5.0f };
@@ -98,20 +113,15 @@ void LevelGenerator::SpawnLevel(float zPos)
 		Vector3 breakableRotation{ 0.0f, 0.0f, 0.0f };
 
 		CreateWallEntity(Vector3(-15.0f, -15.0f, zPos), wallScale);
-		CreateWallEntity(Vector3(0.0f, -15.0f, zPos), wallScale);
 		CreateWallEntity(Vector3(15.0f, -15.0f, zPos), wallScale);
 		CreateBreakableEntity(Vector3(-15.0f, -2.0f, zPos), breakableScale, breakableRotation, BreakableType::Pyramid);
-		CreateBreakableEntity(Vector3(0.0f, -2.0f, zPos), breakableScale, breakableRotation, BreakableType::Pyramid);
 		CreateBreakableEntity(Vector3(15.0f, -2.0f, zPos), breakableScale, breakableRotation, BreakableType::Pyramid);
-		++_pyramidCounter;
-	}
-	else
-	{
-		// Spawn breakable plane
-		Vector3 breakableScale{ 5.0f, 5.0f, 5.0f };
-		Vector3 breakableRotation{ 0.0f, (float)PI / 2.0f, 0.0f };
-		CreateBreakableEntity(Vector3(0.0f, -6.0f, zPos), breakableScale, breakableRotation, BreakableType::Plane);
-		_pyramidCounter = 0;
+		
+		if (Random::Get().Float() > 0.2f)
+		{
+			CreateWallEntity(Vector3(0.0f, -15.0f, zPos), wallScale);
+			CreateBreakableEntity(Vector3(0.0f, -2.0f, zPos), breakableScale, breakableRotation, BreakableType::Pyramid);
+		}
 	}
 
 	// Randomly generate stars

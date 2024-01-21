@@ -38,18 +38,26 @@ class Breakable : public Component
 	// Broken mesh parts
 	std::list<Mesh> brokenPieces;
 
+	// Is the breakable moving vertically?
+	bool moveVertically = false;
+	float amplitude = 10.0f;
+	float theta = 0.0f;
+
 	// Delay in deleting the object
 	bool timeToDie = false;
 	float timeLeft = 1.0f;
 
 	void LoadMeshes(std::string& meshObjFile, size_t meshPieces);
 	void SpawnBrokenPieces(Mesh& mesh);
+	// Perform SHM movement along Y axis
+	void SHMMovement(float);
 
 public:
 	Breakable() { type = BreakableC; }
 	
 	void Break(float updateScore = true);
 	void SetBreakableType(BreakableType bt) { breakableType = bt; }
+	void SetMoveVertically(bool move) { moveVertically = move; }
 
 	void Initialize() override;
 	void Update(float) override;

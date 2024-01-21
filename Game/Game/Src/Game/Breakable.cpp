@@ -25,6 +25,8 @@ void Breakable::LoadMeshes(std::string& meshObjFile, size_t meshPieces)
 	meshRenderer->SetRenderBackSide(false);
 	if (breakableType == BreakableType::Star)
 		meshRenderer->SetMeshColor(Vector3(1.0f, 1.0f, 0.0f));
+	else if (breakableType == BreakableType::Plane)
+		meshRenderer->SetMeshColor(Vector3(0.0f, 0.3f, 1.0f));
 	else
 		meshRenderer->SetMeshColor(Vector3(0.0f, 0.8f, 1.0f));
 
@@ -129,6 +131,7 @@ void Breakable::Initialize()
 		particles->SetParticleColors(Vector3{ 1.0f, 1.0f, 0.0f }, Vector3{ 1.0f, 1.0f, 1.0f });
 	}
 
+	theta = 0.0f;
 	timeToDie = false;
 	timeLeft = 1.0f;
 }
@@ -157,7 +160,7 @@ void Breakable::Update(float deltaTime)
 			// Check if it got very close to the camera
 			Vector3& cameraPos = RenderSystem::Get().GetCameraPosition();
 			Vector3& position = GetEntity()->GetTransform().position;
-			if ((position.z - std::abs(cameraPos.z) < 2.0f) && (position.y + 6.0 - std::abs(cameraPos.y) < 2.0f))
+			if ((std::abs(position.z - std::abs(cameraPos.z)) < 2.0f) && (std::abs(position.y + 6.0 - std::abs(cameraPos.y)) < 1.0f))
 			{
 				UIBuffer damage;
 				damage.position.x = APP_VIRTUAL_WIDTH / 2 - 70;
@@ -171,9 +174,23 @@ void Breakable::Update(float deltaTime)
 
 				Break(false);
 			}
+
+			// Move if it should
+			if (moveVertically)
+			{
+				SHMMovement(deltaTime);
+			}
 		}
 	}
+}
 
+void Breakable::SHMMovement(float deltaTime)
+{
+	theta = std::fmod(theta + deltaTime / 1000.0f, 2 * PI);
+	float position = amplitude * std::sinf(theta);
+
+	// 6.0f is mesh renderer's offset for plane. Wish I had the time to fix this
+	GetEntity()->GetTransform().position.y = position - 6.0f;
 }
 
 void Breakable::Break(float updateScore)
