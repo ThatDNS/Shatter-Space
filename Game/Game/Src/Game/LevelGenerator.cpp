@@ -28,6 +28,7 @@ void LevelGenerator::Initialize()
 	maxSightDistance = 150.0f;
 	lastSpawnDistance = 0.0f;
 	isFirstDoor = true;
+	_countIter = 0;
 
 	// Find the player entity and cache it
 	std::list<Entity*> matchedEntities = SceneManager::Get().GetActiveScene()->FindEntityWithComponent(BallSpawnerC);

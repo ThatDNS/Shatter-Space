@@ -26,6 +26,7 @@ void UIManager::Initialize()
 	startMsg.text = "Click to Shoot Balls!";
 	renderBuffer.push_back(startMsg);
 
+	gameStarted = false;
 	gamePaused = false;
 	gameOver = false;
 
@@ -40,6 +41,12 @@ void UIManager::Initialize()
 
 void UIManager::Update(float deltaTime)
 {
+	if (!gameStarted)
+	{
+		CheckForGameStart();
+		return;
+	}
+
 	if (!gamePaused)
 	{
 		// Check if any items from render buffer should be removed
@@ -71,6 +78,12 @@ void UIManager::Update(float deltaTime)
 
 void UIManager::Render()
 {
+	if (!gameStarted)
+	{
+		DisplayWelcomeMessage();
+		return;
+	}
+
 	// Render the text data present in renderBuffer list
 	RenderTheBuffer();
 
@@ -100,7 +113,7 @@ void UIManager::Render()
 	{
 		if (gamePaused)
 		{
-			App::Print(APP_VIRTUAL_WIDTH / 2 - 88, APP_VIRTUAL_HEIGHT - 80, "GAME PAUSED", 1.0f, 0.0f, 0.0f, GLUT_BITMAP_TIMES_ROMAN_24);
+			App::Print(APP_VIRTUAL_WIDTH / 2 - 88, APP_VIRTUAL_HEIGHT - 120, "GAME PAUSED", 1.0f, 0.0f, 0.0f, GLUT_BITMAP_TIMES_ROMAN_24);
 			App::Print(APP_VIRTUAL_WIDTH - 190, APP_VIRTUAL_HEIGHT - 30, "Press P to Resume", 1.0f, 1.0f, 1.0f, GLUT_BITMAP_HELVETICA_18);
 		}
 		else
@@ -177,6 +190,14 @@ void UIManager::CheckForGameRestart()
 	}
 }
 
+void UIManager::CheckForGameStart()
+{
+	if (App::IsKeyPressed(VK_SPACE))
+	{
+		gameStarted = true;
+	}
+}
+
 void UIManager::IncreaseBalls(int n)
 {
 	if (gameOver)
@@ -228,4 +249,11 @@ void UIManager::DisplayStarsMsg()
 	startMsg.project = false;
 	startMsg.text = "Always shoot for the STARS!";
 	renderBuffer.push_back(startMsg);
+}
+
+void UIManager::DisplayWelcomeMessage()
+{
+	App::Print(APP_VIRTUAL_WIDTH / 2 - 70, APP_VIRTUAL_HEIGHT - 60, "SHATTER SPACE", 1.0f, 1.0f, 1.0f, GLUT_BITMAP_HELVETICA_18);
+	App::Print(APP_VIRTUAL_WIDTH / 2 - 85, APP_VIRTUAL_HEIGHT - 120, "Press SPACE to Start", 1.0f, 1.0f, 1.0f, GLUT_BITMAP_HELVETICA_18);
+	App::Print(APP_VIRTUAL_WIDTH / 2 - 105, APP_VIRTUAL_HEIGHT - 180, "Use Mouse to Aim and Fire", 1.0f, 1.0f, 1.0f, GLUT_BITMAP_HELVETICA_18);
 }
