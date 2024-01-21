@@ -10,14 +10,15 @@
 #include "Engine/Math/Mesh.h"
 
 class MeshRenderer;
-class BoxCollider;
+class RigidBody;
 class Particles;
 class UIManager;
 
 enum BreakableType
 {
 	Pyramid,
-	Plane
+	Plane,
+	Star
 };
 
 class Breakable : public Component
@@ -25,22 +26,23 @@ class Breakable : public Component
 	BreakableType breakableType = Pyramid;
 	const int PYRAMID_SCORE = 2;
 	const int PLANE_SCORE = 0;
+	const int STAR_SCORE = 10;
 	int _score = 0;
 
 	// Cached components
 	MeshRenderer* meshRenderer = nullptr;
-	BoxCollider* boxC = nullptr;
+	RigidBody* rigidBody = nullptr;
 	Particles* particles = nullptr;
 	UIManager* uiManager = nullptr;
 
 	// Broken mesh parts
-	size_t numPieces = 0;
 	std::list<Mesh> brokenPieces;
 
 	// Delay in deleting the object
 	bool timeToDie = false;
 	float timeLeft = 1.0f;
 
+	void LoadMeshes(std::string& meshObjFile, size_t meshPieces);
 	void SpawnBrokenPieces(Mesh& mesh);
 
 public:

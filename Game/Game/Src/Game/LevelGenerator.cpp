@@ -7,6 +7,7 @@
 #include "Game/LevelGenerator.h"
 #include "Engine/Systems/SceneManager.h"
 #include "Engine/Systems/Scene.h"
+#include "Engine/Systems/RenderSystem.h"
 #include "Engine/Core/Logger.h"
 #include "Engine/Components/Entity.h"
 #include "Engine/Components/Component.h"
@@ -15,6 +16,7 @@
 #include "Engine/Components/RigidBody.h"
 #include "Engine/Components/Particles.h"
 #include "Engine/Math/Vector3.h"
+#include "Engine/Math/Random.h"
 #include "Game/SelfDestruct.h"
 #include "Game/Breakable.h"
 
@@ -80,19 +82,6 @@ void LevelGenerator::CreateBreakableEntity(Vector3& position, Vector3& scale, Ve
 	Breakable* breakable = static_cast<Breakable*>(entity->GetComponent(BreakableC));
 	breakable->SetBreakableType(breakableType);
 
-	RigidBody* rb = static_cast<RigidBody*>(entity->GetComponent(RigidBodyC));
-	if (breakableType == BreakableType::Plane)
-	{
-		// Plane shouldn't be affected by gravity
-		rb->applyGravity = false;
-	}
-	else
-	{
-		rb->applyGravity = true;
-		Particles* particles = static_cast<Particles*>(entity->GetComponent(ParticlesC));
-		particles->SetPositionOffset(Vector3(0.0f, 2.5f, 0.0f));
-	}
-
 	// Initialize
 	entity->Initialize();
 }
@@ -121,6 +110,20 @@ void LevelGenerator::SpawnLevel(float zPos)
 		Vector3 breakableRotation{ 0.0f, (float)PI / 2.0f, 0.0f };
 		CreateBreakableEntity(Vector3(0.0f, -6.0f, zPos), breakableScale, breakableRotation, BreakableType::Plane);
 		_pyramidCounter = 0;
+	}
+
+	// Randomly generate stars
+	if (Random::Get().Float() < STAR_PROBABILITY)
+	{
+		// X: [-35, -25] or [25, 35]
+		// Y: [30, 40]
+		float xPos = Random::Get().Float() * 10.0f + 25.0f;
+		if (Random::Get().Float() < 0.5f) xPos = -xPos;
+
+		Vector3 position{ xPos, Random::Get().Float() * 10.0f + 30.0f, zPos - 3.0f * SEPARATION_DIST / 2.0f };
+		Vector3 scale{ 2.0f, 2.0f, 2.0f };
+		Vector3 rotation{ (float)PI / 2.0f, 0.0f, 0.0f };
+		CreateBreakableEntity(position, scale, rotation, BreakableType::Star);
 	}
 }
 

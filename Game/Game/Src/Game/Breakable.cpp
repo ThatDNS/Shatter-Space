@@ -3,8 +3,10 @@
 // @brief: Cpp file for breakable component functionalities.
 
 #include "stdafx.h"
+#include "App/app.h"
 #include "Game/Breakable.h"
 #include "Engine/Components/Entity.h"
+#include "Engine/Components/Transform.h"
 #include "Engine/Components/BoxCollider.h"
 #include "Engine/Components/RigidBody.h"
 #include "Engine/Components/MeshRenderer.h"
@@ -16,6 +18,26 @@
 #include "Game/SelfDestruct.h"
 #include "Game/UIManager.h"
 
+void Breakable::LoadMeshes(std::string& meshObjFile, size_t meshPieces)
+{
+	meshRenderer->LoadMesh(meshObjFile + ".obj");
+	meshRenderer->SetRenderBackSide(false);
+	if (breakableType == BreakableType::Star)
+		meshRenderer->SetMeshColor(Vector3(1.0f, 1.0f, 0.0f));
+	else
+		meshRenderer->SetMeshColor(Vector3(0.0f, 0.8f, 1.0f));
+
+	// Load broken mesh pieces
+	brokenPieces.clear();
+	for (size_t i = 0; i < meshPieces; i++)
+	{
+		Mesh mesh;
+		mesh.LoadFromObjectFile(meshObjFile + "_" + std::to_string(i + 1) + ".obj");
+		if (mesh.faces.size() > 0)
+			brokenPieces.push_back(mesh);
+	}
+}
+
 void Breakable::Initialize()
 {
 	// Find the UIManager
@@ -25,9 +47,15 @@ void Breakable::Initialize()
 	else
 		uiManager = static_cast<UIManager*>(match.front()->GetComponent(UIManagerC));
 
+	// Cache components
+	meshRenderer = static_cast<MeshRenderer*>(GetEntity()->GetComponent(MeshRendererC));
+	particles = static_cast<Particles*>(entity->GetComponent(ParticlesC));
+	rigidBody = static_cast<RigidBody*>(entity->GetComponent(RigidBodyC));
+
 	// Intentionally written without extension.
 	// Names of breakable parts of this mesh have just indices appended to this filename.
 	std::string meshObjFile = "Assets/Objects/Breakable/";
+	size_t numPieces = 0;
 	if (breakableType == BreakableType::Pyramid)
 	{
 		meshObjFile += "Pyramid";
@@ -40,25 +68,20 @@ void Breakable::Initialize()
 		numPieces = 8;
 		_score = PLANE_SCORE;
 	}
-
-	// Load the mesh & its settings
-	meshRenderer = static_cast<MeshRenderer*>(GetEntity()->GetComponent(MeshRendererC));
-	meshRenderer->LoadMesh(meshObjFile + ".obj");
-	meshRenderer->SetRenderBackSide(false);
-	meshRenderer->SetMeshColor(Vector3(0.0f, 0.8f, 1.0f));
-
-	// Load broken mesh pieces
-	brokenPieces.clear();
-	for (size_t i = 0; i < numPieces; i++)
+	else if (breakableType == BreakableType::Star)
 	{
-		Mesh mesh;
-		mesh.LoadFromObjectFile(meshObjFile + "_" + std::to_string(i + 1) + ".obj");
-		if (mesh.faces.size() > 0)
-			brokenPieces.push_back(mesh);
+		meshObjFile += "Star";
+		numPieces = 7;
+		_score = STAR_SCORE;
 	}
 	
+	// ----------------------- Mesh Renderer -----------------------
+	// Load the meshes
+	LoadMeshes(meshObjFile, numPieces);
+
+	// ----------------------- Box Collider -----------------------
+	BoxCollider* boxC = static_cast<BoxCollider*>(GetEntity()->GetComponent(BoxColliderC));
 	// Mark the collider as Ball collider
-	boxC = static_cast<BoxCollider*>(GetEntity()->GetComponent(BoxColliderC));
 	boxC->SetColliderTag(BREAKABLE);
 
 	// On collision enter callback
@@ -68,15 +91,42 @@ void Breakable::Initialize()
 			this->Break();
 	});
 
+	// ----------------------- RigidBody & Particles -----------------------
 	// Rigidbody settings
-	RigidBody* rb = static_cast<RigidBody*>(entity->GetComponent(RigidBodyC));
-	rb->resCoeff = 0.0f;  // inelastic object
+	rigidBody->resCoeff = 0.0f;  // inelastic object
 
-	// Particles settings
-	particles = static_cast<Particles*>(entity->GetComponent(ParticlesC));
-	particles->SetParticleType(EXPLOSION);
-	// Blue to Turquoise
-	particles->SetParticleColors(Vector3(0.0f, 1.0f, 1.0f), Vector3(0.0f, 0.0f, 1.0f));
+	if (breakableType == BreakableType::Plane)
+	{
+		// Plane shouldn't be affected by gravity
+		rigidBody->applyGravity = false;
+		rigidBody->SetVelocity(Vector3{ 0.0f, 0.0f, 0.0f });
+
+		// Planes don't use particles
+	}
+	else if (breakableType == BreakableType::Pyramid)
+	{
+		rigidBody->applyGravity = true;
+		rigidBody->SetVelocity(Vector3{ 0.0f, 0.0f, 0.0f });
+
+		particles->SetPositionOffset(Vector3(0.0f, 2.5f, 0.0f));
+		particles->SetParticleType(EXPLOSION);
+		// Blue to Turquoise
+		particles->SetParticleColors(Vector3(0.0f, 1.0f, 1.0f), Vector3(0.0f, 0.0f, 1.0f));
+	}
+	else if (breakableType == BreakableType::Star)
+	{
+		rigidBody->applyGravity = true;
+		// Shooting star definitely has to fall!
+		float xVel = 20.0f;
+		if (GetEntity()->GetTransform().position.x > 0)
+			xVel = -xVel;
+		rigidBody->SetVelocity(Vector3{ xVel, -5.0f, 0.0f });
+
+		particles->SetPositionOffset(Vector3(-0.5f, -0.5f, 0.0f));
+		particles->SetParticleType(PROPULSION);
+		// Yellow to white
+		particles->SetParticleColors(Vector3{ 1.0f, 1.0f, 0.0f }, Vector3{ 1.0f, 1.0f, 1.0f });
+	}
 
 	timeToDie = false;
 	timeLeft = 1.0f;
@@ -89,6 +139,16 @@ void Breakable::Update(float deltaTime)
 		timeLeft -= (deltaTime / 1000.0f);
 		if (timeLeft < 0)
 			SceneManager::Get().GetActiveScene()->RemoveEntity(GetEntity());
+	}
+
+	if (breakableType == BreakableType::Star)
+	{
+		// Rotate the stars
+		float rotation = GetEntity()->GetTransform().rotation.z + (deltaTime / 100.0f);
+		GetEntity()->GetTransform().rotation.z = std::fmod(rotation, 2.0f * PI);
+
+		// Move trail
+		particles->Emit(1, -rigidBody->velocity);
 	}
 }
 
