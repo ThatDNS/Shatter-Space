@@ -23,69 +23,20 @@ void Particles::Emit(int num, Vector3 direction)
 	while (num)
 	{
 		Particle& particle = particlePool[particleIdx];
+
 		particle.isActive = true;
-
-		particle.position = GetEntity()->GetTransform().position + positionOffset;
-		// Set random rotation between [-PI/2, PI/2]
-		particle.rotation = (Random::Get().Float() * PI) - PI / 2;
-		particle.rotationDelta = Random::Get().Float() * 0.5f;
-
 		particle.lifeSpent = 0.0f;
 
 		particle.alpha = 1.0f;
 		particle.color = particleStartColor;
 		particle.alphaDelta = Random::Get().Float() * 0.2f;
 
-		particle.speed = Random::Get().Float();
-
 		if (particleType == EXPLOSION)
-		{
-			// Explosion particles go away from center
-			particle.velocityDir.x = Random::Get().Float();
-			particle.velocityDir.y = Random::Get().Float();
-			if (Random::Get().Float() > 0.5f) particle.velocityDir.x = -particle.velocityDir.x;
-			if (Random::Get().Float() > 0.5f) particle.velocityDir.y = -particle.velocityDir.y;
-			particle.velocityDir.Normalize();
-
-			particle.lineLength = 2.0f;
-			particle.lineDelta = Random::Get().Float() * 0.1f;
-		}
+			InitiateExplosionParticle(particle);
 		else if (particleType == PROPULSION)
-		{
-			// Propulsion particles go opposite to the direction of motion
-			// Relying on the programmer to provide correct direcition.
-			particle.velocityDir = direction;
-			particle.velocityDir.Normalize();
-
-			particle.lineLength = 0.5f;
-			particle.lineDelta = Random::Get().Float() * 0.05f;
-		}
+			InitiatePropulsionParticle(particle, direction);
 		else if (particleType == SPEEDLINE)
-		{
-			// Short lived. No velocity
-			particle.lifeTime = 400.0f;
-			particle.speed = 0.0f;
-
-			// Lines must appear on the edge of the screen
-			// Hardcoding as this is the only legit use of speedlines
-			float distFromCenter = Random::Get().Float() * 30.0f + 40.0f;
-			float entityZ = GetEntity()->GetTransform().position.z;
-			float theta = Random::Get().Float() * (PI / 2.0f);
-			Vector3 pos{ distFromCenter * std::cosf(theta), distFromCenter * std::sinf(theta), entityZ };
-			if (Random::Get().Float() < 0.5f) pos.x = -pos.x;
-			if (Random::Get().Float() < 0.5f && std::abs(pos.x) > 0.8f * distFromCenter) pos.y = -pos.y;
-			particle.position = pos;
-			
-			// No rotation
-			particle.rotation = 0.0f;
-			particle.rotationDelta = 0.0f;
-
-			// length b/w [70, 100]
-			particle.lineLength = Random::Get().Float() * 30.0f + 70.0f;
-			particle.lineDelta = 0.0f;
-
-			particle.alphaDelta = 0.0f;
-		}
+			InitiateSpeedlineParticle(particle);
 
 		--num;
 		particleIdx = (++particleIdx) % particlePool.size();
@@ -193,6 +144,70 @@ void Particles::Render()
 			App::DrawLine(points[1].x, points[1].y, points[2].x, points[2].y, particle.color.x * particle.alpha, particle.color.y * particle.alpha, particle.color.z * particle.alpha);
 		}
 	}
+}
+
+void Particles::InitiateExplosionParticle(Particle& particle)
+{
+	particle.position = GetEntity()->GetTransform().position + positionOffset;
+	// Set random rotation between [-PI/2, PI/2]
+	particle.rotation = (Random::Get().Float() * PI) - PI / 2;
+	particle.rotationDelta = Random::Get().Float() * 0.5f;
+
+	// Explosion particles go away from center
+	particle.velocityDir.x = Random::Get().Float();
+	particle.velocityDir.y = Random::Get().Float();
+	if (Random::Get().Float() > 0.5f) particle.velocityDir.x = -particle.velocityDir.x;
+	if (Random::Get().Float() > 0.5f) particle.velocityDir.y = -particle.velocityDir.y;
+	particle.velocityDir.Normalize();
+
+	particle.speed = Random::Get().Float();
+
+	particle.lineLength = 2.0f;
+	particle.lineDelta = Random::Get().Float() * 0.1f;
+}
+
+void Particles::InitiatePropulsionParticle(Particle& particle, Vector3& direction)
+{
+	particle.position = GetEntity()->GetTransform().position + positionOffset;
+	// Set random rotation between [-PI/2, PI/2]
+	particle.rotation = (Random::Get().Float() * PI) - PI / 2;
+	particle.rotationDelta = Random::Get().Float() * 0.5f;
+
+	// Propulsion particles go opposite to the direction of motion
+	// Relying on the programmer to provide correct direcition.
+	particle.velocityDir = direction;
+	particle.velocityDir.Normalize();
+	particle.speed = Random::Get().Float();
+
+	particle.lineLength = 0.5f;
+	particle.lineDelta = Random::Get().Float() * 0.05f;
+}
+
+void Particles::InitiateSpeedlineParticle(Particle& particle)
+{
+	// Short lived. No velocity
+	particle.lifeTime = 400.0f;
+	particle.speed = 0.0f;
+
+	// Lines must appear on the edge of the screen
+	// Hardcoding as this is the only legit use of speedlines
+	float distFromCenter = Random::Get().Float() * 30.0f + 40.0f;
+	float entityZ = GetEntity()->GetTransform().position.z;
+	float theta = Random::Get().Float() * (PI / 2.0f);
+	Vector3 pos{ distFromCenter * std::cosf(theta), distFromCenter * std::sinf(theta), entityZ };
+	if (Random::Get().Float() < 0.5f) pos.x = -pos.x;
+	if (Random::Get().Float() < 0.5f && std::abs(pos.x) > 0.8f * distFromCenter) pos.y = -pos.y;
+	particle.position = pos;
+
+	// No rotation
+	particle.rotation = 0.0f;
+	particle.rotationDelta = 0.0f;
+
+	// length b/w [70, 100]
+	particle.lineLength = Random::Get().Float() * 30.0f + 70.0f;
+	particle.lineDelta = 0.0f;
+
+	particle.alphaDelta = 0.0f;
 }
 
 void Particles::ComputeLineVertices(const Vector3& center, float length, float rotation, Vector3& edge1, Vector3& edge2)
