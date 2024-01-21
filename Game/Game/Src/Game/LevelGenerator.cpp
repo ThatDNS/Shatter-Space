@@ -76,8 +76,7 @@ Entity* LevelGenerator::CreateWallEntity(Vector3& position, Vector3& scale, bool
 	entity->GetTransform().scale = scale;
 
 	// Load wall mesh
-	Component* component = entity->GetComponent(MeshRendererC);
-	MeshRenderer* mr = static_cast<MeshRenderer*>(component);
+	MeshRenderer* mr = static_cast<MeshRenderer*>(entity->GetComponent(MeshRendererC));
 	mr->LoadMesh("Assets/Objects/cube.obj");
 	mr->SetRenderBackSide(false);
 	if (isDoor)
@@ -195,9 +194,9 @@ void LevelGenerator::SpawnLevel(float zPos)
 		if (Random::Get().Float() < 0.5f) xPos = -xPos;
 
 		// Adjust spawn position as per player / spawner speed
-		// [10, 50] -> [-3/2 * separation, -1/2 * separation]
+		// [10, 60] -> [-3/2 * separation, -1/2 * separation]
 		float speed = ballSpawner->GetSpawnerSpeed();
-		float zPosition = zPos - (3.0f * SEPARATION_DIST / 2.0f) + (SEPARATION_DIST * (speed - 10.0f) / 40.0f);
+		float zPosition = zPos - (3.0f * SEPARATION_DIST / 2.0f) + (SEPARATION_DIST * (speed - 10.0f) / 50.0f);
 
 		Vector3 position{ xPos, Random::Get().Float() * 10.0f + 30.0f, zPosition };
 		Vector3 scale{ 2.0f, 2.0f, 2.0f };

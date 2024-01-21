@@ -28,6 +28,11 @@ class UIManager : public Renderable
 	const STRCODE highestScoreHash = 12345;
 	std::string highscore = "0";
 
+	// Toggle between the songs during gameplay
+	// 0 : Lights
+	// 1 : Level 1
+	int songPlaying = 0;
+
 	int ballsLeft = 0;
 	bool ballsChanged = false;
 

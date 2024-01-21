@@ -14,7 +14,7 @@
 void StarsController::Initialize()
 {
 	// Find the particle system. Ensure its set to STARS
-	std::list<Entity*> match = SceneManager::Get().GetActiveScene()->FindEntityWithComponent(ParticlesC);
+	/*std::list<Entity*> match = SceneManager::Get().GetActiveScene()->FindEntityWithComponent(ParticlesC);
 	if (match.size() == 0)
 	{
 		Logger::Get().Log("Stars controller could not find particles", ERROR_LOG);
@@ -22,11 +22,13 @@ void StarsController::Initialize()
 	else
 	{
 		particles = static_cast<Particles*>(match.front()->GetComponent(ParticlesC));
-		particles->SetParticleType(STARS);
-	}
+	}*/
+	particles = static_cast<Particles*>(GetEntity()->GetComponent(ParticlesC));
+	particles->SetParticleType(STARS);
+	particles->SetParticleColors(Vector3(1.0f, 1.0f, 1.0f), Vector3(1.0f, 1.0f, 1.0f));
 }
 
 void StarsController::Update(float deltaTime)
 {
-	particles->Emit(10);
+	particles->Emit(5);
 }

@@ -89,6 +89,26 @@ void UIManager::Update(float deltaTime)
 			if (stars_msg_timer <= 0)
 				DisplayStarsMsg();
 		}
+
+		// Song change
+		if (songPlaying == 0)
+		{
+			// If it's over, toggle the song
+			if (!App::IsSoundPlaying("Assets/Sounds/DJ Striden - Lights.wav"))
+			{
+				App::PlaySound("Assets/Sounds/DJ Striden - Level 1.wav");
+				songPlaying = 1;
+			}
+		}
+		else if (songPlaying == 1)
+		{
+			// If it's over, toggle the song
+			if (!App::IsSoundPlaying("Assets/Sounds/DJ Striden - Level 1.wav"))
+			{
+				App::PlaySound("Assets/Sounds/DJ Striden - Lights.wav");
+				songPlaying = 0;
+			}
+		}
 	}
 
 	if (gameOver)
@@ -222,7 +242,7 @@ void UIManager::CheckForGameStart()
 		if (App::IsSoundPlaying("Assets/Sounds/DJ Striden - Level 1.wav"))
 			App::StopSound("Assets/Sounds/DJ Striden - Level 1.wav");
 
-		App::PlaySound("Assets/Sounds/DJ Striden - Lights.wav", true);
+		App::PlaySound("Assets/Sounds/DJ Striden - Lights.wav");
 	}
 }
 
@@ -297,6 +317,8 @@ void UIManager::DisplayStarsMsg()
 
 void UIManager::DisplayWelcomeMessage()
 {
+	std::string highStr = "Highscore: " + highscore;
+	App::Print(50, APP_VIRTUAL_HEIGHT - 50, highStr.c_str(), 1.0f, 1.0f, 1.0f, GLUT_BITMAP_HELVETICA_18);
 	App::Print(APP_VIRTUAL_WIDTH / 2 - 70, APP_VIRTUAL_HEIGHT - 60, "SHATTER SPACE", 1.0f, 1.0f, 1.0f, GLUT_BITMAP_HELVETICA_18);
 	App::Print(APP_VIRTUAL_WIDTH / 2 - 105, APP_VIRTUAL_HEIGHT - 120, "Use Mouse to Aim and Fire", 1.0f, 1.0f, 1.0f, GLUT_BITMAP_HELVETICA_18);
 	App::Print(APP_VIRTUAL_WIDTH / 2 - 85, APP_VIRTUAL_HEIGHT - 180, "Press SPACE to Start", 1.0f, 1.0f, 1.0f, GLUT_BITMAP_HELVETICA_18);

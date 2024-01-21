@@ -13,7 +13,6 @@
 #include "Engine/Components/RigidBody.h"
 #include "Engine/Components/Particles.h"
 #include "Engine/Components/Canvas.h"
-#include "Game/Player.h"
 #include "Game/BallSpawner.h"
 #include "Game/Ball.h"
 #include "Game/Breakable.h"
@@ -90,9 +89,6 @@ Component* CreateComponent(ComponentType componentType)
 		component = new Canvas();
 		break;
 	// Game Components
-	case PlayerC:
-		component = new Player();
-		break;
 	case BallSpawnerC:
 		component = new BallSpawner();
 		break;
@@ -152,9 +148,6 @@ std::string ComponentTypeToStr(ComponentType componentType)
 		componentName = "Canvas";
 		break;
 	// Game Components
-	case PlayerC:
-		componentName = "Player";
-		break;
 	case BallSpawnerC:
 		componentName = "BallSpawner";
 		break;

@@ -37,7 +37,7 @@ void BallSpawner::Initialize()
 		uiManager = static_cast<UIManager*>(match.front()->GetComponent(UIManagerC));
 
 	// Find the particles component
-	particles = static_cast<Particles*>(entity->GetComponent(ParticlesC));
+	particles = static_cast<Particles*>(GetEntity()->GetComponent(ParticlesC));
 	particles->SetParticleType(SPEEDLINE);
 	particles->SetPositionOffset(Vector3{ 0.0f, 0.0f, 30.0f });
 	particles->SetParticleColors(Vector3(1.0f, 1.0f, 1.0f), Vector3(0.5f, 0.5f, 0.5f));
@@ -67,7 +67,7 @@ void BallSpawner::Update(float deltaTime)
 		spawnerMoveSpeed = std::min(spawnerMoveSpeed + (deltaTime / 5000.0f), MAX_SPEED);
 		SPEEDLINE_DELAY = 1.0f / spawnerMoveSpeed;
 
-		if (spawnerMoveSpeed > 20.0f)
+		if (spawnerMoveSpeed > 30.0f)
 		{
 			// Speedlines
 			if (speedLineTimer == 0.0f)
