@@ -14,6 +14,7 @@
 Particles::Particles()
 {
 	type = ParticlesC;
+	particlePool.clear();
 	particlePool.resize(maxParticles);
 }
 

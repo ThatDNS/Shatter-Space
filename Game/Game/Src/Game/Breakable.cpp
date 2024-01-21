@@ -140,8 +140,7 @@ void Breakable::Update(float deltaTime)
 		if (timeLeft < 0)
 			SceneManager::Get().GetActiveScene()->RemoveEntity(GetEntity());
 	}
-
-	if (breakableType == BreakableType::Star)
+	else if (breakableType == BreakableType::Star)
 	{
 		// Rotate the stars
 		float rotation = GetEntity()->GetTransform().rotation.z + (deltaTime / 100.0f);
@@ -183,6 +182,18 @@ void Breakable::Break()
 		score.color = Vector3(0.0f, 1.0f, 0.0f);
 		uiManager->ScheduleRender(score);
 		uiManager->IncreaseBalls(_score);
+
+		if (breakableType == BreakableType::Star)
+		{
+			UIBuffer achievement;
+			achievement.position.x = APP_VIRTUAL_WIDTH / 2 - 90;
+			achievement.position.y = APP_VIRTUAL_HEIGHT - 80;
+			achievement.project = false;
+			achievement.timeRemaining = 2.0f;
+			achievement.text = "Shot the Shooting Star! (+10)";
+			achievement.color = Vector3(1.0f, 1.0f, 0.0f);
+			uiManager->ScheduleRender(achievement);
+		}
 	}
 
 	timeToDie = true;
