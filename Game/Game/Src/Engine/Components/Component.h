@@ -23,7 +23,6 @@ enum ComponentType {
     ParticlesC,
     CanvasC,
     // Game components
-    PlayerC,
     BallSpawnerC,
     BallC,
     BreakableC,

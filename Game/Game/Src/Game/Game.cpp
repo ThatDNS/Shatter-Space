@@ -68,13 +68,6 @@ void Init()
 void Update(float deltaTime)
 {
 	Engine::Get().Update(deltaTime);
-	//------------------------------------------------------------------------
-	// Sample Sound.
-	//------------------------------------------------------------------------
-	if (App::GetController().CheckButton(XINPUT_GAMEPAD_B, true))
-	{
-		App::PlaySound("Assets/TestData/Test.wav");
-	}
 }
 
 //------------------------------------------------------------------------
