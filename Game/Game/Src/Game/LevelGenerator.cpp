@@ -20,6 +20,10 @@
 
 void LevelGenerator::Initialize()
 {
+	_pyramidCounter = 0;
+	maxSightDistance = 150.0f;
+	lastSpawnDistance = 0.0f;
+
 	// Find the player entity and cache it
 	std::list<Entity*> matchedEntities = SceneManager::Get().GetActiveScene()->FindEntityWithComponent(BallSpawnerC);
 	if (matchedEntities.size() == 0)

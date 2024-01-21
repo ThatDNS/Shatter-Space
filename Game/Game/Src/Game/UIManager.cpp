@@ -8,6 +8,8 @@
 #include "Engine/Math/Matrix4x4.h"
 #include "Engine/Math/Vector3.h"
 #include "Engine/Systems/RenderSystem.h"
+#include "Engine/Systems/SceneManager.h"
+#include "Engine/Systems/Scene.h"
 
 void UIManager::Initialize()
 {
@@ -23,6 +25,9 @@ void UIManager::Initialize()
 	startMsg.project = false;
 	startMsg.text = "Click to Shoot Balls!";
 	renderBuffer.push_back(startMsg);
+
+	gamePaused = false;
+	gameOver = false;
 }
 
 void UIManager::Update(float deltaTime)
@@ -50,12 +55,14 @@ void UIManager::Render()
 	// Remaining balls
 	std::string ballsLeftStr = "Balls Left: " + std::to_string(ballsLeft);
 	App::Print(APP_VIRTUAL_WIDTH / 2 - 50, APP_VIRTUAL_HEIGHT - 40, ballsLeftStr.c_str(), 1.0f, 1.0f, 1.0f, GLUT_BITMAP_HELVETICA_18);
-	if (isGamePaused)
+	if (gamePaused)
 		App::Print(APP_VIRTUAL_WIDTH / 2 - 80, APP_VIRTUAL_HEIGHT - 100, "GAME PAUSED", 1.0f, 0.0f, 0.0f, GLUT_BITMAP_TIMES_ROMAN_24);
 
 	// Pause text
-	if (isGamePaused)
+	if (gamePaused)
 		App::Print(APP_VIRTUAL_WIDTH - 190, APP_VIRTUAL_HEIGHT - 40, "Press P to Resume", 1.0f, 1.0f, 1.0f, GLUT_BITMAP_HELVETICA_18);
+	if (gameOver)
+		App::Print(APP_VIRTUAL_WIDTH - 190, APP_VIRTUAL_HEIGHT - 40, "Press R to Restart", 1.0f, 1.0f, 1.0f, GLUT_BITMAP_HELVETICA_18);
 	else
 		App::Print(APP_VIRTUAL_WIDTH - 170, APP_VIRTUAL_HEIGHT - 40, "Press P to Pause", 1.0f, 1.0f, 1.0f, GLUT_BITMAP_HELVETICA_18);
 }
@@ -110,10 +117,30 @@ void UIManager::CheckForGamePause()
 	if (App::IsKeyPressed('P') && !_pausekeyPressed)
 	{
 		_pausekeyPressed = true;
-		isGamePaused = !isGamePaused;
+		gamePaused = !gamePaused;
 	}
 	else if (!App::IsKeyPressed('P') && _pausekeyPressed)
 	{
 		_pausekeyPressed = false;
+	}
+}
+
+void UIManager::IncreaseBalls(int n)
+{
+	ballsLeft += n;
+	ballsChanged = true;
+}
+
+void UIManager::DecreaseBalls(int n)
+{
+	ballsLeft -= n;
+	ballsChanged = true;
+
+	if (ballsLeft <= 0)
+	{
+		gameOver = true;
+
+		// Scene Reload
+		SceneManager::Get().GetActiveScene()->ReloadScene();
 	}
 }

@@ -112,13 +112,6 @@ public:
 	 * @return Pointer to the entity.
 	 */
 	Entity* GetNewEntity(std::vector<ComponentType>& components);
-
-	/**
-	 * @brief Destroy the passed scene. Must not be an active scene
-	 *
-	 * @param scene Pointer to the active scene.
-	 */
-	void DestroyScene(Scene* scene);
 };
 
 #endif // !_SCENE_MANAGER_H_

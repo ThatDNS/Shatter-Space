@@ -28,7 +28,7 @@ private:
 
 	// Function to load the initial data of the scene
 	std::function<void(Scene*)> LoadSceneFunc = nullptr;
-	bool _loadScene = false;
+	bool _reloadScene = false;
 
 protected:
 	/**
@@ -75,6 +75,11 @@ protected:
 	void Destroy();
 
 public:
+	/**
+	 * @brief Remove all entities of the scene and call the Load & Initialize functions.
+	 */
+	void ReloadScene();
+	
 	/**
 	 * @brief Create a new entity in the scene.
 	 *

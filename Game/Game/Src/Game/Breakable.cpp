@@ -148,7 +148,7 @@ void Breakable::SpawnBrokenPieces(Mesh& mesh)
 
 	// Apply outward velocity
 	RigidBody* rb = static_cast<RigidBody*>(entity->GetComponent(RigidBodyC));
-	Vector3 velocity{ Random::Get().Float() * 0.5f, Random::Get().Float() * 0.1f, Random::Get().Float() };
+	Vector3 velocity{ Random::Get().Float() - 0.5f, Random::Get().Float() * 0.1f, Random::Get().Float() };
 	velocity.Normalize();
 	velocity *= 20.0f;
 	rb->SetVelocity(velocity);
