@@ -135,7 +135,7 @@ void Breakable::SpawnBrokenPieces(Mesh& mesh)
 	entity->SetName("BrokenPiece");
 
 	Transform& transform = GetEntity()->GetTransform();
-	Vector3 randomFactor{ Random::Get().Float() * 2.0f - 1.0f, Random::Get().Float() * 2.0f - 1.0f, 0.0f };
+	Vector3 randomFactor{ 0.0f, Random::Get().Float() * 2.0f - 1.0f, 0.0f };
 	entity->GetTransform().position = transform.position + randomFactor;
 	entity->GetTransform().rotation = transform.rotation;
 	entity->GetTransform().scale = transform.scale;
@@ -148,7 +148,7 @@ void Breakable::SpawnBrokenPieces(Mesh& mesh)
 
 	// Apply outward velocity
 	RigidBody* rb = static_cast<RigidBody*>(entity->GetComponent(RigidBodyC));
-	Vector3 velocity{ Random::Get().Float() - 0.5f, Random::Get().Float() * 0.1f, Random::Get().Float() };
+	Vector3 velocity{ (Random::Get().Float() * 2.0f - 1.0f) * 0.1f, Random::Get().Float() * 0.1f, Random::Get().Float() };
 	velocity.Normalize();
 	velocity *= 20.0f;
 	rb->SetVelocity(velocity);

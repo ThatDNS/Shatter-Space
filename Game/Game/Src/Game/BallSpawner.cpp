@@ -43,14 +43,21 @@ void BallSpawner::Update(float deltaTime)
 		// Spawn ball on left click
 		if (App::IsKeyPressed(VK_LBUTTON) && !isClickPressed)
 		{
-			SpawnBall();
-			uiManager->DecreaseBalls(1);
+			if (canSpawnTimer <= 0)
+			{
+				SpawnBall();
+				uiManager->DecreaseBalls(1);
+				canSpawnTimer = SPAWN_DELAY;
+			}
 			isClickPressed = true;
 		}
 		else if (!App::IsKeyPressed(VK_LBUTTON))
 		{
 			isClickPressed = false;
 		}
+
+		if (canSpawnTimer > 0)
+			canSpawnTimer -= (deltaTime / 1000.0f);
 
 		// Move the ball spawner. Camera moves with it
 		GetEntity()->GetTransform().Translate(Vector3(0.0f, 0.0f, spawnerMoveSpeed * (deltaTime / 1000.0f)));
