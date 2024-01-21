@@ -13,7 +13,9 @@
 
 void RenderSystem::AddRenderable(Renderable* renderable)
 {
-	renderables.push_back(renderable);
+	// Pushing in front so that the entities added later get rendered first
+	// This ensures that older entities are in front
+	renderables.push_front(renderable);
 	uidToRenderable[renderable->GetUid()] = renderable;
 }
 
