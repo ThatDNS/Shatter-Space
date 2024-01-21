@@ -228,7 +228,7 @@ void Particles::InitiateSpeedlineParticle(Particle& particle)
 void Particles::InitiateStarParticle(Particle& particle)
 {
 	// Short lived. No velocity
-	particle.lifeTime = 500.0f;
+	particle.lifeTime = 2000.0f;
 	particle.speed = 0.0f;
 
 	// Appear randomly on the screen

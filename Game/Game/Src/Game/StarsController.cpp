@@ -28,5 +28,5 @@ void StarsController::Initialize()
 
 void StarsController::Update(float deltaTime)
 {
-	particles->Emit(10);
+	particles->Emit(static_cast<int>(deltaTime / 4.0f));
 }
