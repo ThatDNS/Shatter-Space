@@ -53,8 +53,8 @@ void Breakable::Initialize()
 
 	// Cache components
 	meshRenderer = static_cast<MeshRenderer*>(GetEntity()->GetComponent(MeshRendererC));
-	particles = static_cast<Particles*>(entity->GetComponent(ParticlesC));
-	rigidBody = static_cast<RigidBody*>(entity->GetComponent(RigidBodyC));
+	particles = static_cast<Particles*>(GetEntity()->GetComponent(ParticlesC));
+	rigidBody = static_cast<RigidBody*>(GetEntity()->GetComponent(RigidBodyC));
 
 	// Intentionally written without extension.
 	// Names of breakable parts of this mesh have just indices appended to this filename.

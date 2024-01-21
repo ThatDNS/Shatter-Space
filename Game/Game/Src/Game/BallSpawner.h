@@ -37,7 +37,7 @@ class BallSpawner : public Component
 	void SpawnBall();
 
 public:
-	const float MAX_SPEED = 50.0f;
+	const float MAX_SPEED = 60.0f;
 
 	BallSpawner() { type = BallSpawnerC; }
 	void SetMeshObj(const std::string& filename) { meshObjFile = filename; }
