@@ -48,7 +48,7 @@ class Breakable : public Component
 public:
 	Breakable() { type = BreakableC; }
 	
-	void Break();
+	void Break(float updateScore = true);
 	void SetBreakableType(BreakableType bt) { breakableType = bt; }
 
 	void Initialize() override;

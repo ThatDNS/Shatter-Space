@@ -14,6 +14,7 @@
 #include "Engine/Math/Random.h"
 #include "Engine/Systems/SceneManager.h"
 #include "Engine/Systems/Scene.h"
+#include "Engine/Systems/RenderSystem.h"
 #include "Engine/Systems/CollisionSystem.h"
 #include "Game/SelfDestruct.h"
 #include "Game/UIManager.h"
@@ -140,18 +141,42 @@ void Breakable::Update(float deltaTime)
 		if (timeLeft < 0)
 			SceneManager::Get().GetActiveScene()->RemoveEntity(GetEntity());
 	}
-	else if (breakableType == BreakableType::Star)
+	else
 	{
-		// Rotate the stars
-		float rotation = GetEntity()->GetTransform().rotation.z + (deltaTime / 100.0f);
-		GetEntity()->GetTransform().rotation.z = std::fmod(rotation, 2.0f * PI);
+		if (breakableType == BreakableType::Star)
+		{
+			// Rotate the stars
+			float rotation = GetEntity()->GetTransform().rotation.z + (deltaTime / 100.0f);
+			GetEntity()->GetTransform().rotation.z = std::fmod(rotation, 2.0f * PI);
 
-		// Move trail
-		particles->Emit(1, -rigidBody->velocity);
+			// Move trail
+			particles->Emit(1, -rigidBody->velocity);
+		}
+		else if (breakableType == BreakableType::Plane)
+		{
+			// Check if it got very close to the camera
+			Vector3& cameraPos = RenderSystem::Get().GetCameraPosition();
+			Vector3& position = GetEntity()->GetTransform().position;
+			if ((position.z - std::abs(cameraPos.z) < 2.0f) && (position.y + 6.0 - std::abs(cameraPos.y) < 2.0f))
+			{
+				UIBuffer damage;
+				damage.position.x = APP_VIRTUAL_WIDTH / 2 - 70;
+				damage.position.y = APP_VIRTUAL_HEIGHT - 60;
+				damage.project = false;
+				damage.timeRemaining = 2.0f;
+				damage.text = "Took Damage! (-5)";
+				damage.color = Vector3(1.0f, 0.0f, 0.0f);
+				uiManager->ScheduleRender(damage);
+				uiManager->DecreaseBalls(5);
+
+				Break(false);
+			}
+		}
 	}
+
 }
 
-void Breakable::Break()
+void Breakable::Break(float updateScore)
 {
 	if (timeToDie)
 		return;
@@ -170,7 +195,7 @@ void Breakable::Break()
 		particles->Emit(64);
 
 	// Update the UI
-	if (_score > 0)
+	if (updateScore && _score > 0)
 	{
 		UIBuffer score;
 		Vector3 position = GetEntity()->GetTransform().position;

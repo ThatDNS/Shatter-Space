@@ -8,7 +8,7 @@ class Engine
 	DECLARE_SINGLETON(Engine)
 	
 	// CollisionSystem gets updated once every COLLISION_SYSTEM_UPDATE_TIME ms
-	float COLLISION_SYSTEM_UPDATE_TIME = 500.0f;
+	const float COLLISION_SYSTEM_UPDATE_TIME = 500.0f;
 
 	float timeElapsed = 0.0f;
 

@@ -15,13 +15,9 @@ void SelfDestruct::Initialize()
 	// Find the player entity and cache it
 	std::list<Entity*> matchedEntities = SceneManager::Get().GetActiveScene()->FindEntityWithComponent(BallSpawnerC);
 	if (matchedEntities.size() == 0)
-	{
 		Logger::Get().Log("Could not find ball spawner");
-	}
 	else
-	{
 		playerEntity = matchedEntities.front();
-	}
 }
 
 void SelfDestruct::Update(float deltaTime)
@@ -36,7 +32,7 @@ void SelfDestruct::Update(float deltaTime)
 	else if (playerEntity != nullptr)
 	{
 		// If the object goes beyond the player, self destruct
-		if (playerEntity->GetTransform().position.z > position.z)
+		if (playerEntity->GetTransform().position.z > position.z + bound.z)
 			SceneManager::Get().GetActiveScene()->RemoveEntity(GetEntity());
 	}
 }

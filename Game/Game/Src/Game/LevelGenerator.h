@@ -17,7 +17,7 @@ class LevelGenerator : public Component
 	Entity* playerEntity = nullptr;
 
 	const float SEPARATION_DIST = 50.0f;
-	const float STAR_PROBABILITY = 0.6f;
+	const float STAR_PROBABILITY = 0.4f;
 
 	// Player can't see beyond this distance, so don't spawn levels beyond this
 	float maxSightDistance = 150.0f;
