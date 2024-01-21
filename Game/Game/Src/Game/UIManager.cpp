@@ -42,8 +42,14 @@ void UIManager::Render()
 	// Render the text data present in renderBuffer list
 	RenderTheBuffer();
 
+	// Distance covered
+	float distance = std::abs(RenderSystem::Get().GetCameraPosition().z);
+	std::string distStr = "Distance: " + std::to_string(static_cast<int>(distance));
+	App::Print(30, APP_VIRTUAL_HEIGHT - 40, distStr.c_str(), 1.0f, 1.0f, 1.0f, GLUT_BITMAP_HELVETICA_18);
+
 	// Remaining balls
-	App::Print(APP_VIRTUAL_WIDTH / 2 - 5, APP_VIRTUAL_HEIGHT - 50, std::to_string(ballsLeft).c_str(), 1.0f, 1.0f, 1.0f, GLUT_BITMAP_TIMES_ROMAN_24);
+	std::string ballsLeftStr = "Balls Left: " + std::to_string(ballsLeft);
+	App::Print(APP_VIRTUAL_WIDTH / 2 - 50, APP_VIRTUAL_HEIGHT - 40, ballsLeftStr.c_str(), 1.0f, 1.0f, 1.0f, GLUT_BITMAP_HELVETICA_18);
 	if (isGamePaused)
 		App::Print(APP_VIRTUAL_WIDTH / 2 - 80, APP_VIRTUAL_HEIGHT - 100, "GAME PAUSED", 1.0f, 0.0f, 0.0f, GLUT_BITMAP_TIMES_ROMAN_24);
 
