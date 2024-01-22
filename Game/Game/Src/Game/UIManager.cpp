@@ -119,6 +119,7 @@ void UIManager::Update(float deltaTime)
 
 void UIManager::Render()
 {
+	App::Print(20, 20, "ThatDNS.dev", 1.0f, 1.0f, 1.0f, GLUT_BITMAP_HELVETICA_12);
 	App::Print(APP_VIRTUAL_WIDTH - 130, 20, "Music by DJ Striden", 1.0f, 1.0f, 1.0f, GLUT_BITMAP_HELVETICA_12);
 
 	if (!gameStarted)
