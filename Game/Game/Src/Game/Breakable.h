@@ -27,7 +27,7 @@ class Breakable : public Component
 	BreakableType breakableType = Pyramid;
 	const int PYRAMID_SCORE = 1;
 	const int PLANE_SCORE = 0;
-	const int STAR_SCORE = 5;
+	const int STAR_SCORE = 4;
 	int _score = 0;
 
 	std::string glassBreakSound = "Assets/Sounds/glass_break_";

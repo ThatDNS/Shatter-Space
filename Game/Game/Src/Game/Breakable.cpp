@@ -168,10 +168,10 @@ void Breakable::Update(float deltaTime)
 				damage.position.y = APP_VIRTUAL_HEIGHT - 60;
 				damage.project = false;
 				damage.timeRemaining = 2.0f;
-				damage.text = "Took Damage! (-5)";
+				damage.text = "Took Damage! (-10)";
 				damage.color = Vector3(1.0f, 0.0f, 0.0f);
 				uiManager->ScheduleRender(damage);
-				uiManager->DecreaseBalls(5);
+				uiManager->DecreaseBalls(10);
 
 				Break(false);
 			}
@@ -233,7 +233,7 @@ void Breakable::Break(float updateScore)
 			achievement.position.y = APP_VIRTUAL_HEIGHT - 80;
 			achievement.project = false;
 			achievement.timeRemaining = 2.0f;
-			achievement.text = "Shot the Shooting Star! (+5)";
+			achievement.text = "Shot the Shooting Star! (+" + std::to_string(_score) + ")";
 			achievement.color = Vector3(1.0f, 1.0f, 0.0f);
 			uiManager->ScheduleRender(achievement);
 		}

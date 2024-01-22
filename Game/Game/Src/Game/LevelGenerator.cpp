@@ -194,9 +194,9 @@ void LevelGenerator::SpawnLevel(float zPos)
 		if (Random::Get().Float() < 0.5f) xPos = -xPos;
 
 		// Adjust spawn position as per player / spawner speed
-		// [10, 60] -> [-3/2 * separation, -1/2 * separation]
+		// [15, 65] -> [-3/2 * separation, -1/2 * separation]
 		float speed = ballSpawner->GetSpawnerSpeed();
-		float zPosition = zPos - (3.0f * SEPARATION_DIST / 2.0f) + (SEPARATION_DIST * (speed - 10.0f) / 50.0f);
+		float zPosition = zPos - (3.0f * SEPARATION_DIST / 2.0f) + (SEPARATION_DIST * (speed - 15.0f) / 50.0f);
 
 		Vector3 position{ xPos, Random::Get().Float() * 10.0f + 30.0f, zPosition };
 		Vector3 scale{ 2.0f, 2.0f, 2.0f };

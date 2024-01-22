@@ -20,7 +20,7 @@
 void BallSpawner::Initialize()
 {
 	ballCounter = 0;
-	spawnerMoveSpeed = 10.0f;
+	spawnerMoveSpeed = 15.0f;
 
 	// Start from origin
 	GetEntity()->GetTransform().position = Vector3(0.0f, 0.0f, 0.0f);

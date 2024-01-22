@@ -56,10 +56,10 @@ void DoorOpener::Update(float deltaTime)
 			damage.position.y = APP_VIRTUAL_HEIGHT - 60;
 			damage.project = false;
 			damage.timeRemaining = 2.0f;
-			damage.text = "Took Damage! (-5)";
+			damage.text = "Took Damage! (-10)";
 			damage.color = Vector3(1.0f, 0.0f, 0.0f);
 			uiManager->ScheduleRender(damage);
-			uiManager->DecreaseBalls(5);
+			uiManager->DecreaseBalls(10);
 			tookDamage = true;
 		}
 	}
