@@ -3,12 +3,13 @@
 This game was made purely in C++ as part of Ubisoft Next 2023-24 programming challenge.<br>
 In this game you're going through space & smashing glass! Fun, right?!
 
-Please refer the [documentation](https://github.com/DNS-404/UbisoftNEXT/blob/main/Documentation/Technical%20Documentation.pdf) for technical details.
+Please refer the [documentation](https://github.com/DNS-404/UbisoftNEXT/blob/main/Documentation/Technical%20Documentation.pdf) for technical details. <br>
+Download link is available in the Release section of this repository.
 
 ## Technical Features
 * 3D Game Engine based on ECS architecture
-* Entities stored efficiently using the concept of archetypes (similar to how it is in Unity) and object pooling
-* Collision detection using BVH (Bounding Volume Hierarchy) tree
+* Entities stored efficiently using the concept of [archetypes](https://docs.unity3d.com/Packages/com.unity.entities@1.0/manual/concepts-archetypes.html) (similar to how it is in Unity) and [Object Pooling](https://gameprogrammingpatterns.com/object-pool.html).
+* Collision detection using [BVH (Bounding Volume Hierarchy) tree](https://en.wikipedia.org/wiki/Bounding_volume_hierarchy)
 * Physics Engine
 * Particle Effects
 
@@ -24,7 +25,7 @@ Use mouse to aim and left click to shoot. That's it!
 
 ## Inspiration
 
-This game is heavily inspired from [Smash it!](https://en.wikipedia.org/wiki/Smash_Hit)
+This game is heavily inspired from [Smash Hit!](https://en.wikipedia.org/wiki/Smash_Hit)
 
 ## Music Used
 
