@@ -4,7 +4,8 @@ This game was made purely in C++ as part of Ubisoft Next 2023-24 programming cha
 In this game you're going through space & smashing glass! Fun, right?!
 
 Please refer the [documentation](https://github.com/DNS-404/UbisoftNEXT/blob/main/Documentation/Technical%20Documentation.pdf) for technical details. <br>
-Download link is available in the Release section of this repository.
+Download link is available in the Release section of this repository. <br>
+See it in action: [Youtube](https://www.youtube.com/watch?v=wRBW8m4EhoU)
 
 ## Technical Features
 * 3D Game Engine based on ECS architecture
